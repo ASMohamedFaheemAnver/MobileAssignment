@@ -3,6 +3,8 @@
     "mongodb_url": "",
     "mongodb_urld": "",
     "secret_word": "",
-    "SENDGRID_API_KEY": ""
+    "SENDGRID_API_KEY": "",
+    "DEVELOPER_EMAIL": "",
+    "DEVELOPER_PASSWORD": ""
   }
 }

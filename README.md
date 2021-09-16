@@ -1,3 +1,3 @@
-# SocietyManagementSystem-YogaBackend
+# Management System
 
-Restful graphql yoga backend for society management system,
+Society management system assignment,

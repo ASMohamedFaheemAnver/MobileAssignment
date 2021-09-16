@@ -1,10 +1,10 @@
 import "@babel/polyfill/noConflict";
 import { GraphQLServer, PubSub } from "graphql-yoga";
-import Query from "./resolvers/Query";
-import Mutation from "./resolvers/Mutation";
-import Subscription from "./resolvers/Subscription";
 import mongoose from "mongoose";
 import Developer from "./model/developer";
+import Mutation from "./resolvers/Mutation";
+import Query from "./resolvers/Query";
+import Subscription from "./resolvers/Subscription";
 
 const path = require("path");
 const fs = require("fs");
@@ -42,8 +42,8 @@ mongoose
     Developer.find().then((isSuper) => {
       if (isSuper == 0) {
         const developer = new Developer({
-          email: "jstrfaheem065@gmail.com",
-          password: "$2b$12$4ffLoL5xlDNxz.WhmI6cbeld4415PhxwFaNzRY1SLYlkay/Tipy7u",
+          email: process.env.DEVELOPER_EMAIL,
+          password: process.env.DEVELOPER_PASSWORD,
         });
         developer.save().catch((err) => {
           console.log(err.message);
@@ -51,9 +51,12 @@ mongoose
       }
     });
 
-    server.start({ port: process.env.PORT || 3000, subscriptions: { keepAlive: 55000 } }, () => {
-      console.log("Server is up and running!");
-    });
+    server.start(
+      { port: process.env.PORT || 3000, subscriptions: { keepAlive: 55000 } },
+      () => {
+        console.log("Server is up and running!");
+      }
+    );
   })
   .catch((err) => {
     console.log(err);
