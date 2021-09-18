@@ -1,4 +1,5 @@
-import React from "react";
+import PropTypes from "prop-types";
+import React, { useEffect } from "react";
 import {
   ScrollView,
   Text,
@@ -9,10 +10,13 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import Ionicon from "react-native-vector-icons/Ionicons";
+import { connect } from "react-redux";
+import { login } from "../../redux/actions/auth";
 import { globalStyles } from "../styles";
 import styles from "./styles";
 
-export default function LoginScreen() {
+function LoginScreen({ login }) {
+  useEffect(() => {}, []);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <SafeAreaView style={globalStyles.container}>
@@ -55,3 +59,9 @@ export default function LoginScreen() {
     </ScrollView>
   );
 }
+
+LoginScreen.propTypes = {
+  login: PropTypes.func.isRequired,
+};
+
+export default connect(null, { login })(LoginScreen);
