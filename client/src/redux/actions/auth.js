@@ -1,1 +1,3 @@
-export const login = () => async (dispatch) => {};
+export const login =
+  ({ email, password, userCategory }) =>
+  async (dispatch) => {};
