@@ -27,7 +27,7 @@ export const login =
         `,
         variables: { email, password },
       });
-      console.log(res.data?.loginDeveloper);
+      // console.log(res.data?.loginDeveloper);
       await AsyncStorage.setItem("token", res.data?.loginDeveloper?.token);
       await AsyncStorage.setItem(
         "expiresIn",
@@ -38,13 +38,14 @@ export const login =
       await AsyncStorage.setItem("userCategory", userCategory);
       dispatch(loadUserMetaData());
     } catch (e) {
+      console.log(e);
       dispatch({ type: LOGIN_FAIL });
     }
   };
 
 export const loadUserMetaData = () => async (dispatch) => {
   try {
-    await AsyncStorage.clear();
+    // await AsyncStorage.clear();
     const token = await AsyncStorage.getItem("token");
     const expiresIn = new Date(await AsyncStorage.getItem("expiresIn"));
     const userCategory = await AsyncStorage.getItem("userCategory");
