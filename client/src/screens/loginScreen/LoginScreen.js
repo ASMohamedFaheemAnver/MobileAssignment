@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   Text,
@@ -7,12 +7,14 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import * as Progress from "react-native-progress";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import Ionicon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
 import {
   DEVELOPER_CATEGORY,
+  DEVELOPER_HOME_SCREEN_ROUTE_NAME,
   MEMBER_CATEGORY,
   SOCIETY_CATEGORY,
 } from "../../constants/strings";
@@ -20,7 +22,17 @@ import { login } from "../../redux/actions/auth";
 import { globalStyles } from "../styles";
 import styles from "./styles";
 
-function LoginScreen({ login }) {
+function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
+  useEffect(() => {
+    // console.log({ isAuthenticated, isLoading });
+    if (!isLoading && isAuthenticated) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: DEVELOPER_HOME_SCREEN_ROUTE_NAME }],
+      });
+    }
+  }, [navigation, isAuthenticated, isLoading]);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -116,11 +128,19 @@ function LoginScreen({ login }) {
           value={formData.password}
         />
         <TouchableOpacity
-          disabled={!formData.isFormValid}
+          disabled={!formData.isFormValid || isLoading}
           style={formData.isFormValid ? styles.button : styles.disabledButton}
           onPress={onLoginClick}
         >
-          <Text style={styles.singInText}>Sign In</Text>
+          {!isLoading ? (
+            <Text style={styles.singInText}>Sign In</Text>
+          ) : (
+            <Progress.Circle
+              style={styles.progress}
+              size={25}
+              indeterminate={true}
+            />
+          )}
         </TouchableOpacity>
         <TouchableOpacity style={styles.forgotPasswordContainer}>
           <Text style={styles.forgotPassword}>Forgot your password?</Text>
@@ -135,6 +155,13 @@ function LoginScreen({ login }) {
 
 LoginScreen.propTypes = {
   login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
-export default connect(null, { login })(LoginScreen);
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  isLoading: state.auth.isLoading,
+});
+
+export default connect(mapStateToProps, { login })(LoginScreen);

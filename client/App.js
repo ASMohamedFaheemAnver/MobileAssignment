@@ -4,24 +4,40 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
-import { LOGIN_SCREEN_ROUTE_NAME } from "./src/constants/strings";
+import {
+  DEVELOPER_HOME_SCREEN_ROUTE_NAME,
+  LOGIN_SCREEN_ROUTE_NAME,
+  SPLASH_SCREEN_ROUTE_NAME,
+} from "./src/constants/strings";
 import store from "./src/redux/store";
+import DeveloperHomeScreen from "./src/screens/developerHomeScreen/DeveloperHomeScreen";
 import LoginScreen from "./src/screens/loginScreen/LoginScreen";
+import SplashScreen from "./src/screens/splashScreen/SplashScreen";
 import apolloClient from "./src/utils/apollo-client";
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+function App() {
   return (
     <ApolloProvider client={apolloClient}>
       <SafeAreaProvider>
         <Provider store={store}>
           <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator initialRouteName={SPLASH_SCREEN_ROUTE_NAME}>
+              <Stack.Screen
+                name={SPLASH_SCREEN_ROUTE_NAME}
+                options={{ headerShown: false }}
+                component={SplashScreen}
+              />
               <Stack.Screen
                 name={LOGIN_SCREEN_ROUTE_NAME}
                 options={{ headerShown: false }}
                 component={LoginScreen}
+              />
+              <Stack.Screen
+                name={DEVELOPER_HOME_SCREEN_ROUTE_NAME}
+                options={{ headerShown: false }}
+                component={DeveloperHomeScreen}
               />
             </Stack.Navigator>
           </NavigationContainer>
@@ -30,3 +46,5 @@ export default function App() {
     </ApolloProvider>
   );
 }
+
+export default App;
