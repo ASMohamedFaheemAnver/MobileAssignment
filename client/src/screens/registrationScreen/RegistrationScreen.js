@@ -50,6 +50,8 @@ function RegistrationScreen({
     isPasswordValid: false,
     isFormValid: false,
     image: null,
+    name: '',
+    isUserNameValid: false,
   });
 
   const onEmailChange = e => {
@@ -57,6 +59,19 @@ function RegistrationScreen({
       ...formData,
       email: e,
       isEmailValid: true,
+      isFormValid:
+        formData.isPasswordValid &&
+        formData.isPhoneNumberValid &&
+        formData.isAddressValid &&
+        formData.isUserNameValid,
+    });
+  };
+
+  const onNameChange = e => {
+    setFormData({
+      ...formData,
+      name: e,
+      isUserNameValid: true,
       isFormValid:
         formData.isPasswordValid &&
         formData.isPhoneNumberValid &&
@@ -72,7 +87,8 @@ function RegistrationScreen({
       isFormValid:
         formData.isPasswordValid &&
         formData.isEmailValid &&
-        formData.isAddressValid,
+        formData.isAddressValid &&
+        formData.isUserNameValid,
     });
   };
 
@@ -84,7 +100,8 @@ function RegistrationScreen({
       isFormValid:
         formData.isPasswordValid &&
         formData.isEmailValid &&
-        formData.isPhoneNumberValid,
+        formData.isPhoneNumberValid &&
+        formData.isUserNameValid,
     });
   };
 
@@ -96,7 +113,8 @@ function RegistrationScreen({
       isFormValid:
         formData.isPhoneNumberValid &&
         formData.isEmailValid &&
-        formData.isAddressValid,
+        formData.isAddressValid &&
+        formData.isUserNameValid,
     });
   };
 
@@ -124,9 +142,9 @@ function RegistrationScreen({
         setFormData({
           ...formData,
           image: {
-            uri: asset.uri,
-            type: asset.type,
-            name: asset.fileName,
+            uri: asset?.uri,
+            type: asset?.type,
+            name: asset?.fileName,
           },
         });
       },
@@ -174,6 +192,12 @@ function RegistrationScreen({
             <Text style={styles.uploadText}>Select Image</Text>
           </TouchableOpacity>
         </View>
+        <TextInput
+          style={[globalStyles.textInput, styles.input]}
+          onChangeText={onNameChange}
+          placeholder="Enter your name"
+          value={formData.name}
+        />
         <TextInput
           style={[globalStyles.textInput, styles.input]}
           onChangeText={onEmailChange}

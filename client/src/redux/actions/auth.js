@@ -83,7 +83,7 @@ export const login =
   };
 
 export const register =
-  ({email, password, userCategory, address, image, phoneNumber}) =>
+  ({email, password, userCategory, address, image, phoneNumber, name}) =>
   async dispatch => {
     // dispatch({
     //   type: API_CALL_TRIGGERED,
@@ -103,8 +103,9 @@ export const register =
           $email: String!
           $password: String!
           $address: String!
-          $image: Upload!
+          $image: Upload
           $phoneNumber: String!
+          $name: String!
         ) {
           createSociety(
             societyInput: {
@@ -112,7 +113,7 @@ export const register =
               password: $password
               address: $address
               image: $image
-              name: ""
+              name: $name
               phoneNumber: $phoneNumber
             }
           ) {
@@ -122,8 +123,7 @@ export const register =
       `;
     }
     try {
-      const imageFile = new ReactNativeFile({...image});
-      console.log(imageFile);
+      const imageFile = image?.uri ? new ReactNativeFile({...image}) : null;
       const res = await apolloClient.mutate({
         mutation: mutation,
         variables: {
@@ -132,10 +132,10 @@ export const register =
           address,
           image: imageFile,
           phoneNumber,
+          name,
         },
       });
-
-      console.log(res);
+      console.log({res});
 
       dispatch({type: REGISTER_SUCCESS});
     } catch (e) {

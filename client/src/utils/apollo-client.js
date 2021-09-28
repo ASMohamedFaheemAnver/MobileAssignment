@@ -19,8 +19,9 @@ const authLink = setContext(async (_, {headers}) => {
   };
 });
 
-const errorLink = onError(({graphQLErrors}) => {
-  if (graphQLErrors) graphQLErrors.map(({message}) => console.log(message));
+const errorLink = onError(({graphQLErrors, networkError}) => {
+  if (networkError) console.error(networkError);
+  if (graphQLErrors) graphQLErrors.map(({message}) => console.error(message));
 });
 
 const apolloClient = new ApolloClient({

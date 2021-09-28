@@ -63,7 +63,7 @@ input SocietyInputData {
   password: String!
   address: String!
   phoneNumber: String!
-  image: Upload!
+  image: Upload
 }
 
 input SocietyProfileInputData {

@@ -81,10 +81,10 @@ const Mutation = {
     info
   ) => {
     console.log({ emitted: "createSociety" });
-    console.log(societyInput);
-    const image = await societyInput.image;
-    console.log({ image });
-    const { createReadStream, filename, mimetype, encoding } = image;
+    let image;
+    try {
+      image = await societyInput.image;
+    } catch (e) {}
 
     const errors = [];
     if (!validator.isEmail(societyInput.email)) {
@@ -109,7 +109,7 @@ const Mutation = {
       const error = new Error("invalid data submission!");
       error.data = errors;
       error.code = 422;
-      createReadStream().destroy();
+      image && image.createReadStream().destroy();
       throw error;
     }
 
@@ -126,22 +126,24 @@ const Mutation = {
 
     if (existingSociety) {
       const error = new Error(
-        "society already associated witha a email, name, or registration number!"
+        "society already associated witha a email or name!"
       );
       error.code = 403;
-      createReadStream().destroy();
+      image && image.createReadStream().destroy();
       throw error;
     }
 
-    societyInput.imageUrl = await cloudFile.uploadImageToCloud(
-      image,
-      "society"
-    );
-    if (!societyInput.imageUrl) {
-      const error = new Error("cannot upload your image!");
-      error.data = errors;
-      error.code = 422;
-      throw error;
+    if (image) {
+      societyInput.imageUrl = await cloudFile.uploadImageToCloud(
+        image,
+        "society"
+      );
+      if (!societyInput.imageUrl) {
+        const error = new Error("cannot upload your image!");
+        error.data = errors;
+        error.code = 422;
+        throw error;
+      }
     }
     const hash = await bcrypt.hash(societyInput.password, 12);
 
