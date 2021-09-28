@@ -2,6 +2,7 @@ import {ApolloProvider} from '@apollo/client';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
+import {ModalPortal} from 'react-native-modals';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import {
@@ -47,6 +48,7 @@ function App() {
               />
             </Stack.Navigator>
           </NavigationContainer>
+          <ModalPortal />
         </Provider>
       </SafeAreaProvider>
     </ApolloProvider>

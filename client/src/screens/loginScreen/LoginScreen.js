@@ -1,49 +1,50 @@
-import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import PropTypes from 'prop-types';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-} from "react-native";
-import * as Progress from "react-native-progress";
-import { SafeAreaView } from "react-native-safe-area-context";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import Ionicon from "react-native-vector-icons/Ionicons";
-import { connect } from "react-redux";
+} from 'react-native';
+import * as Progress from 'react-native-progress';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+import {connect} from 'react-redux';
 import {
   DEVELOPER_CATEGORY,
   DEVELOPER_HOME_SCREEN_ROUTE_NAME,
   MEMBER_CATEGORY,
   REGISTRATION_SCREEN_ROUTE_NAME,
   SOCIETY_CATEGORY,
-} from "../../constants/strings";
-import { login } from "../../redux/actions/auth";
-import { globalStyles } from "../styles";
-import styles from "./styles";
+} from '../../constants/strings';
+import {login} from '../../redux/actions/auth';
+import ErrorDialog from '../errorDialog/errorDialog';
+import {globalStyles} from '../styles';
+import styles from './styles';
 
-function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
+function LoginScreen({login, isAuthenticated, isLoading, navigation}) {
   useEffect(() => {
     // console.log({ isAuthenticated, isLoading });
     if (!isLoading && isAuthenticated) {
       navigation.reset({
         index: 0,
-        routes: [{ name: DEVELOPER_HOME_SCREEN_ROUTE_NAME }],
+        routes: [{name: DEVELOPER_HOME_SCREEN_ROUTE_NAME}],
       });
     }
   }, [navigation, isAuthenticated, isLoading]);
 
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     userCategory: MEMBER_CATEGORY,
     isEmailValid: false,
     isPasswordValid: false,
     isFormValid: false,
   });
 
-  const onEmailChange = (e) => {
+  const onEmailChange = e => {
     setFormData({
       ...formData,
       email: e,
@@ -52,7 +53,7 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
     });
   };
 
-  const onPasswordChange = (e) => {
+  const onPasswordChange = e => {
     setFormData({
       ...formData,
       password: e,
@@ -61,7 +62,7 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
     });
   };
 
-  const changeUserCategory = (userCategory) => {
+  const changeUserCategory = userCategory => {
     setFormData({
       ...formData,
       userCategory,
@@ -69,7 +70,7 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
   };
 
   const onLoginClick = () => {
-    login({ ...formData });
+    login({...formData});
   };
 
   return (
@@ -86,8 +87,7 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
             }
             onPress={() => {
               changeUserCategory(MEMBER_CATEGORY);
-            }}
-          >
+            }}>
             <FontAwesomeIcon size={40} name="user" />
           </TouchableOpacity>
           <TouchableOpacity
@@ -98,8 +98,7 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
             }
             onPress={() => {
               changeUserCategory(SOCIETY_CATEGORY);
-            }}
-          >
+            }}>
             <FontAwesomeIcon size={40} name="group" />
           </TouchableOpacity>
           <TouchableOpacity
@@ -110,8 +109,7 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
             }
             onPress={() => {
               changeUserCategory(DEVELOPER_CATEGORY);
-            }}
-          >
+            }}>
             <Ionicon size={40} name="settings" />
           </TouchableOpacity>
         </View>
@@ -131,8 +129,7 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
         <TouchableOpacity
           disabled={!formData.isFormValid || isLoading}
           style={formData.isFormValid ? styles.button : styles.disabledButton}
-          onPress={onLoginClick}
-        >
+          onPress={onLoginClick}>
           {!isLoading ? (
             <Text style={styles.singInText}>Sign In</Text>
           ) : (
@@ -149,10 +146,10 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
         <TouchableOpacity
           onPress={() => {
             navigation.navigate(REGISTRATION_SCREEN_ROUTE_NAME);
-          }}
-        >
+          }}>
           <Text style={styles.createAccount}>New here? Create account :)</Text>
         </TouchableOpacity>
+        <ErrorDialog />
       </ScrollView>
     </SafeAreaView>
   );
@@ -164,9 +161,9 @@ LoginScreen.propTypes = {
   isLoading: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   isLoading: state.auth.isLoading,
 });
 
-export default connect(mapStateToProps, { login })(LoginScreen);
+export default connect(mapStateToProps, {login})(LoginScreen);
