@@ -26,7 +26,7 @@ const server = new GraphQLServer({
     //   var unixtime_ms = new Date().getTime();
     //   while (new Date().getTime() < unixtime_ms + ms) {}
     // })();
-    console.log(request.request.headers);
+    // console.log(request.request.headers);
     return { pubSub, request };
   },
 });

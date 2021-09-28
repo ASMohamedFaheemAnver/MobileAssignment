@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import RNFS from "react-native-fs";
 import * as Progress from "react-native-progress";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
@@ -23,7 +24,6 @@ import {
 import { register } from "../../redux/actions/auth";
 import { globalStyles } from "../styles";
 import styles from "./styles";
-
 function RegistrationScreen({
   register,
   isAuthenticated,
@@ -108,8 +108,11 @@ function RegistrationScreen({
     });
   };
 
-  const onRegisterClick = () => {
-    register({ ...formData });
+  const onRegisterClick = async () => {
+    register({
+      ...formData,
+      image: formData.image?.base64,
+    });
   };
 
   const onImagePick = async () => {
@@ -124,7 +127,9 @@ function RegistrationScreen({
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      // base64: true,
+    });
+    RNFS.readFile(res.image?.uri).then((re) => {
+      console.log(re);
     });
     setFormData({ ...formData, image: res });
   };

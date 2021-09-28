@@ -1,10 +1,15 @@
 import { gql } from "@apollo/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { DEVELOPER_CATEGORY, SOCIETY_CATEGORY } from "../../constants/strings";
+import {
+  DEVELOPER_CATEGORY,
+  MEMBER_CATEGORY,
+  SOCIETY_CATEGORY,
+} from "../../constants/strings";
 import apolloClient from "../../utils/apollo-client";
 import {
   API_CALL_TRIGGERED,
   LOGIN_FAIL,
+  REGISTER_FAIL,
   REGISTER_SUCCESS,
   USER_META_LOADED,
   USER_META_NOT_FOUND,
@@ -71,7 +76,7 @@ export const login =
       await AsyncStorage.setItem("userCategory", userCategory);
       dispatch(loadUserMetaData());
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       dispatch({ type: LOGIN_FAIL });
     }
   };
@@ -79,9 +84,55 @@ export const login =
 export const register =
   ({ email, password, userCategory, address, image, phoneNumber }) =>
   async (dispatch) => {
-    dispatch({
-      type: REGISTER_SUCCESS,
-    });
+    // dispatch({
+    //   type: API_CALL_TRIGGERED,
+    // });
+    let mutation;
+    if (userCategory === MEMBER_CATEGORY) {
+      mutation = gql`
+        mutation createMember($email: String!, $password: String!) {
+          createMember(email: $email, password: $password) {
+            _id
+          }
+        }
+      `;
+    } else {
+      mutation = gql`
+        mutation createSociety(
+          $email: String!
+          $password: String!
+          $address: String!
+          $image: Upload!
+          $phoneNumber: String!
+        ) {
+          createSociety(
+            societyInput: {
+              email: $email
+              password: $password
+              address: $address
+              image: $image
+              name: ""
+              phoneNumber: $phoneNumber
+            }
+          ) {
+            _id
+          }
+        }
+      `;
+    }
+    try {
+      const res = await apolloClient.mutate({
+        mutation: mutation,
+        variables: { email, password, address, image, phoneNumber },
+      });
+
+      console.log(res);
+
+      dispatch({ type: REGISTER_SUCCESS });
+    } catch (e) {
+      // console.log(e);
+      dispatch({ type: REGISTER_FAIL });
+    }
   };
 
 export const loadUserMetaData = () => async (dispatch) => {
