@@ -10,8 +10,26 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@apollo/client": "^3.4.15",
+    "@react-native-async-storage/async-storage": "^1.15.8",
+    "@react-navigation/native": "^6.0.4",
+    "@react-navigation/native-stack": "^6.2.2",
+    "@unimodules/core": "^7.1.2",
+    "apollo-upload-client": "^16.0.0",
+    "graphql": "^15.6.0",
+    "npm": "^7.24.1",
     "react": "17.0.2",
-    "react-native": "0.65.1"
+    "react-native": "0.65.1",
+    "react-native-fs": "^2.18.0",
+    "react-native-image-picker": "^4.1.1",
+    "react-native-progress": "^5.0.0",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-native-screens": "^3.7.2",
+    "react-native-svg": "^12.1.1",
+    "react-native-vector-icons": "^8.1.0",
+    "react-redux": "^7.2.5",
+    "redux": "^4.1.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
