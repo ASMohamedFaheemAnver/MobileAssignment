@@ -9,8 +9,8 @@ import {
   LOGIN_SCREEN_ROUTE_NAME,
 } from "../../constants/strings";
 import { loadUserMetaData } from "../../redux/actions/auth";
-import styles from "../splashScreen/styles";
 import { globalStyles } from "../styles";
+import styles from "./styles";
 
 function SplashScreen({
   loadUserMetaData,
