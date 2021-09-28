@@ -1,6 +1,9 @@
+import * as ImagePicker from "expo-image-picker";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import {
+  Image,
+  Platform,
   ScrollView,
   Text,
   TextInput,
@@ -10,22 +13,24 @@ import {
 import * as Progress from "react-native-progress";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import Ionicon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
+import defaultAvatar from "../../../assets/default-avatar.jpg";
 import {
-  DEVELOPER_CATEGORY,
   DEVELOPER_HOME_SCREEN_ROUTE_NAME,
   MEMBER_CATEGORY,
-  REGISTRATION_SCREEN_ROUTE_NAME,
   SOCIETY_CATEGORY,
 } from "../../constants/strings";
-import { login } from "../../redux/actions/auth";
+import { register } from "../../redux/actions/auth";
 import { globalStyles } from "../styles";
 import styles from "./styles";
 
-function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
+function RegistrationScreen({
+  register,
+  isAuthenticated,
+  isLoading,
+  navigation,
+}) {
   useEffect(() => {
-    // console.log({ isAuthenticated, isLoading });
     if (!isLoading && isAuthenticated) {
       navigation.reset({
         index: 0,
@@ -37,10 +42,15 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    address: "",
+    phoneNumber: "",
     userCategory: MEMBER_CATEGORY,
     isEmailValid: false,
+    isPhoneNumberValid: false,
+    isAddressValid: false,
     isPasswordValid: false,
     isFormValid: false,
+    image: null,
   });
 
   const onEmailChange = (e) => {
@@ -48,7 +58,34 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
       ...formData,
       email: e,
       isEmailValid: true,
-      isFormValid: formData.isPasswordValid,
+      isFormValid:
+        formData.isPasswordValid &&
+        formData.isPhoneNumberValid &&
+        formData.isAddressValid,
+    });
+  };
+
+  const onPhoneNumberChange = (e) => {
+    setFormData({
+      ...formData,
+      phoneNumber: e,
+      isPhoneNumberValid: true,
+      isFormValid:
+        formData.isPasswordValid &&
+        formData.isEmailValid &&
+        formData.isAddressValid,
+    });
+  };
+
+  const onAddressChange = (e) => {
+    setFormData({
+      ...formData,
+      address: e,
+      isAddressValid: true,
+      isFormValid:
+        formData.isPasswordValid &&
+        formData.isEmailValid &&
+        formData.isPhoneNumberValid,
     });
   };
 
@@ -57,7 +94,10 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
       ...formData,
       password: e,
       isPasswordValid: true,
-      isFormValid: formData.isEmailValid,
+      isFormValid:
+        formData.isPhoneNumberValid &&
+        formData.isEmailValid &&
+        formData.isAddressValid,
     });
   };
 
@@ -68,14 +108,31 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
     });
   };
 
-  const onLoginClick = () => {
-    login({ ...formData });
+  const onRegisterClick = () => {
+    register({ ...formData });
+  };
+
+  const onImagePick = async () => {
+    if (Platform.OS !== "web") {
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
+      }
+    }
+    const res = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      // base64: true,
+    });
+    setFormData({ ...formData, image: res });
   };
 
   return (
     <SafeAreaView style={globalStyles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.welcome}>Welcome Back!</Text>
+        <Text style={styles.welcome}>Register Your Account!</Text>
         <Text style={styles.userCategoryTitle}>Who your are?</Text>
         <View style={styles.iconsContainer}>
           <TouchableOpacity
@@ -102,17 +159,19 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
           >
             <FontAwesomeIcon size={40} name="group" />
           </TouchableOpacity>
-          <TouchableOpacity
-            style={
-              formData.userCategory == DEVELOPER_CATEGORY
-                ? styles.selectedIconContainer
-                : styles.unSelectedIconContainer
+        </View>
+        <Text style={styles.profileTitle}>Profile Picture</Text>
+        <View style={styles.profileContainer}>
+          <Image
+            style={styles.profileImage}
+            source={
+              formData?.image?.uri
+                ? { uri: formData?.image?.uri }
+                : defaultAvatar
             }
-            onPress={() => {
-              changeUserCategory(DEVELOPER_CATEGORY);
-            }}
-          >
-            <Ionicon size={40} name="settings" />
+          />
+          <TouchableOpacity style={styles.uploadButton} onPress={onImagePick}>
+            <Text style={styles.uploadText}>Select Image</Text>
           </TouchableOpacity>
         </View>
         <TextInput
@@ -120,6 +179,19 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
           onChangeText={onEmailChange}
           placeholder="Enter your email"
           value={formData.email}
+        />
+        <TextInput
+          style={[globalStyles.textInput, styles.input]}
+          onChangeText={onPhoneNumberChange}
+          placeholder="Enter your phone number"
+          value={formData.phoneNumber}
+        />
+        <TextInput
+          style={[globalStyles.textInput, styles.textAreaInput]}
+          onChangeText={onAddressChange}
+          placeholder="Enter your address"
+          multiline={true}
+          value={formData.address}
         />
         <TextInput
           style={[globalStyles.textInput, styles.input]}
@@ -131,10 +203,10 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
         <TouchableOpacity
           disabled={!formData.isFormValid || isLoading}
           style={formData.isFormValid ? styles.button : styles.disabledButton}
-          onPress={onLoginClick}
+          onPress={onRegisterClick}
         >
           {!isLoading ? (
-            <Text style={styles.singInText}>Sign In</Text>
+            <Text style={styles.singInText}>Register</Text>
           ) : (
             <Progress.Circle
               style={styles.progress}
@@ -143,23 +215,13 @@ function LoginScreen({ login, isAuthenticated, isLoading, navigation }) {
             />
           )}
         </TouchableOpacity>
-        <TouchableOpacity style={styles.forgotPasswordContainer}>
-          <Text style={styles.forgotPassword}>Forgot your password?</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate(REGISTRATION_SCREEN_ROUTE_NAME);
-          }}
-        >
-          <Text style={styles.createAccount}>New here? Create account :)</Text>
-        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-LoginScreen.propTypes = {
-  login: PropTypes.func.isRequired,
+RegistrationScreen.propTypes = {
+  register: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
 };
@@ -169,4 +231,4 @@ const mapStateToProps = (state) => ({
   isLoading: state.auth.isLoading,
 });
 
-export default connect(mapStateToProps, { login })(LoginScreen);
+export default connect(mapStateToProps, { register })(RegistrationScreen);

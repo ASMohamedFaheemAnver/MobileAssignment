@@ -7,11 +7,13 @@ import { Provider } from "react-redux";
 import {
   DEVELOPER_HOME_SCREEN_ROUTE_NAME,
   LOGIN_SCREEN_ROUTE_NAME,
+  REGISTRATION_SCREEN_ROUTE_NAME,
   SPLASH_SCREEN_ROUTE_NAME,
 } from "./src/constants/strings";
 import store from "./src/redux/store";
 import DeveloperHomeScreen from "./src/screens/developerHomeScreen/DeveloperHomeScreen";
 import LoginScreen from "./src/screens/loginScreen/LoginScreen";
+import RegistrationScreen from "./src/screens/registrationScreen/RegistrationScreen";
 import SplashScreen from "./src/screens/splashScreen/SplashScreen";
 import apolloClient from "./src/utils/apollo-client";
 
@@ -33,6 +35,11 @@ function App() {
                 name={LOGIN_SCREEN_ROUTE_NAME}
                 options={{ headerShown: false }}
                 component={LoginScreen}
+              />
+              <Stack.Screen
+                name={REGISTRATION_SCREEN_ROUTE_NAME}
+                options={{ headerShown: false }}
+                component={RegistrationScreen}
               />
               <Stack.Screen
                 name={DEVELOPER_HOME_SCREEN_ROUTE_NAME}

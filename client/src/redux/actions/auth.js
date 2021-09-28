@@ -5,6 +5,7 @@ import apolloClient from "../../utils/apollo-client";
 import {
   API_CALL_TRIGGERED,
   LOGIN_FAIL,
+  REGISTER_SUCCESS,
   USER_META_LOADED,
   USER_META_NOT_FOUND,
 } from "./types";
@@ -73,6 +74,14 @@ export const login =
       console.log(e);
       dispatch({ type: LOGIN_FAIL });
     }
+  };
+
+export const register =
+  ({ email, password, userCategory, address, image, phoneNumber }) =>
+  async (dispatch) => {
+    dispatch({
+      type: REGISTER_SUCCESS,
+    });
   };
 
 export const loadUserMetaData = () => async (dispatch) => {
