@@ -13,6 +13,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
+    marginBottom: 25,
   },
   societyName: {
     fontSize: 16,

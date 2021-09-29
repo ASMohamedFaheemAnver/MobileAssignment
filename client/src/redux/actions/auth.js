@@ -9,6 +9,7 @@ import {
 import apolloClient from '../../utils/apollo-client';
 import {
   API_CALL_TRIGGERED,
+  BASIC_SOCIETY_INFO_LOADED,
   LOGIN_FAIL,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
@@ -86,9 +87,9 @@ export const login =
 export const register =
   ({email, password, userCategory, address, image, phoneNumber, name}) =>
   async dispatch => {
-    // dispatch({
-    //   type: API_CALL_TRIGGERED,
-    // });
+    dispatch({
+      type: API_CALL_TRIGGERED,
+    });
     let mutation;
     if (userCategory === MEMBER_CATEGORY) {
       mutation = gql`
@@ -145,6 +146,34 @@ export const register =
       dispatch({type: REGISTER_FAIL});
     }
   };
+
+export const getBasicSocietyDetailes = _ => async dispatch => {
+  dispatch({
+    type: API_CALL_TRIGGERED,
+  });
+  const query = gql`
+    query getBasicSocietyDetailes {
+      getBasicSocietyDetailes {
+        _id
+        name
+      }
+    }
+  `;
+  try {
+    const res = await apolloClient.query({
+      query: query,
+    });
+    // console.log({res});
+
+    dispatch({
+      type: BASIC_SOCIETY_INFO_LOADED,
+      payload: res.data?.getBasicSocietyDetailes,
+    });
+  } catch (e) {
+    // console.log(e);
+    dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+  }
+};
 
 export const loadUserMetaData = () => async dispatch => {
   try {
