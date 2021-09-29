@@ -41,7 +41,17 @@ function RegistrationScreen({
   }, [navigation, isAuthenticated, isLoading]);
 
   useEffect(() => {
-    setFormData({...formData, selectedSociety: selectedSociety});
+    setFormData({
+      ...formData,
+      selectedSociety: selectedSociety,
+      isFormValid:
+        formData.isPasswordValid &&
+        formData.isPhoneNumberValid &&
+        formData.isAddressValid &&
+        formData.isUserNameValid &&
+        formData.isEmailValid &&
+        (formData.userCategory == MEMBER_CATEGORY ? !!selectedSociety : true),
+    });
   }, [selectedSociety]);
 
   const [formData, setFormData] = useState({
@@ -70,7 +80,10 @@ function RegistrationScreen({
         formData.isPasswordValid &&
         formData.isPhoneNumberValid &&
         formData.isAddressValid &&
-        formData.isUserNameValid,
+        formData.isUserNameValid &&
+        (formData.userCategory == MEMBER_CATEGORY
+          ? !!formData.selectedSociety
+          : true),
     });
   };
 
@@ -82,7 +95,10 @@ function RegistrationScreen({
       isFormValid:
         formData.isPasswordValid &&
         formData.isPhoneNumberValid &&
-        formData.isAddressValid,
+        formData.isAddressValid &&
+        (formData.userCategory == MEMBER_CATEGORY
+          ? !!formData.selectedSociety
+          : true),
     });
   };
 
@@ -95,7 +111,10 @@ function RegistrationScreen({
         formData.isPasswordValid &&
         formData.isEmailValid &&
         formData.isAddressValid &&
-        formData.isUserNameValid,
+        formData.isUserNameValid &&
+        (formData.userCategory == MEMBER_CATEGORY
+          ? !!formData.selectedSociety
+          : true),
     });
   };
 
@@ -108,7 +127,10 @@ function RegistrationScreen({
         formData.isPasswordValid &&
         formData.isEmailValid &&
         formData.isPhoneNumberValid &&
-        formData.isUserNameValid,
+        formData.isUserNameValid &&
+        (formData.userCategory == MEMBER_CATEGORY
+          ? !!formData.selectedSociety
+          : true),
     });
   };
 
@@ -121,7 +143,10 @@ function RegistrationScreen({
         formData.isPhoneNumberValid &&
         formData.isEmailValid &&
         formData.isAddressValid &&
-        formData.isUserNameValid,
+        formData.isUserNameValid &&
+        (formData.userCategory == MEMBER_CATEGORY
+          ? !!formData.selectedSociety
+          : true),
     });
   };
 
@@ -129,6 +154,13 @@ function RegistrationScreen({
     setFormData({
       ...formData,
       userCategory,
+      isFormValid:
+        formData.isPhoneNumberValid &&
+        formData.isEmailValid &&
+        formData.isAddressValid &&
+        formData.isUserNameValid &&
+        formData.isPasswordValid &&
+        (userCategory == MEMBER_CATEGORY ? !!formData.selectedSociety : true),
     });
   };
 
@@ -198,18 +230,22 @@ function RegistrationScreen({
           <TouchableOpacity style={styles.uploadButton} onPress={onImagePick}>
             <Text style={styles.uploadText}>Select Image</Text>
           </TouchableOpacity>
-          <Text style={styles.societyTitle}>Choose Society</Text>
-          <TouchableOpacity
-            style={styles.selectSocietyButton}
-            onPress={() => {
-              navigation.navigate(SELECT_SOCIETY_SCREEN_ROUTE_NAME);
-            }}>
-            <Text style={styles.uploadText}>
-              {formData.selectedSociety != null
-                ? formData.selectedSociety?.name
-                : 'Select Society'}
-            </Text>
-          </TouchableOpacity>
+          {formData.userCategory == MEMBER_CATEGORY && (
+            <>
+              <Text style={styles.societyTitle}>Choose Society</Text>
+              <TouchableOpacity
+                style={styles.selectSocietyButton}
+                onPress={() => {
+                  navigation.navigate(SELECT_SOCIETY_SCREEN_ROUTE_NAME);
+                }}>
+                <Text style={styles.uploadText}>
+                  {formData.selectedSociety
+                    ? formData.selectedSociety?.name
+                    : 'Select Society'}
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
         <TextInput
           style={[globalStyles.textInput, styles.input]}
