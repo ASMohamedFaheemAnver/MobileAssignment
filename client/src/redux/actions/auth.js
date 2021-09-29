@@ -12,6 +12,7 @@ import {
   LOGIN_FAIL,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
+  SET_ALERT,
   USER_META_LOADED,
   USER_META_NOT_FOUND,
 } from './types';
@@ -77,7 +78,7 @@ export const login =
       await AsyncStorage.setItem('userCategory', userCategory);
       dispatch(loadUserMetaData());
     } catch (e) {
-      // console.log(e);
+      dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
       dispatch({type: LOGIN_FAIL});
     }
   };

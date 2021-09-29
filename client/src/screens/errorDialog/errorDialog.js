@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import {Text} from 'react-native';
 import {
   Modal,
@@ -7,29 +8,38 @@ import {
   ModalFooter,
   ModalTitle,
 } from 'react-native-modals';
+import {connect} from 'react-redux';
+import {removeAlert} from '../../redux/actions/alert';
 import {globalStyles} from '../styles';
 
-const ErrorDialog = () => {
-  const [isVisible, setIsVisible] = useState(true);
+const ErrorDialog = ({errors, removeAlert}) => {
   return (
     <Modal
-      visible={isVisible}
+      visible={errors?.length > 0}
       footer={
         <ModalFooter>
           <ModalButton
             text="OK"
             onPress={() => {
-              setIsVisible(!isVisible);
+              removeAlert();
             }}
           />
         </ModalFooter>
       }
       modalTitle={<ModalTitle title="AN ERROR OCCURED!" hasTitleBar={true} />}>
       <ModalContent>
-        <Text style={globalStyles.errorText}>{'message'}</Text>
+        <Text style={globalStyles.errorText}>{errors?.[0]?.message}</Text>
       </ModalContent>
     </Modal>
   );
 };
 
-export default ErrorDialog;
+ErrorDialog.propTypes = {
+  removeAlert: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  errors: state.alert,
+});
+
+export default connect(mapStateToProps, {removeAlert})(ErrorDialog);
