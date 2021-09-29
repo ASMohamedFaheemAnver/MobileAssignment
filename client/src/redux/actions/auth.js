@@ -14,6 +14,7 @@ import {
   REGISTER_FAIL,
   REGISTER_SUCCESS,
   SET_ALERT,
+  SOCIETY_SELECTED,
   USER_META_LOADED,
   USER_META_NOT_FOUND,
 } from './types';
@@ -146,6 +147,10 @@ export const register =
       dispatch({type: REGISTER_FAIL});
     }
   };
+
+export const setSelectedSociety = society => dispatch => {
+  dispatch({type: SOCIETY_SELECTED, payload: society});
+};
 
 export const getBasicSocietyDetailes = _ => async dispatch => {
   dispatch({

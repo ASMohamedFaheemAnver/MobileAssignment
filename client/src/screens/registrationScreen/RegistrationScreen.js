@@ -29,6 +29,7 @@ function RegistrationScreen({
   isAuthenticated,
   isLoading,
   navigation,
+  selectedSociety,
 }) {
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
@@ -38,6 +39,10 @@ function RegistrationScreen({
       });
     }
   }, [navigation, isAuthenticated, isLoading]);
+
+  useEffect(() => {
+    setFormData({...formData, selectedSociety: selectedSociety});
+  }, [selectedSociety]);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -53,6 +58,7 @@ function RegistrationScreen({
     image: null,
     name: '',
     isUserNameValid: false,
+    selectedSociety: null,
   });
 
   const onEmailChange = e => {
@@ -198,7 +204,11 @@ function RegistrationScreen({
             onPress={() => {
               navigation.navigate(SELECT_SOCIETY_SCREEN_ROUTE_NAME);
             }}>
-            <Text style={styles.uploadText}>Select Society</Text>
+            <Text style={styles.uploadText}>
+              {formData.selectedSociety != null
+                ? formData.selectedSociety?.name
+                : 'Select Society'}
+            </Text>
           </TouchableOpacity>
         </View>
         <TextInput
@@ -265,6 +275,7 @@ RegistrationScreen.propTypes = {
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   isLoading: state.auth.isLoading,
+  selectedSociety: state.auth.selectedSociety,
 });
 
 export default connect(mapStateToProps, {register})(RegistrationScreen);
