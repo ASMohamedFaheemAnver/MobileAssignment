@@ -9,12 +9,14 @@ import {
   DEVELOPER_HOME_SCREEN_ROUTE_NAME,
   LOGIN_SCREEN_ROUTE_NAME,
   REGISTRATION_SCREEN_ROUTE_NAME,
+  SELECT_SOCIETY_SCREEN_ROUTE_NAME,
   SPLASH_SCREEN_ROUTE_NAME,
 } from './src/constants/strings';
 import store from './src/redux/store';
 import DeveloperHomeScreen from './src/screens/developerHomeScreen/DeveloperHomeScreen';
 import LoginScreen from './src/screens/loginScreen/LoginScreen';
 import RegistrationScreen from './src/screens/registrationScreen/RegistrationScreen';
+import SocietySelectionScreen from './src/screens/societySelectionScreen/SocietySelectionScreen';
 import SplashScreen from './src/screens/splashScreen/SplashScreen';
 import apolloClient from './src/utils/apollo-client';
 const Stack = createNativeStackNavigator();
@@ -45,6 +47,11 @@ function App() {
                 name={DEVELOPER_HOME_SCREEN_ROUTE_NAME}
                 options={{headerShown: false}}
                 component={DeveloperHomeScreen}
+              />
+              <Stack.Screen
+                name={SELECT_SOCIETY_SCREEN_ROUTE_NAME}
+                options={{headerShown: false}}
+                component={SocietySelectionScreen}
               />
             </Stack.Navigator>
           </NavigationContainer>

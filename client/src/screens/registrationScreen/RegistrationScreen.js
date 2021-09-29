@@ -17,6 +17,7 @@ import defaultAvatar from '../../../assets/default-avatar.jpg';
 import {
   DEVELOPER_HOME_SCREEN_ROUTE_NAME,
   MEMBER_CATEGORY,
+  SELECT_SOCIETY_SCREEN_ROUTE_NAME,
   SOCIETY_CATEGORY,
 } from '../../constants/strings';
 import {register} from '../../redux/actions/auth';
@@ -191,11 +192,23 @@ function RegistrationScreen({
           <TouchableOpacity style={styles.uploadButton} onPress={onImagePick}>
             <Text style={styles.uploadText}>Select Image</Text>
           </TouchableOpacity>
+          <Text style={styles.societyTitle}>Choose Society</Text>
+          <TouchableOpacity
+            style={styles.selectSocietyButton}
+            onPress={() => {
+              navigation.navigate(SELECT_SOCIETY_SCREEN_ROUTE_NAME);
+            }}>
+            <Text style={styles.uploadText}>Select Society</Text>
+          </TouchableOpacity>
         </View>
         <TextInput
           style={[globalStyles.textInput, styles.input]}
           onChangeText={onNameChange}
-          placeholder="Enter your name"
+          placeholder={
+            formData.userCategory == MEMBER_CATEGORY
+              ? 'Enter your name'
+              : 'Enter society name'
+          }
           value={formData.name}
         />
         <TextInput

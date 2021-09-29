@@ -141,6 +141,7 @@ export const register =
       dispatch({type: REGISTER_SUCCESS});
     } catch (e) {
       // console.log(e);
+      dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
       dispatch({type: REGISTER_FAIL});
     }
   };
