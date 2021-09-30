@@ -18,7 +18,6 @@ type Society {
   imageUrl: String!
   address: String!
   phoneNumber: String!
-  regNo: String!
   approved: Boolean!
   month_fee: MonthlyFee!
   expected_income: Int!

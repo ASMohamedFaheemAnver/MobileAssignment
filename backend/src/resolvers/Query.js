@@ -171,7 +171,12 @@ const Query = {
     return society;
   },
 
-  getSocietyLogs: async (parent, { page_number, page_size }, { request }, info) => {
+  getSocietyLogs: async (
+    parent,
+    { page_number, page_size },
+    { request },
+    info
+  ) => {
     console.log({ emitted: "getSocietyLogs" });
     const userData = getUserData(request);
 
@@ -353,7 +358,10 @@ const Query = {
       throw error;
     }
 
-    const member = await Member.findOne({ _id: member_id, society: userData.encryptedId });
+    const member = await Member.findOne({
+      _id: member_id,
+      society: userData.encryptedId,
+    });
 
     if (!member) {
       const error = new Error("member not found!");
@@ -364,7 +372,12 @@ const Query = {
     return member._doc;
   },
 
-  getMemberLogs: async (parent, { page_number, page_size }, { request }, info) => {
+  getMemberLogs: async (
+    parent,
+    { page_number, page_size },
+    { request },
+    info
+  ) => {
     console.log({ emitted: "getMemberLogs" });
     const userData = getUserData(request);
 
@@ -418,7 +431,12 @@ const Query = {
     return { logs: member.logs, logs_count: logs_count };
   },
 
-  getMemberLogsById: async (parent, { member_id, page_number, page_size }, { request }, info) => {
+  getMemberLogsById: async (
+    parent,
+    { member_id, page_number, page_size },
+    { request },
+    info
+  ) => {
     console.log({ emitted: "getMemberLogsById" });
     const userData = getUserData(request);
 
@@ -434,27 +452,28 @@ const Query = {
       throw error;
     }
 
-    const member = await Member.findOne({ _id: member_id, society: userData.encryptedId }).populate(
-      [
-        {
-          path: "logs",
-          options: {
-            skip: page_number * page_size,
-            limit: page_size,
-            sort: {
-              _id: -1,
-            },
-          },
-          populate: {
-            path: "item",
-            populate: {
-              path: "tracks",
-              match: { member: member_id },
-            },
+    const member = await Member.findOne({
+      _id: member_id,
+      society: userData.encryptedId,
+    }).populate([
+      {
+        path: "logs",
+        options: {
+          skip: page_number * page_size,
+          limit: page_size,
+          sort: {
+            _id: -1,
           },
         },
-      ]
-    );
+        populate: {
+          path: "item",
+          populate: {
+            path: "tracks",
+            match: { member: member_id },
+          },
+        },
+      },
+    ]);
 
     if (!member) {
       const error = new Error("member not found!");

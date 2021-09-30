@@ -1,53 +1,79 @@
-import React from 'react';
+import PropTypes from 'prop-types';
+import React, {useEffect} from 'react';
 import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
+import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
 import defaultAvatar from '../../../assets/default-avatar.jpg';
+import {getAllSocieties} from '../../redux/actions/developer';
 import {globalStyles} from '../styles';
 import styles from './styles';
 
-function DeveloperHomeScreen({}) {
+function DeveloperHomeScreen({getAllSocieties, isLoading, societies}) {
+  useEffect(() => {
+    getAllSocieties();
+  }, [getAllSocieties]);
+
   return (
     <SafeAreaView style={globalStyles.container}>
       <Text style={styles.societyListTitle}>Registered Society List</Text>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={[1]}
-        renderItem={({society}) => {
-          return (
-            <View style={styles.cardContainer}>
-              <Image style={styles.profileImage} source={defaultAvatar} />
-              <View style={styles.section}>
-                <Text style={styles.societyNameTitle}>Name</Text>
-                <Text style={styles.societyName}>{'Hello World'}</Text>
+      {!(societies && societies.length > 0) || isLoading ? (
+        <View style={globalStyles.center}>
+          <Progress.Circle size={50} indeterminate={true} />
+        </View>
+      ) : (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={societies}
+          renderItem={({item: society}) => {
+            return (
+              <View style={styles.cardContainer}>
+                <Image style={styles.profileImage} source={defaultAvatar} />
+                <View style={styles.section}>
+                  <Text style={styles.societyNameTitle}>Name</Text>
+                  <Text style={styles.societyName}>{society?.name}</Text>
+                </View>
+                <View style={styles.section}>
+                  <Text style={styles.societyNameTitle}>Email</Text>
+                  <Text style={styles.societyName}>{society?.email}</Text>
+                </View>
+                <View style={styles.section}>
+                  <Text style={styles.societyNameTitle}>Phone Number</Text>
+                  <Text style={styles.societyName}>{society?.phoneNumber}</Text>
+                </View>
+                <View style={styles.actions}>
+                  {!society?.approved && (
+                    <TouchableOpacity>
+                      <Text style={globalStyles.green}>Approve</Text>
+                    </TouchableOpacity>
+                  )}
+                  {society?.approved && (
+                    <TouchableOpacity>
+                      <Text style={globalStyles.red}>Disaprove</Text>
+                    </TouchableOpacity>
+                  )}
+                  {!society?.approved && (
+                    <TouchableOpacity>
+                      <Text style={globalStyles.red}>Remove</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
               </View>
-              <View style={styles.section}>
-                <Text style={styles.societyNameTitle}>Email</Text>
-                <Text style={styles.societyName}>{'Hello World'}</Text>
-              </View>
-              <View style={styles.section}>
-                <Text style={styles.societyNameTitle}>Phone Number</Text>
-                <Text style={styles.societyName}>{'Hello World'}</Text>
-              </View>
-              <View style={styles.actions}>
-                <TouchableOpacity>
-                  <Text style={globalStyles.green}>Approve</Text>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Text style={globalStyles.red}>Disaprove</Text>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Text style={globalStyles.red}>Remove</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          );
-        }}
-      />
+            );
+          }}
+        />
+      )}
     </SafeAreaView>
   );
 }
 
-DeveloperHomeScreen.propTypes = {};
+DeveloperHomeScreen.propTypes = {
+  getAllSocieties: PropTypes.func.isRequired,
+};
 
-export default connect(null, {})(DeveloperHomeScreen);
+const mapStateToProps = state => ({
+  isLoading: state.developer.isLoading,
+  societies: state.developer.societies,
+});
+
+export default connect(mapStateToProps, {getAllSocieties})(DeveloperHomeScreen);
