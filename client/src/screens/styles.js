@@ -15,4 +15,10 @@ export const globalStyles = StyleSheet.create({
   errorText: {
     color: 'red',
   },
+  red: {
+    color: 'red',
+  },
+  green: {
+    color: 'green',
+  },
 });

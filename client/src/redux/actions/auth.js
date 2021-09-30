@@ -209,7 +209,7 @@ export const getBasicSocietyDetailes = _ => async dispatch => {
 
 export const loadUserMetaData = () => async dispatch => {
   try {
-    await AsyncStorage.clear();
+    // await AsyncStorage.clear();
     const token = await AsyncStorage.getItem('token');
     const expiresIn = new Date(await AsyncStorage.getItem('expiresIn'));
     const userCategory = await AsyncStorage.getItem('userCategory');
