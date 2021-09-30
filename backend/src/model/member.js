@@ -14,7 +14,7 @@ const memberSchema = new Schema(
     },
     imageUrl: {
       type: String,
-      required: true,
+      // required: true,
     },
     removed_image_urls: [
       {

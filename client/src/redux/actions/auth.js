@@ -86,7 +86,16 @@ export const login =
   };
 
 export const register =
-  ({email, password, userCategory, address, image, phoneNumber, name}) =>
+  ({
+    email,
+    password,
+    userCategory,
+    address,
+    image,
+    phoneNumber,
+    name,
+    selectedSociety,
+  }) =>
   async dispatch => {
     dispatch({
       type: API_CALL_TRIGGERED,
@@ -94,8 +103,26 @@ export const register =
     let mutation;
     if (userCategory === MEMBER_CATEGORY) {
       mutation = gql`
-        mutation createMember($email: String!, $password: String!) {
-          createMember(email: $email, password: $password) {
+        mutation createMember(
+          $email: String!
+          $password: String!
+          $name: String!
+          $image: Upload
+          $address: String!
+          $societyId: String!
+          $phoneNumber: String!
+        ) {
+          createMember(
+            memberInput: {
+              email: $email
+              password: $password
+              name: $name
+              image: $image
+              address: $address
+              societyId: $societyId
+              phoneNumber: $phoneNumber
+            }
+          ) {
             _id
           }
         }
@@ -136,6 +163,7 @@ export const register =
           image: imageFile,
           phoneNumber,
           name,
+          societyId: selectedSociety?._id,
         },
       });
       console.log({res});

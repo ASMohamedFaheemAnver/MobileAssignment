@@ -21,6 +21,7 @@ import {
   SOCIETY_CATEGORY,
 } from '../../constants/strings';
 import {register} from '../../redux/actions/auth';
+import ErrorDialog from '../errorDialog/errorDialog';
 import {globalStyles} from '../styles';
 import styles from './styles';
 
@@ -297,6 +298,7 @@ function RegistrationScreen({
             />
           )}
         </TouchableOpacity>
+        <ErrorDialog />
       </ScrollView>
     </SafeAreaView>
   );

@@ -352,8 +352,10 @@ const Mutation = {
   createMember: async (parent, { memberInput }, { request, pubSub }, info) => {
     console.log({ emitted: "createMember" });
 
-    const image = await memberInput.image;
-    const { createReadStream, filename, mimetype, encoding } = image;
+    let image;
+    try {
+      image = await societyInput.image;
+    } catch (e) {}
 
     const errors = [];
     if (!validator.isEmail(memberInput.email)) {
@@ -378,7 +380,7 @@ const Mutation = {
       const error = new Error("invalid data submission!");
       error.data = errors;
       error.code = 422;
-      createReadStream().destroy();
+      image && image.createReadStream().destroy();
       throw error;
     }
 
@@ -387,7 +389,7 @@ const Mutation = {
     if (!existingSociety) {
       const error = new Error("society not exist!");
       error.code = 403;
-      createReadStream().destroy();
+      image && image.createReadStream().destroy();
       throw error;
     }
 
@@ -398,17 +400,22 @@ const Mutation = {
     if (existingMember) {
       const error = new Error("member already exist!");
       error.code = 403;
-      createReadStream().destroy();
+      image && image.createReadStream().destroy();
       throw error;
     }
 
-    memberInput.imageUrl = await cloudFile.uploadImageToCloud(image, "member");
+    if (image) {
+      memberInput.imageUrl = await cloudFile.uploadImageToCloud(
+        image,
+        "member"
+      );
 
-    if (!memberInput.imageUrl) {
-      const error = new Error("cannot upload your image!");
-      error.data = errors;
-      error.code = 422;
-      throw error;
+      if (!memberInput.imageUrl) {
+        const error = new Error("cannot upload your image!");
+        error.data = errors;
+        error.code = 422;
+        throw error;
+      }
     }
 
     const hash = await bcrypt.hash(memberInput.password, 12);
@@ -430,13 +437,13 @@ const Mutation = {
       listenSocietyMembersBySociety: { member: createdMember, type: "POST" },
     });
 
-    const msg = {
-      to: memberInput.email,
-      from: "freedom-sms@support.com",
-      templateId: "d-27f5aeb6f1ba4cf18ae87c1f7633b294",
-    };
+    // const msg = {
+    //   to: memberInput.email,
+    //   from: "freedom-sms@support.com",
+    //   templateId: "d-27f5aeb6f1ba4cf18ae87c1f7633b294",
+    // };
 
-    sgMail.send(msg);
+    // sgMail.send(msg);
 
     return createdMember._doc;
   },
