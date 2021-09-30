@@ -31,6 +31,7 @@ function RegistrationScreen({
   isLoading,
   navigation,
   selectedSociety,
+  isRegistered,
 }) {
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
@@ -40,6 +41,12 @@ function RegistrationScreen({
       });
     }
   }, [navigation, isAuthenticated, isLoading]);
+
+  useEffect(() => {
+    if (isRegistered) {
+      navigation.pop();
+    }
+  }, [isRegistered]);
 
   useEffect(() => {
     setFormData({
@@ -314,6 +321,7 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   isLoading: state.auth.isLoading,
   selectedSociety: state.auth.selectedSociety,
+  isRegistered: state.auth.isRegistered,
 });
 
 export default connect(mapStateToProps, {register})(RegistrationScreen);

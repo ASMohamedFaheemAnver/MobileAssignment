@@ -167,7 +167,6 @@ export const register =
         },
       });
       console.log({res});
-
       dispatch({type: REGISTER_SUCCESS});
     } catch (e) {
       // console.log(e);

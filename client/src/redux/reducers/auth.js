@@ -16,6 +16,7 @@ const initalState = {
   userCategory: null,
   basicSociety: [],
   selectedSociety: null,
+  isRegistered: false,
 };
 
 export default function (state = initalState, action) {
@@ -29,6 +30,7 @@ export default function (state = initalState, action) {
       return {...state, isLoading: true};
     case LOGIN_FAIL:
     case REGISTER_SUCCESS:
+      return {...state, isLoading: false, isRegistered: true};
     case REGISTER_FAIL:
       return {...state, isLoading: false};
     case BASIC_SOCIETY_INFO_LOADED:
