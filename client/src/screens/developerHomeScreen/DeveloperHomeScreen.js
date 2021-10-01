@@ -5,11 +5,21 @@ import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
 import defaultAvatar from '../../../assets/default-avatar.jpg';
-import {getAllSocieties} from '../../redux/actions/developer';
+import {
+  approveSociety,
+  disApproveSociety,
+  getAllSocieties,
+} from '../../redux/actions/developer';
 import {globalStyles} from '../styles';
 import styles from './styles';
 
-function DeveloperHomeScreen({getAllSocieties, isLoading, societies}) {
+function DeveloperHomeScreen({
+  getAllSocieties,
+  approveSociety,
+  isLoading,
+  societies,
+  disApproveSociety,
+}) {
   useEffect(() => {
     getAllSocieties();
   }, [getAllSocieties]);
@@ -43,18 +53,19 @@ function DeveloperHomeScreen({getAllSocieties, isLoading, societies}) {
                 </View>
                 <View style={styles.actions}>
                   {!society?.approved && (
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        approveSociety(society._id);
+                      }}>
                       <Text style={globalStyles.green}>Approve</Text>
                     </TouchableOpacity>
                   )}
                   {society?.approved && (
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        disApproveSociety(society._id);
+                      }}>
                       <Text style={globalStyles.red}>Disaprove</Text>
-                    </TouchableOpacity>
-                  )}
-                  {!society?.approved && (
-                    <TouchableOpacity>
-                      <Text style={globalStyles.red}>Remove</Text>
                     </TouchableOpacity>
                   )}
                 </View>
@@ -69,6 +80,8 @@ function DeveloperHomeScreen({getAllSocieties, isLoading, societies}) {
 
 DeveloperHomeScreen.propTypes = {
   getAllSocieties: PropTypes.func.isRequired,
+  approveSociety: PropTypes.func.isRequired,
+  disApproveSociety: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -76,4 +89,8 @@ const mapStateToProps = state => ({
   societies: state.developer.societies,
 });
 
-export default connect(mapStateToProps, {getAllSocieties})(DeveloperHomeScreen);
+export default connect(mapStateToProps, {
+  getAllSocieties,
+  approveSociety,
+  disApproveSociety,
+})(DeveloperHomeScreen);

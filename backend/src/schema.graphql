@@ -161,9 +161,10 @@ type Query {
 }
 
 type Mutation {
-  approveSociety(societyId: String!): Message!
-  disApproveSociety(societyId: String!): Message!
+  approveSociety(societyId: String!): Society!
+  disApproveSociety(societyId: String!): Society!
   createSociety(societyInput: SocietyInputData!): Society!
+  removeSociety(societyId: String!): Message!
   createMember(memberInput: MemberInputData!): Member!
   addMonthlyFeeToEveryone(monthlyFee: Int!, description: String!): SocietyLog!
   addExtraFeeToEveryone(extraFee: Int!, description: String!): SocietyLog!

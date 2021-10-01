@@ -45,8 +45,13 @@ const Mutation = {
       error.code = 403;
       throw error;
     }
-    await Society.updateOne({ _id: societyId }, { $set: { approved: true } });
-    return { message: "approved successfly!" };
+    const society = await Society.findOneAndUpdate(
+      { _id: societyId },
+      { $set: { approved: true } },
+      { new: true }
+    );
+    // console.log({ society });
+    return society;
   },
 
   disApproveSociety: async (parent, { societyId }, { request }, info) => {
@@ -70,8 +75,12 @@ const Mutation = {
       error.code = 403;
       throw error;
     }
-    await Society.updateOne({ _id: societyId }, { $set: { approved: false } });
-    return { message: "disapproved successfly!" };
+    const society = await Society.findOneAndUpdate(
+      { _id: societyId },
+      { $set: { approved: false } },
+      { new: true }
+    );
+    return society;
   },
 
   createSociety: async (

@@ -8,10 +8,17 @@ const getUserData = (request, requireAuth = true) => {
 
   // console.log(request.request.headers.authorization);
 
-  if (header) {
-    const token = header.replace("Bearer ", "");
-    const decodedData = jwt.verify(token, process.env.secret_word);
-    return decodedData;
+  try {
+    if (header) {
+      const token = header.replace("Bearer ", "");
+      const decodedData = jwt.verify(token, process.env.secret_word);
+      return decodedData;
+    }
+  } catch (e) {
+    const error = new Error(e.message);
+    error.data = [e];
+    error.code = 403;
+    throw error;
   }
 
   if (requireAuth) {
