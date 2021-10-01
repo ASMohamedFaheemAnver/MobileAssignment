@@ -1,2 +1,0 @@
-# React Native clear the previous screen from the navigation stack
-# https://stackoverflow.com/questions/56506076/react-native-clear-the-previous-screen-from-the-navigation-stack

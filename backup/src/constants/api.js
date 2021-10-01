@@ -1,1 +1,0 @@
-exports.APOLLO_HITPOINT_URL = "http://192.168.8.110:3000/";
