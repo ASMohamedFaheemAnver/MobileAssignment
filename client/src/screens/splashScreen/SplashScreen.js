@@ -26,7 +26,6 @@ function SplashScreen({
         index: 0,
         routes: [{name: DASHBOARD}],
       });
-      navigation.navigate(DASHBOARD);
     } else if (!isLoading && !isAuthenticated) {
       navigation.reset({
         index: 0,

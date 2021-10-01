@@ -217,7 +217,6 @@ export const loadUserMetaData = () => async dispatch => {
     // console.log(expiresIn);
     // console.log(new Date());
     // console.log(expiresIn - new Date());
-
     if (token && expiresIn && userCategory) {
       dispatch({
         type: USER_META_LOADED,
