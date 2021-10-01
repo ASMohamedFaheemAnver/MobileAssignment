@@ -1,16 +1,13 @@
-import PropTypes from "prop-types";
-import React, { useEffect } from "react";
-import { Text, View } from "react-native";
-import * as Progress from "react-native-progress";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { connect } from "react-redux";
-import {
-  DEVELOPER_HOME_SCREEN_ROUTE_NAME,
-  LOGIN_SCREEN_ROUTE_NAME,
-} from "../../constants/strings";
-import { loadUserMetaData } from "../../redux/actions/auth";
-import { globalStyles } from "../styles";
-import styles from "./styles";
+import PropTypes from 'prop-types';
+import React, {useEffect} from 'react';
+import {Text, View} from 'react-native';
+import * as Progress from 'react-native-progress';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {connect} from 'react-redux';
+import {DASHBOARD, LOGIN_SCREEN_ROUTE_NAME} from '../../constants/strings';
+import {loadUserMetaData} from '../../redux/actions/auth';
+import {globalStyles} from '../styles';
+import styles from './styles';
 
 function SplashScreen({
   loadUserMetaData,
@@ -27,13 +24,13 @@ function SplashScreen({
     if (!isLoading && isAuthenticated) {
       navigation.reset({
         index: 0,
-        routes: [{ name: DEVELOPER_HOME_SCREEN_ROUTE_NAME }],
+        routes: [{name: DASHBOARD}],
       });
-      // navigation.navigate(DEVELOPER_HOME_SCREEN_ROUTE_NAME);
+      navigation.navigate(DASHBOARD);
     } else if (!isLoading && !isAuthenticated) {
       navigation.reset({
         index: 0,
-        routes: [{ name: LOGIN_SCREEN_ROUTE_NAME }],
+        routes: [{name: LOGIN_SCREEN_ROUTE_NAME}],
       });
     }
   }, [navigation, isAuthenticated, isLoading]);
@@ -60,9 +57,9 @@ SplashScreen.propTypes = {
   isLoading: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   isLoading: state.auth.isLoading,
 });
 
-export default connect(mapStateToProps, { loadUserMetaData })(SplashScreen);
+export default connect(mapStateToProps, {loadUserMetaData})(SplashScreen);

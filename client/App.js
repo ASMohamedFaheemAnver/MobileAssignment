@@ -8,7 +8,8 @@ import {ModalPortal} from 'react-native-modals';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import {
-  DEVELOPER_HOME_SCREEN_ROUTE_NAME,
+  DASHBOARD,
+  DEVELOPER_DASHBOARD,
   LOGIN_SCREEN_ROUTE_NAME,
   REGISTRATION_SCREEN_ROUTE_NAME,
   SELECT_SOCIETY_SCREEN_ROUTE_NAME,
@@ -24,6 +25,18 @@ import apolloClient from './src/utils/apollo-client';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
+
+function DrawerRoutes() {
+  return (
+    <Drawer.Navigator initialRouteName={DEVELOPER_DASHBOARD}>
+      <Drawer.Screen
+        name={DEVELOPER_DASHBOARD}
+        component={DeveloperHomeScreen}
+      />
+    </Drawer.Navigator>
+  );
+}
+
 function App() {
   return (
     <ApolloProvider client={apolloClient}>
@@ -47,9 +60,9 @@ function App() {
                 component={RegistrationScreen}
               />
               <Stack.Screen
-                name={DEVELOPER_HOME_SCREEN_ROUTE_NAME}
+                name={DASHBOARD}
                 options={{headerShown: false}}
-                component={DeveloperHomeScreen}
+                component={DrawerRoutes}
               />
               <Stack.Screen
                 name={SELECT_SOCIETY_SCREEN_ROUTE_NAME}

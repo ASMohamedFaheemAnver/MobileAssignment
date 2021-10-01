@@ -15,7 +15,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 import defaultAvatar from '../../../assets/default-avatar.jpg';
 import {
-  DEVELOPER_HOME_SCREEN_ROUTE_NAME,
+  DASHBOARD,
   MEMBER_CATEGORY,
   SELECT_SOCIETY_SCREEN_ROUTE_NAME,
   SOCIETY_CATEGORY,
@@ -37,7 +37,7 @@ function RegistrationScreen({
     if (!isLoading && isAuthenticated) {
       navigation.reset({
         index: 0,
-        routes: [{name: DEVELOPER_HOME_SCREEN_ROUTE_NAME}],
+        routes: [{name: DASHBOARD}],
       });
     }
   }, [navigation, isAuthenticated, isLoading]);

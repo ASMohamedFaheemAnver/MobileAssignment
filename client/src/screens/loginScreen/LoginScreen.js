@@ -13,8 +13,8 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {
+  DASHBOARD,
   DEVELOPER_CATEGORY,
-  DEVELOPER_HOME_SCREEN_ROUTE_NAME,
   MEMBER_CATEGORY,
   REGISTRATION_SCREEN_ROUTE_NAME,
   SOCIETY_CATEGORY,
@@ -30,7 +30,7 @@ function LoginScreen({login, isAuthenticated, isLoading, navigation}) {
     if (!isLoading && isAuthenticated) {
       navigation.reset({
         index: 0,
-        routes: [{name: DEVELOPER_HOME_SCREEN_ROUTE_NAME}],
+        routes: [{name: DASHBOARD}],
       });
     }
   }, [navigation, isAuthenticated, isLoading]);
