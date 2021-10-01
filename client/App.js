@@ -1,7 +1,9 @@
 import {ApolloProvider} from '@apollo/client';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
+import 'react-native-gesture-handler';
 import {ModalPortal} from 'react-native-modals';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
@@ -19,8 +21,9 @@ import RegistrationScreen from './src/screens/registrationScreen/RegistrationScr
 import SocietySelectionScreen from './src/screens/societySelectionScreen/SocietySelectionScreen';
 import SplashScreen from './src/screens/splashScreen/SplashScreen';
 import apolloClient from './src/utils/apollo-client';
-const Stack = createNativeStackNavigator();
 
+const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 function App() {
   return (
     <ApolloProvider client={apolloClient}>
