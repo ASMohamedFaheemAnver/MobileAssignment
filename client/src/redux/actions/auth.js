@@ -15,6 +15,7 @@ import {
   REGISTER_SUCCESS,
   SET_ALERT,
   SOCIETY_SELECTED,
+  USER_LOGGED_OUT,
   USER_META_LOADED,
   USER_META_NOT_FOUND,
 } from './types';
@@ -218,7 +219,14 @@ export const loadUserMetaData = () => async dispatch => {
     // console.log(new Date());
     // console.log(expiresIn - new Date());
     if (token && expiresIn && userCategory) {
-      dispatch({
+      const logOutIn = expiresIn - new Date();
+      setTimeout(
+        () => {
+          dispatch(logOut());
+        },
+        logOutIn < 0 ? 0 : logOutIn,
+      );
+      return dispatch({
         type: USER_META_LOADED,
         payload: {token, expiresIn, userCategory},
       });
@@ -226,5 +234,12 @@ export const loadUserMetaData = () => async dispatch => {
     dispatch({
       type: USER_META_NOT_FOUND,
     });
-  } catch (e) {}
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const logOut = () => async dispatch => {
+  dispatch({type: USER_LOGGED_OUT});
+  await AsyncStorage.clear();
 };

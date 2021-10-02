@@ -1,15 +1,17 @@
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
+import PropTypes from 'prop-types';
 import React from 'react';
 import {View} from 'react-native';
 import {Avatar, Caption, Drawer, Title} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {DEVELOPER_DASHBOARD, SIGN_OUT_LABEL} from '../constants/strings';
+import {connect} from 'react-redux';
+import {DEVELOPER_DASHBOARD, LOG_OUT_LABEL} from '../constants/strings';
+import {logOut} from '../redux/actions/auth';
 import styles from './styles';
 
-export function DrawerContent(props) {
+function DrawerContent(props) {
   const {state} = props;
   const {routes, index} = state;
-
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
@@ -49,10 +51,20 @@ export function DrawerContent(props) {
           icon={({color, size}) => (
             <Icon name="exit-to-app" color={color} size={size} />
           )}
-          label={SIGN_OUT_LABEL}
-          onPress={() => {}}
+          label={LOG_OUT_LABEL}
+          onPress={() => {
+            props.logOut();
+          }}
         />
       </Drawer.Section>
     </View>
   );
 }
+
+DrawerContent.propTypes = {
+  logOut: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps, {logOut})(DrawerContent);
