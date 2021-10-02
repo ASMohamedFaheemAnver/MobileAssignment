@@ -7,9 +7,11 @@ import {
   LOGIN_SCREEN_ROUTE_NAME,
   SOCIETY_CATEGORY,
   SOCIETY_DASHBOARD,
+  SOCIETY_MEMBERS,
 } from '../constants/strings';
 import DeveloperHomeScreen from '../screens/developerHomeScreen/DeveloperHomeScreen';
 import SocietyHomeScreen from '../screens/societyHomeScreen/SocietyHomeScreen';
+import SocietyMemberListScreen from '../screens/societyMemberListScreen/SocietyMemberListScreen';
 import DrawerContent from './DrawerContent';
 const Drawer = createDrawerNavigator();
 
@@ -40,6 +42,10 @@ function DrawerRoutes({isAuthenticated, isLoading, userCategory, navigation}) {
       <Drawer.Screen
         name={DEVELOPER_DASHBOARD}
         component={DeveloperHomeScreen}
+      />
+      <Drawer.Screen
+        name={SOCIETY_MEMBERS}
+        component={SocietyMemberListScreen}
       />
       <Drawer.Screen name={SOCIETY_DASHBOARD} component={SocietyHomeScreen} />
     </Drawer.Navigator>

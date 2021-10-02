@@ -1,5 +1,6 @@
 exports.DASHBOARD = 'DASHBOARD';
 exports.DEVELOPER_DASHBOARD = 'Developer Dashboard';
+exports.SOCIETY_MEMBERS = 'Society Members';
 exports.SOCIETY_DASHBOARD = 'Society Dashboard';
 exports.SELECT_SOCIETY_SCREEN_ROUTE_NAME = 'SELECT_SOCIETY_SCREEN_ROUTE_NAME';
 exports.LOGIN_SCREEN_ROUTE_NAME = 'LOGIN';

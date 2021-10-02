@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {View} from 'react-native';
 import {Avatar, Caption, Drawer, Title} from 'react-native-paper';
+import FontistoIcon from 'react-native-vector-icons/Fontisto';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {connect} from 'react-redux';
 import {
@@ -11,6 +12,7 @@ import {
   LOG_OUT_LABEL,
   SOCIETY_CATEGORY,
   SOCIETY_DASHBOARD,
+  SOCIETY_MEMBERS,
 } from '../constants/strings';
 import {logOut} from '../redux/actions/auth';
 import styles from './styles';
@@ -52,16 +54,28 @@ function DrawerContent(props) {
               />
             )}
             {props.userCategory == SOCIETY_CATEGORY && (
-              <DrawerItem
-                icon={({color, size}) => (
-                  <Icon name="home-outline" color={color} size={size} />
-                )}
-                focused={routes[index].name === SOCIETY_DASHBOARD}
-                label={SOCIETY_DASHBOARD}
-                onPress={() => {
-                  props.navigation.navigate(SOCIETY_DASHBOARD);
-                }}
-              />
+              <>
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <Icon name="home-outline" color={color} size={size} />
+                  )}
+                  focused={routes[index].name === SOCIETY_DASHBOARD}
+                  label={SOCIETY_DASHBOARD}
+                  onPress={() => {
+                    props.navigation.navigate(SOCIETY_DASHBOARD);
+                  }}
+                />
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <FontistoIcon name="persons" color={color} size={size} />
+                  )}
+                  focused={routes[index].name === SOCIETY_MEMBERS}
+                  label={SOCIETY_MEMBERS}
+                  onPress={() => {
+                    props.navigation.navigate(SOCIETY_MEMBERS);
+                  }}
+                />
+              </>
             )}
           </Drawer.Section>
         </View>
