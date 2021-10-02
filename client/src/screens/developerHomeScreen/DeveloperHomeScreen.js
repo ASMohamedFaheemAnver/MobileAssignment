@@ -27,10 +27,12 @@ function DeveloperHomeScreen({
   return (
     <SafeAreaView style={globalStyles.container}>
       <Text style={styles.societyListTitle}>Registered Society List</Text>
-      {!(societies && societies.length > 0) || isLoading ? (
+      {isLoading ? (
         <View style={globalStyles.center}>
           <Progress.Circle size={50} indeterminate={true} />
         </View>
+      ) : societies.length ? (
+        <Text style={globalStyles.red}>Currently no society to show!</Text>
       ) : (
         <FlatList
           showsVerticalScrollIndicator={false}
