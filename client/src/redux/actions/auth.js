@@ -20,6 +20,8 @@ import {
   USER_META_NOT_FOUND,
 } from './types';
 
+let logOutTrigger;
+
 export const login =
   ({email, password, userCategory}) =>
   async dispatch => {
@@ -220,7 +222,7 @@ export const loadUserMetaData = () => async dispatch => {
     // console.log(expiresIn - new Date());
     if (token && expiresIn && userCategory) {
       const logOutIn = expiresIn - new Date();
-      setTimeout(
+      logOutTrigger = setTimeout(
         () => {
           dispatch(logOut());
         },
@@ -240,6 +242,7 @@ export const loadUserMetaData = () => async dispatch => {
 };
 
 export const logOut = () => async dispatch => {
+  clearTimeout(logOutTrigger);
   dispatch({type: USER_LOGGED_OUT});
   await AsyncStorage.clear();
 };

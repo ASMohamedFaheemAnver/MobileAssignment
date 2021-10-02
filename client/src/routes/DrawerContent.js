@@ -5,7 +5,13 @@ import {View} from 'react-native';
 import {Avatar, Caption, Drawer, Title} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {connect} from 'react-redux';
-import {DEVELOPER_DASHBOARD, LOG_OUT_LABEL} from '../constants/strings';
+import {
+  DEVELOPER_CATEGORY,
+  DEVELOPER_DASHBOARD,
+  LOG_OUT_LABEL,
+  SOCIETY_CATEGORY,
+  SOCIETY_DASHBOARD,
+} from '../constants/strings';
 import {logOut} from '../redux/actions/auth';
 import styles from './styles';
 
@@ -33,16 +39,30 @@ function DrawerContent(props) {
             </View>
           </View>
           <Drawer.Section style={styles.drawerSection}>
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="home-outline" color={color} size={size} />
-              )}
-              focused={routes[index].name === DEVELOPER_DASHBOARD}
-              label={DEVELOPER_DASHBOARD}
-              onPress={() => {
-                props.navigation.navigate(DEVELOPER_DASHBOARD);
-              }}
-            />
+            {props.userCategory == DEVELOPER_CATEGORY && (
+              <DrawerItem
+                icon={({color, size}) => (
+                  <Icon name="home-outline" color={color} size={size} />
+                )}
+                focused={routes[index].name === DEVELOPER_DASHBOARD}
+                label={DEVELOPER_DASHBOARD}
+                onPress={() => {
+                  props.navigation.navigate(DEVELOPER_DASHBOARD);
+                }}
+              />
+            )}
+            {props.userCategory == SOCIETY_CATEGORY && (
+              <DrawerItem
+                icon={({color, size}) => (
+                  <Icon name="home-outline" color={color} size={size} />
+                )}
+                focused={routes[index].name === SOCIETY_DASHBOARD}
+                label={SOCIETY_DASHBOARD}
+                onPress={() => {
+                  props.navigation.navigate(SOCIETY_DASHBOARD);
+                }}
+              />
+            )}
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
@@ -65,6 +85,8 @@ DrawerContent.propTypes = {
   logOut: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  userCategory: state.auth.userCategory,
+});
 
 export default connect(mapStateToProps, {logOut})(DrawerContent);
