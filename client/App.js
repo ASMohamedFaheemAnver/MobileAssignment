@@ -13,6 +13,7 @@ import {
   ADD_OTHER_EXPENSE_ROUTE_NAME,
   ADD_REFINMENT_ROUTE_NAME,
   DASHBOARD,
+  EMPTY_TEXT,
   LOGIN_SCREEN_ROUTE_NAME,
   REGISTRATION_SCREEN_ROUTE_NAME,
   SELECT_SOCIETY_SCREEN_ROUTE_NAME,
@@ -52,7 +53,7 @@ function App() {
               />
               <Stack.Screen
                 name={REGISTRATION_SCREEN_ROUTE_NAME}
-                options={{headerShown: false}}
+                options={{title: EMPTY_TEXT}}
                 component={RegistrationScreen}
               />
               <Stack.Screen
@@ -62,32 +63,32 @@ function App() {
               />
               <Stack.Screen
                 name={SELECT_SOCIETY_SCREEN_ROUTE_NAME}
-                options={{headerShown: false}}
+                options={{title: EMPTY_TEXT}}
                 component={SocietySelectionScreen}
               />
               <Stack.Screen
                 name={ADD_REFINMENT_ROUTE_NAME}
-                options={{headerShown: false}}
+                options={{title: EMPTY_TEXT}}
                 component={AddRefinmentScreen}
               />
               <Stack.Screen
                 name={ADD_DONATION_ROUTE_NAME}
-                options={{headerShown: false}}
+                options={{title: EMPTY_TEXT}}
                 component={AddDonationScreen}
               />
               <Stack.Screen
                 name={ADD_OTHER_EXPENSE_ROUTE_NAME}
-                options={{headerShown: false}}
+                options={{title: EMPTY_TEXT}}
                 component={AddOtherExpenseScreen}
               />
               <Stack.Screen
                 name={ADD_MONTHLY_FEE_ROUTE_NAME}
-                options={{headerShown: false}}
+                options={{title: EMPTY_TEXT}}
                 component={AddMonthlyFeeScreen}
               />
               <Stack.Screen
                 name={ADD_EXTRA_FEE_ROUTE_NAME}
-                options={{headerShown: false}}
+                options={{title: EMPTY_TEXT}}
                 component={AddExtraFeeScreen}
               />
             </Stack.Navigator>

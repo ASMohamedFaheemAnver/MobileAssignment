@@ -55,7 +55,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     padding: 10,
     justifyContent: 'space-between',
-    borderBottomColor: 'black',
+    borderBottomColor: 'gray',
     borderBottomWidth: 1,
   },
 });
