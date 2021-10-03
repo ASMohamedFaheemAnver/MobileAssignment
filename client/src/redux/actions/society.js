@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client';
 import apolloClient from '../../utils/apollo-client';
 import {
-  DEVELOPER_API_CALL_TRIGGERED,
   RESET_DONATION_STATE,
+  RESET_OTHER_EXPENSE_STATE,
   RESET_REFINEMENT_STATE,
   SET_ALERT,
   SOCIETY_API_CALL_FAILED,
@@ -12,6 +12,7 @@ import {
   SOCIETY_LOG_LOADED,
   SOCIETY_MEMBERS_LOADED,
   SOCIETY_MEMBERS_UPDATED,
+  SOCIETY_OTHER_EXPENSE_ADDED,
   SOCIETY_REFINMENT_FEE_ADDED,
 } from './types';
 export const getSocietyLogs = _ => async dispatch => {
@@ -252,7 +253,7 @@ export const resetRefinementState = () => async dispatch => {
 export const addReceivedDonationBySociety =
   (donation, description) => async dispatch => {
     dispatch({
-      type: DEVELOPER_API_CALL_TRIGGERED,
+      type: SOCIETY_API_CALL_TRIGGERED,
     });
     const mutation = gql`
       mutation addReceivedDonationBySociety(
@@ -296,5 +297,52 @@ export const addReceivedDonationBySociety =
 export const resetDonationState = () => async dispatch => {
   dispatch({
     type: RESET_DONATION_STATE,
+  });
+};
+
+export const addOtherSocietyExpense =
+  (expense, description) => async dispatch => {
+    dispatch({
+      type: SOCIETY_API_CALL_TRIGGERED,
+    });
+    const mutation = gql`
+      mutation addOtherSocietyExpense($expense: Int!, $description: String!) {
+        addOtherSocietyExpense(
+          expenseInput: {expense: $expense, description: $description}
+        ) {
+          _id
+          kind
+          fee {
+            _id
+            amount
+            date
+            description
+          }
+        }
+      }
+    `;
+    try {
+      const res = await apolloClient.mutate({
+        mutation: mutation,
+        variables: {
+          expense: parseInt(expense),
+          description,
+        },
+      });
+
+      dispatch({
+        type: SOCIETY_OTHER_EXPENSE_ADDED,
+        payload: res.data?.addOtherSocietyExpense,
+      });
+    } catch (e) {
+      // console.log(e);
+      // dispatch({type: DEVELOPER_API_CALL_FAILED});
+      dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+    }
+  };
+
+export const resetOtherExpenseState = () => async dispatch => {
+  dispatch({
+    type: RESET_OTHER_EXPENSE_STATE,
   });
 };

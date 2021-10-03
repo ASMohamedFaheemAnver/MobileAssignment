@@ -1,5 +1,6 @@
 import {
   RESET_DONATION_STATE,
+  RESET_OTHER_EXPENSE_STATE,
   RESET_REFINEMENT_STATE,
   SOCIETY_API_CALL_TRIGGERED,
   SOCIETY_DONATION_ADDED,
@@ -7,6 +8,7 @@ import {
   SOCIETY_LOG_LOADED,
   SOCIETY_MEMBERS_LOADED,
   SOCIETY_MEMBERS_UPDATED,
+  SOCIETY_OTHER_EXPENSE_ADDED,
   SOCIETY_REFINMENT_FEE_ADDED,
 } from '../actions/types';
 
@@ -20,6 +22,7 @@ const initialState = {
   societyMembers: [],
   isRefinementDone: false,
   isDonationDone: false,
+  isOtherExpenseDone: false,
 };
 export default function (state = initialState, action) {
   const {type, payload} = action;
@@ -65,6 +68,18 @@ export default function (state = initialState, action) {
           logs_count: state.societyLogs.logs_count + 1,
         },
       };
+    case SOCIETY_OTHER_EXPENSE_ADDED:
+      return {
+        ...state,
+        isLoading: false,
+        isOtherExpenseDone: true,
+        societyLogs: {
+          logs: [payload, ...state.societyLogs.logs],
+          logs_count: state.societyLogs.logs_count + 1,
+        },
+      };
+    case RESET_OTHER_EXPENSE_STATE:
+      return {...state, isOtherExpenseDone: false};
     case RESET_REFINEMENT_STATE:
       return {...state, isRefinementDone: false};
     case RESET_DONATION_STATE:
