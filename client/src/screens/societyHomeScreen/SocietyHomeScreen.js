@@ -4,6 +4,7 @@ import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
+import {ADD_REFINMENT_ROUTE_NAME} from '../../constants/strings';
 import {getSocietyLogs} from '../../redux/actions/society';
 import {globalStyles} from '../styles';
 import styles from './styles';
@@ -12,18 +13,23 @@ function SocietyHomeScreen({
   isLoading,
   getSocietyLogs,
   societyLogs: {logs, logs_count},
+  navigation,
 }) {
   useEffect(() => {
     getSocietyLogs();
   }, [getSocietyLogs]);
-  logs = [1, 2, 3];
+  // console.log(args);
   return (
     <SafeAreaView style={globalStyles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.actionContainer}>
           <Text style={styles.actionTitle}>Society Actions</Text>
           <View style={styles.actions}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate(ADD_REFINMENT_ROUTE_NAME);
+              }}>
               <Text style={globalStyles.blue}>Add refinment</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}>

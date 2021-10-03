@@ -7,6 +7,7 @@ import {ModalPortal} from 'react-native-modals';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import {
+  ADD_REFINMENT_ROUTE_NAME,
   DASHBOARD,
   LOGIN_SCREEN_ROUTE_NAME,
   REGISTRATION_SCREEN_ROUTE_NAME,
@@ -15,6 +16,7 @@ import {
 } from './src/constants/strings';
 import store from './src/redux/store';
 import DrawerRoutes from './src/routes/DrawerRoutes';
+import AddRefinmentScreen from './src/screens/addRefinmentScreen/AddRefinmentScreen';
 import LoginScreen from './src/screens/loginScreen/LoginScreen';
 import RegistrationScreen from './src/screens/registrationScreen/RegistrationScreen';
 import SocietySelectionScreen from './src/screens/societySelectionScreen/SocietySelectionScreen';
@@ -54,6 +56,11 @@ function App() {
                 name={SELECT_SOCIETY_SCREEN_ROUTE_NAME}
                 options={{headerShown: false}}
                 component={SocietySelectionScreen}
+              />
+              <Stack.Screen
+                name={ADD_REFINMENT_ROUTE_NAME}
+                options={{headerShown: false}}
+                component={AddRefinmentScreen}
               />
             </Stack.Navigator>
           </NavigationContainer>
