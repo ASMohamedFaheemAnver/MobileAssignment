@@ -90,7 +90,9 @@ function SocietyHomeScreen({
             logs.map(log => {
               return (
                 <TouchableOpacity style={styles.activity} key={log._id}>
-                  <Text style={styles.flexOne}>{'Date'}</Text>
+                  <Text style={styles.flexOne}>
+                    {new Date(log.fee.date).toLocaleDateString()}
+                  </Text>
                   <Text style={styles.flexTwo}>{log.fee.description}</Text>
                   <Text style={[styles.flexOne, styles.alignRight]}>
                     {`${log.fee.amount} LKR`}
