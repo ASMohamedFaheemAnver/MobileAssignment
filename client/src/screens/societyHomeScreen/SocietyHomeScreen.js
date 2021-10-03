@@ -4,7 +4,11 @@ import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
-import {ADD_REFINMENT_ROUTE_NAME} from '../../constants/strings';
+import {
+  ADD_DONATION_ROUTE_NAME,
+  ADD_OTHER_EXPENSE_ROUTE_NAME,
+  ADD_REFINMENT_ROUTE_NAME,
+} from '../../constants/strings';
 import {getSocietyLogs} from '../../redux/actions/society';
 import {globalStyles} from '../styles';
 import styles from './styles';
@@ -32,10 +36,18 @@ function SocietyHomeScreen({
               }}>
               <Text style={globalStyles.blue}>Add refinment</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate(ADD_DONATION_ROUTE_NAME);
+              }}>
               <Text style={globalStyles.blue}>Add donation</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate(ADD_OTHER_EXPENSE_ROUTE_NAME);
+              }}>
               <Text style={globalStyles.blue}>Add other expense</Text>
             </TouchableOpacity>
           </View>

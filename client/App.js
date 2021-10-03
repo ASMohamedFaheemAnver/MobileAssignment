@@ -7,6 +7,8 @@ import {ModalPortal} from 'react-native-modals';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import {
+  ADD_DONATION_ROUTE_NAME,
+  ADD_OTHER_EXPENSE_ROUTE_NAME,
   ADD_REFINMENT_ROUTE_NAME,
   DASHBOARD,
   LOGIN_SCREEN_ROUTE_NAME,
@@ -16,6 +18,8 @@ import {
 } from './src/constants/strings';
 import store from './src/redux/store';
 import DrawerRoutes from './src/routes/DrawerRoutes';
+import AddDonationScreen from './src/screens/addDonationScreen/AddDonationScreen';
+import AddOtherExpenseScreen from './src/screens/addOtherExpenseScreen/AddOtherExpenseScreen';
 import AddRefinmentScreen from './src/screens/addRefinmentScreen/AddRefinmentScreen';
 import LoginScreen from './src/screens/loginScreen/LoginScreen';
 import RegistrationScreen from './src/screens/registrationScreen/RegistrationScreen';
@@ -61,6 +65,16 @@ function App() {
                 name={ADD_REFINMENT_ROUTE_NAME}
                 options={{headerShown: false}}
                 component={AddRefinmentScreen}
+              />
+              <Stack.Screen
+                name={ADD_DONATION_ROUTE_NAME}
+                options={{headerShown: false}}
+                component={AddDonationScreen}
+              />
+              <Stack.Screen
+                name={ADD_OTHER_EXPENSE_ROUTE_NAME}
+                options={{headerShown: false}}
+                component={AddOtherExpenseScreen}
               />
             </Stack.Navigator>
           </NavigationContainer>
