@@ -54,6 +54,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
     alignItems: 'center',
+    marginBottom: 25,
   },
   flexOne: {
     flex: 1,
