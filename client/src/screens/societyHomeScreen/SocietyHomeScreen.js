@@ -19,30 +19,58 @@ function SocietyHomeScreen({
 
   return (
     <SafeAreaView style={globalStyles.container}>
-      <Text style={styles.societyListTitle}>Recent Activities</Text>
-      {isLoading ? (
-        <View style={globalStyles.center}>
-          <Progress.Circle size={50} indeterminate={true} />
+      <View style={styles.actionContainer}>
+        <Text style={styles.actionTitle}>Society Actions</Text>
+        <View style={styles.actions}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={globalStyles.blue}>Add refinment</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={globalStyles.blue}>Add donation</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={globalStyles.blue}>Add other expense</Text>
+          </TouchableOpacity>
         </View>
-      ) : logs.length == 0 ? (
-        <Text style={globalStyles.red}>Currently no acctivity to show!</Text>
-      ) : (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={logs}
-          renderItem={({item: societyLog}) => {
-            return (
-              <TouchableOpacity style={styles.activity}>
-                <Text style={styles.flexOne}>2020/Sep</Text>
-                <Text style={styles.flexTwo}>
-                  Description is a combination of word which describe the thing
-                </Text>
-                <Text style={styles.flexOne}>200 LKR</Text>
-              </TouchableOpacity>
-            );
-          }}
-        />
-      )}
+      </View>
+      <View style={styles.actionContainer}>
+        <Text style={styles.actionTitle}>Member Actions</Text>
+        <View style={styles.actions}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={globalStyles.blue}>Add monthly fee</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={globalStyles.blue}>Add extra fee</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={styles.activityCotainer}>
+        <Text style={styles.societyListTitle}>Recent Activities</Text>
+        {isLoading ? (
+          <View style={globalStyles.center}>
+            <Progress.Circle size={50} indeterminate={true} />
+          </View>
+        ) : logs.length == 0 ? (
+          <Text style={globalStyles.red}>Currently no acctivity to show!</Text>
+        ) : (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={logs}
+            renderItem={({item: societyLog}) => {
+              return (
+                <TouchableOpacity style={styles.activity}>
+                  <Text style={styles.flexOne}>2020/Sep</Text>
+                  <Text style={styles.flexTwo}>
+                    Description is a combination of word which describe the
+                    thing
+                  </Text>
+                  <Text style={styles.flexOne}>200 LKR</Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        )}
+      </View>
     </SafeAreaView>
   );
 }

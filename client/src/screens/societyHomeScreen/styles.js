@@ -3,7 +3,13 @@ import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
   societyListTitle: {
     color: '#8C9EA7',
-    textAlign: 'center',
+    // textAlign: 'center',
+    fontSize: 28,
+    marginBottom: 25,
+  },
+  actionTitle: {
+    color: '#8C9EA7',
+    // textAlign: 'center',
     fontSize: 28,
     marginBottom: 25,
   },
@@ -54,5 +60,24 @@ export default StyleSheet.create({
   },
   flexTwo: {
     flex: 2,
+  },
+  button: {
+    // width: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 5,
+    borderColor: 'blue',
+    borderWidth: 1,
+    marginLeft: 10,
+    marginBottom: 10,
+  },
+  actionContainer: {
+    marginBottom: 25,
+  },
+  actions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 });

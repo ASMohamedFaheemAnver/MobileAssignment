@@ -25,4 +25,7 @@ export const globalStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  blue: {
+    color: 'blue',
+  },
 });

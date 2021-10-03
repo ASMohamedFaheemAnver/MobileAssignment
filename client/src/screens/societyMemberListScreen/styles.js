@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
   userCategoryTitle: {
     color: '#8C9EA7',
-    textAlign: 'center',
+    // textAlign: 'center',
     fontSize: 28,
     marginBottom: 25,
   },
