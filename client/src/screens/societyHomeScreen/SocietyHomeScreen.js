@@ -6,6 +6,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
 import {
   ADD_DONATION_ROUTE_NAME,
+  ADD_EXTRA_FEE_ROUTE_NAME,
+  ADD_MONTHLY_FEE_ROUTE_NAME,
   ADD_OTHER_EXPENSE_ROUTE_NAME,
   ADD_REFINMENT_ROUTE_NAME,
 } from '../../constants/strings';
@@ -55,10 +57,18 @@ function SocietyHomeScreen({
         <View style={styles.actionContainer}>
           <Text style={styles.actionTitle}>Member Actions</Text>
           <View style={styles.actions}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate(ADD_MONTHLY_FEE_ROUTE_NAME);
+              }}>
               <Text style={globalStyles.blue}>Add monthly fee</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate(ADD_EXTRA_FEE_ROUTE_NAME);
+              }}>
               <Text style={globalStyles.blue}>Add extra fee</Text>
             </TouchableOpacity>
           </View>

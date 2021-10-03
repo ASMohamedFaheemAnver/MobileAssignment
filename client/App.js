@@ -8,6 +8,8 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import {
   ADD_DONATION_ROUTE_NAME,
+  ADD_EXTRA_FEE_ROUTE_NAME,
+  ADD_MONTHLY_FEE_ROUTE_NAME,
   ADD_OTHER_EXPENSE_ROUTE_NAME,
   ADD_REFINMENT_ROUTE_NAME,
   DASHBOARD,
@@ -19,6 +21,8 @@ import {
 import store from './src/redux/store';
 import DrawerRoutes from './src/routes/DrawerRoutes';
 import AddDonationScreen from './src/screens/addDonationScreen/AddDonationScreen';
+import AddExtraFeeScreen from './src/screens/addExtraFeeScreen/AddExtraFeeScreen';
+import AddMonthlyFeeScreen from './src/screens/addMonthlyFeeScreen/AddMonthlyFeeScreen';
 import AddOtherExpenseScreen from './src/screens/addOtherExpenseScreen/AddOtherExpenseScreen';
 import AddRefinmentScreen from './src/screens/addRefinmentScreen/AddRefinmentScreen';
 import LoginScreen from './src/screens/loginScreen/LoginScreen';
@@ -75,6 +79,16 @@ function App() {
                 name={ADD_OTHER_EXPENSE_ROUTE_NAME}
                 options={{headerShown: false}}
                 component={AddOtherExpenseScreen}
+              />
+              <Stack.Screen
+                name={ADD_MONTHLY_FEE_ROUTE_NAME}
+                options={{headerShown: false}}
+                component={AddMonthlyFeeScreen}
+              />
+              <Stack.Screen
+                name={ADD_EXTRA_FEE_ROUTE_NAME}
+                options={{headerShown: false}}
+                component={AddExtraFeeScreen}
               />
             </Stack.Navigator>
           </NavigationContainer>
