@@ -51,4 +51,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginTop: 15,
   },
+  assetInfo: {
+    flexDirection: 'row',
+    padding: 10,
+    justifyContent: 'space-between',
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+  },
 });

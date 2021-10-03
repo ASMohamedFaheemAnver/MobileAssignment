@@ -11,7 +11,7 @@ import {
   ADD_OTHER_EXPENSE_ROUTE_NAME,
   ADD_REFINMENT_ROUTE_NAME,
 } from '../../constants/strings';
-import {getSocietyLogs} from '../../redux/actions/society';
+import {getSociety, getSocietyLogs} from '../../redux/actions/society';
 import {globalStyles} from '../styles';
 import styles from './styles';
 
@@ -20,11 +20,13 @@ function SocietyHomeScreen({
   getSocietyLogs,
   societyLogs: {logs, logs_count},
   navigation,
+  getSociety,
+  society,
 }) {
   useEffect(() => {
     getSocietyLogs();
-  }, [getSocietyLogs]);
-  // console.log(args);
+    getSociety();
+  }, [getSocietyLogs, getSociety]);
   return (
     <SafeAreaView style={globalStyles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -105,13 +107,16 @@ function SocietyHomeScreen({
 
 SocietyHomeScreen.propTypes = {
   getSocietyLogs: PropTypes.func.isRequired,
+  getSociety: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   isLoading: state.society.isLoading,
   societyLogs: state.society.societyLogs,
+  society: state.society.society,
 });
 
 export default connect(mapStateToProps, {
   getSocietyLogs,
+  getSociety,
 })(SocietyHomeScreen);

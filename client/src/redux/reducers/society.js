@@ -1,5 +1,6 @@
 import {
   SOCIETY_API_CALL_TRIGGERED,
+  SOCIETY_LOADED,
   SOCIETY_LOG_LOADED,
   SOCIETY_MEMBERS_LOADED,
   SOCIETY_MEMBERS_UPDATED,
@@ -11,6 +12,7 @@ const initialState = {
     logs: [],
     logs_count: 0,
   },
+  society: null,
   societyMembers: [],
 };
 export default function (state = initialState, action) {
@@ -31,6 +33,12 @@ export default function (state = initialState, action) {
           }
           return member;
         }),
+      };
+    case SOCIETY_LOADED:
+      return {
+        ...state,
+        isLoading: false,
+        society: payload,
       };
     case SOCIETY_API_CALL_TRIGGERED:
       return {...state, isLoading: true};

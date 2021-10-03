@@ -15,7 +15,7 @@ type Society {
   _id: ID!
   name: String!
   email: String!
-  imageUrl: String!
+  imageUrl: String
   address: String!
   phoneNumber: String!
   approved: Boolean!

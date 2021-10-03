@@ -4,6 +4,7 @@ import {
   SET_ALERT,
   SOCIETY_API_CALL_FAILED,
   SOCIETY_API_CALL_TRIGGERED,
+  SOCIETY_LOADED,
   SOCIETY_LOG_LOADED,
   SOCIETY_MEMBERS_LOADED,
   SOCIETY_MEMBERS_UPDATED,
@@ -78,6 +79,40 @@ export const getAllMembers = _ => async dispatch => {
     });
   } catch (e) {
     console.log(e);
+    dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+  }
+};
+
+export const getSociety = _ => async dispatch => {
+  dispatch({
+    type: SOCIETY_API_CALL_TRIGGERED,
+  });
+  const query = gql`
+    query getSociety {
+      getSociety {
+        _id
+        name
+        email
+        imageUrl
+        address
+        phoneNumber
+        expected_income
+        current_income
+        number_of_members
+      }
+    }
+  `;
+  try {
+    const res = await apolloClient.query({
+      query: query,
+    });
+
+    dispatch({
+      type: SOCIETY_LOADED,
+      payload: res.data?.getSociety,
+    });
+  } catch (e) {
+    // console.log(e);
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
   }
 };

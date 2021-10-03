@@ -13,7 +13,6 @@ import {
 const initalState = {
   isAuthenticated: false,
   isLoading: true,
-  user: null,
   userCategory: null,
   basicSocieties: [],
   selectedSociety: null,
