@@ -31,7 +31,7 @@ function DeveloperHomeScreen({
         <View style={globalStyles.center}>
           <Progress.Circle size={50} indeterminate={true} />
         </View>
-      ) : societies.length ? (
+      ) : societies.length == 0 ? (
         <Text style={globalStyles.red}>Currently no society to show!</Text>
       ) : (
         <FlatList
