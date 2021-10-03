@@ -5,18 +5,18 @@ import {TextInput} from 'react-native-gesture-handler';
 import * as Progress from 'react-native-progress';
 import {connect} from 'react-redux';
 import {
-  addRefinementFeeForSociety,
-  resetRefinementState,
+  addReceivedDonationBySociety,
+  resetDonationState,
 } from '../../redux/actions/society';
 import {globalStyles} from '../styles';
 import styles from './styles';
 
 function AddDonationScreen({
   isLoading,
-  addRefinementFeeForSociety,
-  isRefinementDone,
+  addReceivedDonationBySociety,
+  isDonationDone,
   navigation,
-  resetRefinementState,
+  resetDonationState,
 }) {
   const [formData, setFormData] = useState({
     amount: '',
@@ -26,11 +26,11 @@ function AddDonationScreen({
     isFormValid: false,
   });
   useEffect(() => {
-    if (isRefinementDone) {
-      resetRefinementState();
+    if (isDonationDone) {
+      resetDonationState();
       navigation.pop();
     }
-  }, [isRefinementDone, resetRefinementState]);
+  }, [isDonationDone, resetDonationState]);
   return (
     <SafeAreaView style={globalStyles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -68,7 +68,7 @@ function AddDonationScreen({
           disabled={!formData.isFormValid || isLoading}
           style={formData.isFormValid ? styles.button : styles.disabledButton}
           onPress={() => {
-            addRefinementFeeForSociety(formData.amount, formData.description);
+            addReceivedDonationBySociety(formData.amount, formData.description);
           }}>
           {!isLoading ? (
             <Text style={styles.text}>Add</Text>
@@ -87,16 +87,16 @@ function AddDonationScreen({
 
 AddDonationScreen.propTypes = {
   isLoading: PropTypes.bool.isRequired,
-  addRefinementFeeForSociety: PropTypes.func.isRequired,
-  resetRefinementState: PropTypes.func.isRequired,
+  addReceivedDonationBySociety: PropTypes.func.isRequired,
+  resetDonationState: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   isLoading: state.society.isLoading,
-  isRefinementDone: state.society.isRefinementDone,
+  isDonationDone: state.society.isDonationDone,
 });
 
 export default connect(mapStateToProps, {
-  addRefinementFeeForSociety,
-  resetRefinementState,
+  addReceivedDonationBySociety,
+  resetDonationState,
 })(AddDonationScreen);
