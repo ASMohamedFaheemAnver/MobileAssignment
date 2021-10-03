@@ -1,9 +1,11 @@
 import {
+  RESET_REFINEMENT_STATE,
   SOCIETY_API_CALL_TRIGGERED,
   SOCIETY_LOADED,
   SOCIETY_LOG_LOADED,
   SOCIETY_MEMBERS_LOADED,
   SOCIETY_MEMBERS_UPDATED,
+  SOCIETY_REFINMENT_FEE_ADDED,
 } from '../actions/types';
 
 const initialState = {
@@ -14,10 +16,10 @@ const initialState = {
   },
   society: null,
   societyMembers: [],
+  isRefinementDone: false,
 };
 export default function (state = initialState, action) {
   const {type, payload} = action;
-  // console.log({type, payload});
   switch (type) {
     case SOCIETY_LOG_LOADED:
       return {...state, isLoading: false, societyLogs: payload};
@@ -40,6 +42,18 @@ export default function (state = initialState, action) {
         isLoading: false,
         society: payload,
       };
+    case SOCIETY_REFINMENT_FEE_ADDED:
+      return {
+        ...state,
+        isLoading: false,
+        isRefinementDone: true,
+        societyLogs: {
+          logs: [payload, ...state.societyLogs.logs],
+          logs_count: state.societyLogs.logs_count + 1,
+        },
+      };
+    case RESET_REFINEMENT_STATE:
+      return {...state, isRefinementDone: false};
     case SOCIETY_API_CALL_TRIGGERED:
       return {...state, isLoading: true};
     default:

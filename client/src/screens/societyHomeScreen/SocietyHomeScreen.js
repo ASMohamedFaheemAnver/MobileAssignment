@@ -27,6 +27,7 @@ function SocietyHomeScreen({
     getSocietyLogs();
     getSociety();
   }, [getSocietyLogs, getSociety]);
+
   return (
     <SafeAreaView style={globalStyles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -88,13 +89,12 @@ function SocietyHomeScreen({
           ) : (
             logs.map(log => {
               return (
-                <TouchableOpacity style={styles.activity} key={log.toString()}>
-                  <Text style={styles.flexOne}>2020/Sep</Text>
-                  <Text style={styles.flexTwo}>
-                    Description is a combination of word which describe the
-                    thing
+                <TouchableOpacity style={styles.activity} key={log._id}>
+                  <Text style={styles.flexOne}>{'Date'}</Text>
+                  <Text style={styles.flexTwo}>{log.fee.description}</Text>
+                  <Text style={[styles.flexOne, styles.alignRight]}>
+                    {`${log.fee.amount} LKR`}
                   </Text>
-                  <Text style={styles.flexOne}>200 LKR</Text>
                 </TouchableOpacity>
               );
             })

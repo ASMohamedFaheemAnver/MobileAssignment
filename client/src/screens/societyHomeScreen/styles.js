@@ -54,7 +54,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
     alignItems: 'center',
-    marginBottom: 25,
+    marginBottom: 5,
   },
   flexOne: {
     flex: 1,
@@ -80,5 +80,8 @@ export default StyleSheet.create({
   actions: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+  },
+  alignRight: {
+    textAlign: 'right',
   },
 });

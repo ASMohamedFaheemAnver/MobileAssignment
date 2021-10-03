@@ -1490,6 +1490,56 @@ const Mutation = {
     return log;
   },
 
+  addRefinementFeeForSociety: async (
+    parent,
+    { refinementFee, description },
+    { pubSub, request },
+    info
+  ) => {
+    console.log({ emitted: "addRefinementFeeForSociety" });
+
+    const userData = getUserData(request);
+
+    if (!userData) {
+      const error = new Error("not authenticated!");
+      error.code = 401;
+      throw error;
+    }
+
+    if (userData.category !== "society") {
+      const error = new Error("only society can edit payments!");
+      error.code = 401;
+      throw error;
+    }
+
+    const society = await Society.findById(userData.encryptedId);
+    if (!society) {
+      const error = new Error("society doesn't exist!");
+      error.code = 403;
+      throw error;
+    }
+
+    const refinementFeeObj = new RefinementFee({
+      amount: refinementFee,
+      description: description,
+      date: new Date(),
+      tracks: [],
+    });
+
+    await refinementFeeObj.save();
+
+    const log = new Log({ kind: "RefinementFee", item: refinementFeeObj });
+    await log.save();
+
+    society.logs.push(log);
+    society.current_income += refinementFee;
+    await society.save();
+
+    log.fee = log.item;
+
+    return log;
+  },
+
   addBankDepositForSociety: async (
     parent,
     { deposit_amount, description },

@@ -1,6 +1,7 @@
 import {gql} from '@apollo/client';
 import apolloClient from '../../utils/apollo-client';
 import {
+  RESET_REFINEMENT_STATE,
   SET_ALERT,
   SOCIETY_API_CALL_FAILED,
   SOCIETY_API_CALL_TRIGGERED,
@@ -8,6 +9,7 @@ import {
   SOCIETY_LOG_LOADED,
   SOCIETY_MEMBERS_LOADED,
   SOCIETY_MEMBERS_UPDATED,
+  SOCIETY_REFINMENT_FEE_ADDED,
 } from './types';
 export const getSocietyLogs = _ => async dispatch => {
   dispatch({
@@ -191,4 +193,56 @@ export const disApproveMember = memberId => async dispatch => {
     // dispatch({type: DEVELOPER_API_CALL_FAILED});
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
   }
+};
+
+export const addRefinementFeeForSociety =
+  (refinementFee, description) => async dispatch => {
+    // dispatch({
+    //   type: DEVELOPER_API_CALL_TRIGGERED,
+    // });
+    const mutation = gql`
+      mutation addRefinementFeeForSociety(
+        $refinementFee: Int!
+        $description: String!
+      ) {
+        addRefinementFeeForSociety(
+          refinementFee: $refinementFee
+          description: $description
+        ) {
+          _id
+          kind
+          fee {
+            _id
+            amount
+            date
+            description
+          }
+        }
+      }
+    `;
+    try {
+      console.log({refinementFee: parseInt(refinementFee)});
+      const res = await apolloClient.mutate({
+        mutation: mutation,
+        variables: {
+          refinementFee: parseInt(refinementFee),
+          description,
+        },
+      });
+
+      dispatch({
+        type: SOCIETY_REFINMENT_FEE_ADDED,
+        payload: res.data?.addRefinementFeeForSociety,
+      });
+    } catch (e) {
+      // console.log(e);
+      // dispatch({type: DEVELOPER_API_CALL_FAILED});
+      dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+    }
+  };
+
+export const resetRefinementState = () => async dispatch => {
+  dispatch({
+    type: RESET_REFINEMENT_STATE,
+  });
 };
