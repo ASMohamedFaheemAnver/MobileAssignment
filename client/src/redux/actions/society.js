@@ -6,6 +6,7 @@ import {
   SOCIETY_API_CALL_TRIGGERED,
   SOCIETY_LOG_LOADED,
   SOCIETY_MEMBERS_LOADED,
+  SOCIETY_MEMBERS_UPDATED,
 } from './types';
 export const getSocietyLogs = _ => async dispatch => {
   dispatch({
@@ -77,6 +78,82 @@ export const getAllMembers = _ => async dispatch => {
     });
   } catch (e) {
     console.log(e);
+    dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+  }
+};
+
+export const approveMember = memberId => async dispatch => {
+  // dispatch({
+  //   type: DEVELOPER_API_CALL_TRIGGERED,
+  // });
+  const mutation = gql`
+    mutation approveMember($memberId: String!) {
+      approveMember(memberId: $memberId) {
+        _id
+        name
+        email
+        imageUrl
+        address
+        arrears
+        approved
+        donations
+        phoneNumber
+      }
+    }
+  `;
+  try {
+    const res = await apolloClient.mutate({
+      mutation: mutation,
+      variables: {
+        memberId,
+      },
+    });
+
+    dispatch({
+      type: SOCIETY_MEMBERS_UPDATED,
+      payload: res.data?.approveMember,
+    });
+  } catch (e) {
+    // console.log(e);
+    // dispatch({type: DEVELOPER_API_CALL_FAILED});
+    dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+  }
+};
+
+export const disApproveMember = memberId => async dispatch => {
+  // dispatch({
+  //   type: DEVELOPER_API_CALL_TRIGGERED,
+  // });
+  const mutation = gql`
+    mutation removeSocietyMember($member_id: ID!) {
+      removeSocietyMember(member_id: $member_id) {
+        _id
+        name
+        email
+        imageUrl
+        address
+        arrears
+        approved
+        donations
+        phoneNumber
+      }
+    }
+  `;
+  try {
+    const res = await apolloClient.mutate({
+      mutation: mutation,
+      variables: {
+        member_id: memberId,
+      },
+    });
+
+    dispatch({
+      type: SOCIETY_MEMBERS_UPDATED,
+      payload: res.data?.removeSocietyMember,
+    });
+  } catch (e) {
+    // console.log(e);
+    // dispatch({type: DEVELOPER_API_CALL_FAILED});
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
   }
 };

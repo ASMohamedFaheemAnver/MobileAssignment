@@ -1048,7 +1048,7 @@ const Mutation = {
       listenSocietyMembers: { member: member, type: "POST" },
     });
 
-    return { message: "approved successfly!" };
+    return member;
   },
 
   editFeeForEveryone: async (
@@ -1994,25 +1994,26 @@ const Mutation = {
       throw error;
     }
 
-    const memberUpdateResult = await Member.updateOne(
+    const memberUpdateResult = await Member.findOneAndUpdate(
       { _id: member_id, society: userData.encryptedId },
-      { $set: { is_removed: true } }
+      { $set: { approved: false } },
+      { new: true }
     );
 
-    const societyUpdateResult = await Society.updateOne(
-      { _id: userData.encryptedId },
-      {
-        $pull: { members: member_id },
-        $push: { removed_members: member_id },
-        $inc: { number_of_members: -1 },
-      }
-    );
+    // const societyUpdateResult = await Society.updateOne(
+    //   { _id: userData.encryptedId },
+    //   {
+    //     $pull: { members: member_id },
+    //     $push: { removed_members: member_id },
+    //     $inc: { number_of_members: -1 },
+    //   }
+    // );
 
     pubSub.publish(`member:members|society(${userData.encryptedId})`, {
       listenSocietyMembers: { member: member, type: "DELETE" },
     });
 
-    return { message: "member removed successfly!" };
+    return memberUpdateResult;
   },
 
   deleteSocietyMember: async (

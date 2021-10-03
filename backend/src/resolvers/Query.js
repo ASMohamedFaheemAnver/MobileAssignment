@@ -247,7 +247,7 @@ const Query = {
       throw error;
     }
     const society = await Society.findById(userData.encryptedId).populate([
-      { path: "members", match: { is_removed: false } },
+      { path: "members" },
     ]);
 
     if (!society) {

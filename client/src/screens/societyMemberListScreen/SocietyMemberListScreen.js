@@ -4,14 +4,19 @@ import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
 import defaultAvatar from '../../../assets/default-avatar.jpg';
-import {getAllMembers} from '../../redux/actions/society';
+import {
+  approveMember,
+  disApproveMember,
+  getAllMembers,
+} from '../../redux/actions/society';
 import {globalStyles} from '../styles';
 import styles from './styles';
 
 function SocietyMemberListScreen({
   getAllMembers,
+  approveMember,
+  disApproveMember,
   societyMembers,
-
   navigation,
 }) {
   useEffect(() => {
@@ -44,7 +49,7 @@ function SocietyMemberListScreen({
                 {!member?.approved && (
                   <TouchableOpacity
                     onPress={() => {
-                      // approveSociety(member._id);
+                      approveMember(member._id);
                     }}>
                     <Text style={globalStyles.green}>Approve</Text>
                   </TouchableOpacity>
@@ -52,7 +57,7 @@ function SocietyMemberListScreen({
                 {member?.approved && (
                   <TouchableOpacity
                     onPress={() => {
-                      // disApproveSociety(member._id);
+                      disApproveMember(member._id);
                     }}>
                     <Text style={globalStyles.red}>Disaprove</Text>
                   </TouchableOpacity>
@@ -69,6 +74,8 @@ function SocietyMemberListScreen({
 
 SocietyMemberListScreen.propTypes = {
   getAllMembers: PropTypes.func.isRequired,
+  approveMember: PropTypes.func.isRequired,
+  disApproveMember: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -77,4 +84,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   getAllMembers,
+  approveMember,
+  disApproveMember,
 })(SocietyMemberListScreen);

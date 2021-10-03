@@ -194,11 +194,11 @@ type Mutation {
   addDonationForOneMember(donationInput: DonationInputData!): SocietyLog!
   makeFeePaidForOneMember(track_id: ID!, log_id: ID!): Message!
   makeFeeUnPaidForOneMember(track_id: ID!, log_id: ID!): Message!
-  approveMember(memberId: String!): Message!
+  approveMember(memberId: String!): Member!
   editFeeForEveryone(log_id: ID!, fee: Int!, description: String!): SocietyLog!
   deleteFeeLog(log_id: ID!): Message!
   deleteSocietyMember(member_id: ID!): Message!
-  removeSocietyMember(member_id: ID!): Message!
+  removeSocietyMember(member_id: ID!): Member!
   updateSocietyProfile(societyProfileInput: SocietyProfileInputData!): Message!
   updateMemberProfile(memberProfileInput: MemberProfileInputData!): Message!
   addReceivedDonationBySociety(
