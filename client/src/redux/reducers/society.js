@@ -1,6 +1,8 @@
 import {
+  RESET_DONATION_STATE,
   RESET_REFINEMENT_STATE,
   SOCIETY_API_CALL_TRIGGERED,
+  SOCIETY_DONATION_ADDED,
   SOCIETY_LOADED,
   SOCIETY_LOG_LOADED,
   SOCIETY_MEMBERS_LOADED,
@@ -17,6 +19,7 @@ const initialState = {
   society: null,
   societyMembers: [],
   isRefinementDone: false,
+  isDonationDone: false,
 };
 export default function (state = initialState, action) {
   const {type, payload} = action;
@@ -52,8 +55,20 @@ export default function (state = initialState, action) {
           logs_count: state.societyLogs.logs_count + 1,
         },
       };
+    case SOCIETY_DONATION_ADDED:
+      return {
+        ...state,
+        isLoading: false,
+        isDonationDone: true,
+        societyLogs: {
+          logs: [payload, ...state.societyLogs.logs],
+          logs_count: state.societyLogs.logs_count + 1,
+        },
+      };
     case RESET_REFINEMENT_STATE:
       return {...state, isRefinementDone: false};
+    case RESET_DONATION_STATE:
+      return {...state, isDonationDone: false};
     case SOCIETY_API_CALL_TRIGGERED:
       return {...state, isLoading: true};
     default:

@@ -1,10 +1,13 @@
 import {gql} from '@apollo/client';
 import apolloClient from '../../utils/apollo-client';
 import {
+  DEVELOPER_API_CALL_TRIGGERED,
+  RESET_DONATION_STATE,
   RESET_REFINEMENT_STATE,
   SET_ALERT,
   SOCIETY_API_CALL_FAILED,
   SOCIETY_API_CALL_TRIGGERED,
+  SOCIETY_DONATION_ADDED,
   SOCIETY_LOADED,
   SOCIETY_LOG_LOADED,
   SOCIETY_MEMBERS_LOADED,
@@ -221,7 +224,6 @@ export const addRefinementFeeForSociety =
       }
     `;
     try {
-      console.log({refinementFee: parseInt(refinementFee)});
       const res = await apolloClient.mutate({
         mutation: mutation,
         variables: {
@@ -244,5 +246,55 @@ export const addRefinementFeeForSociety =
 export const resetRefinementState = () => async dispatch => {
   dispatch({
     type: RESET_REFINEMENT_STATE,
+  });
+};
+
+export const addReceivedDonationBySociety =
+  (donation, description) => async dispatch => {
+    dispatch({
+      type: DEVELOPER_API_CALL_TRIGGERED,
+    });
+    const mutation = gql`
+      mutation addReceivedDonationBySociety(
+        $donation: Int!
+        $description: String!
+      ) {
+        addReceivedDonationBySociety(
+          donationInput: {donation: $donation, description: $description}
+        ) {
+          _id
+          kind
+          fee {
+            _id
+            amount
+            date
+            description
+          }
+        }
+      }
+    `;
+    try {
+      const res = await apolloClient.mutate({
+        mutation: mutation,
+        variables: {
+          donation: parseInt(donation),
+          description,
+        },
+      });
+
+      dispatch({
+        type: SOCIETY_DONATION_ADDED,
+        payload: res.data?.addReceivedDonationBySociety,
+      });
+    } catch (e) {
+      // console.log(e);
+      // dispatch({type: DEVELOPER_API_CALL_FAILED});
+      dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+    }
+  };
+
+export const resetDonationState = () => async dispatch => {
+  dispatch({
+    type: RESET_DONATION_STATE,
   });
 };
