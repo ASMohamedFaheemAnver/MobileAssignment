@@ -5,6 +5,7 @@ import {
   SOCIETY_API_CALL_FAILED,
   SOCIETY_API_CALL_TRIGGERED,
   SOCIETY_LOG_LOADED,
+  SOCIETY_MEMBERS_LOADED,
 } from './types';
 export const getSocietyLogs = _ => async dispatch => {
   dispatch({
@@ -43,6 +44,39 @@ export const getSocietyLogs = _ => async dispatch => {
   } catch (e) {
     // console.log(e);
     dispatch({type: SOCIETY_API_CALL_FAILED});
+    dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+  }
+};
+export const getAllMembers = _ => async dispatch => {
+  dispatch({
+    type: SOCIETY_API_CALL_TRIGGERED,
+  });
+  const query = gql`
+    query getAllMembers {
+      getAllMembers {
+        _id
+        name
+        email
+        imageUrl
+        address
+        arrears
+        approved
+        donations
+        phoneNumber
+      }
+    }
+  `;
+  try {
+    const res = await apolloClient.query({
+      query: query,
+    });
+
+    dispatch({
+      type: SOCIETY_MEMBERS_LOADED,
+      payload: res.data?.getAllMembers,
+    });
+  } catch (e) {
+    console.log(e);
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
   }
 };

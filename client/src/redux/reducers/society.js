@@ -1,4 +1,8 @@
-import {SOCIETY_API_CALL_TRIGGERED, SOCIETY_LOG_LOADED} from '../actions/types';
+import {
+  SOCIETY_API_CALL_TRIGGERED,
+  SOCIETY_LOG_LOADED,
+  SOCIETY_MEMBERS_LOADED,
+} from '../actions/types';
 
 const initialState = {
   isLoading: false,
@@ -6,6 +10,7 @@ const initialState = {
     logs: [],
     logs_count: 0,
   },
+  societyMembers: [],
 };
 export default function (state = initialState, action) {
   const {type, payload} = action;
@@ -13,6 +18,8 @@ export default function (state = initialState, action) {
   switch (type) {
     case SOCIETY_LOG_LOADED:
       return {...state, isLoading: false, societyLogs: payload};
+    case SOCIETY_MEMBERS_LOADED:
+      return {...state, isLoading: false, societyMembers: payload};
     case SOCIETY_API_CALL_TRIGGERED:
       return {...state, isLoading: true};
     default:

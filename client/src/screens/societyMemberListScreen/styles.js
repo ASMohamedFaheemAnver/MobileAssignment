@@ -18,4 +18,19 @@ export default StyleSheet.create({
   societyName: {
     fontSize: 16,
   },
+  profileImage: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+  },
+  section: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 25,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '700',
+  },
 });

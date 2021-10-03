@@ -12,7 +12,7 @@ import styles from './styles';
 
 function SocietySelectionScreen({
   getBasicSocietyDetailes,
-  basicSociety,
+  basicSocieties,
   setSelectedSociety,
   navigation,
 }) {
@@ -25,7 +25,7 @@ function SocietySelectionScreen({
       <Text style={styles.userCategoryTitle}>Choose Where You Belong!</Text>
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={basicSociety}
+        data={basicSocieties}
         renderItem={({item}) => {
           return (
             <TouchableOpacity
@@ -50,7 +50,7 @@ SocietySelectionScreen.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  basicSociety: state.auth.basicSociety,
+  basicSocieties: state.auth.basicSocieties,
 });
 
 export default connect(mapStateToProps, {

@@ -1,41 +1,64 @@
 import PropTypes from 'prop-types';
 import React, {useEffect} from 'react';
-import {FlatList, Text, TouchableOpacity} from 'react-native';
+import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
-import {
-  getBasicSocietyDetailes,
-  setSelectedSociety,
-} from '../../redux/actions/auth';
+import defaultAvatar from '../../../assets/default-avatar.jpg';
+import {getAllMembers} from '../../redux/actions/society';
 import {globalStyles} from '../styles';
 import styles from './styles';
 
 function SocietyMemberListScreen({
-  getBasicSocietyDetailes,
-  basicSociety,
-  setSelectedSociety,
+  getAllMembers,
+  societyMembers,
+
   navigation,
 }) {
   useEffect(() => {
-    getBasicSocietyDetailes();
-  }, [getBasicSocietyDetailes]);
+    getAllMembers();
+  }, [getAllMembers]);
   return (
     <SafeAreaView style={globalStyles.container}>
       {/* <ScrollView showsVerticalScrollIndicator={false}> */}
-      <Text style={styles.userCategoryTitle}>Choose Where You Belong!</Text>
+      <Text style={styles.userCategoryTitle}>Society Members!</Text>
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={basicSociety}
-        renderItem={({item}) => {
+        data={societyMembers}
+        renderItem={({item: member}) => {
           return (
-            <TouchableOpacity
-              onPress={() => {
-                setSelectedSociety(item);
-                navigation.pop();
-              }}
-              style={styles.cardContainer}>
-              <Text style={styles.societyName}>{item?.name}</Text>
-            </TouchableOpacity>
+            <View style={styles.cardContainer}>
+              <Image style={styles.profileImage} source={defaultAvatar} />
+              <View style={styles.section}>
+                <Text style={styles.title}>Name</Text>
+                <Text style={styles.societyName}>{member?.name}</Text>
+              </View>
+              <View style={styles.section}>
+                <Text style={styles.title}>Email</Text>
+                <Text style={styles.societyName}>{member?.email}</Text>
+              </View>
+              <View style={styles.section}>
+                <Text style={styles.title}>Phone Number</Text>
+                <Text style={styles.societyName}>{member?.phoneNumber}</Text>
+              </View>
+              <View style={styles.actions}>
+                {!member?.approved && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      // approveSociety(member._id);
+                    }}>
+                    <Text style={globalStyles.green}>Approve</Text>
+                  </TouchableOpacity>
+                )}
+                {member?.approved && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      // disApproveSociety(member._id);
+                    }}>
+                    <Text style={globalStyles.red}>Disaprove</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            </View>
           );
         }}
       />
@@ -45,15 +68,13 @@ function SocietyMemberListScreen({
 }
 
 SocietyMemberListScreen.propTypes = {
-  getBasicSocietyDetailes: PropTypes.func.isRequired,
-  setSelectedSociety: PropTypes.func.isRequired,
+  getAllMembers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  basicSociety: state.auth.basicSociety,
+  societyMembers: state.society.societyMembers,
 });
 
 export default connect(mapStateToProps, {
-  getBasicSocietyDetailes,
-  setSelectedSociety,
+  getAllMembers,
 })(SocietyMemberListScreen);

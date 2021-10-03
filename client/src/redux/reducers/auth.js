@@ -15,7 +15,7 @@ const initalState = {
   isLoading: true,
   user: null,
   userCategory: null,
-  basicSociety: [],
+  basicSocieties: [],
   selectedSociety: null,
   isRegistered: false,
 };
@@ -38,7 +38,7 @@ export default function (state = initalState, action) {
     case REGISTER_FAIL:
       return {...state, isLoading: false};
     case BASIC_SOCIETY_INFO_LOADED:
-      return {...state, isLoading: false, basicSociety: [...payload]};
+      return {...state, isLoading: false, basicSocieties: [...payload]};
     case SOCIETY_SELECTED:
       return {...state, isLoading: false, selectedSociety: {...payload}};
     default:
