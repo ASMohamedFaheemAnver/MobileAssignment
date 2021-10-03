@@ -2,6 +2,7 @@ import {gql} from '@apollo/client';
 import apolloClient from '../../utils/apollo-client';
 import {
   RESET_DONATION_STATE,
+  RESET_EXTRA_FEE_STATE,
   RESET_MONTHLY_FEE_STATE,
   RESET_OTHER_EXPENSE_STATE,
   RESET_REFINEMENT_STATE,
@@ -9,6 +10,7 @@ import {
   SOCIETY_API_CALL_FAILED,
   SOCIETY_API_CALL_TRIGGERED,
   SOCIETY_DONATION_ADDED,
+  SOCIETY_EXTRA_FEE_ADDED,
   SOCIETY_LOADED,
   SOCIETY_LOG_LOADED,
   SOCIETY_MEMBERS_LOADED,
@@ -397,5 +399,50 @@ export const addMonthlyFeeToEveryone =
 export const resetMonthlyFeeState = () => async dispatch => {
   dispatch({
     type: RESET_MONTHLY_FEE_STATE,
+  });
+};
+
+export const addExtraFeeToEveryone =
+  (extraFee, description) => async dispatch => {
+    dispatch({
+      type: SOCIETY_API_CALL_TRIGGERED,
+    });
+    const mutation = gql`
+      mutation addExtraFeeToEveryone($extraFee: Int!, $description: String!) {
+        addExtraFeeToEveryone(extraFee: $extraFee, description: $description) {
+          _id
+          kind
+          fee {
+            _id
+            amount
+            date
+            description
+          }
+        }
+      }
+    `;
+    try {
+      const res = await apolloClient.mutate({
+        mutation: mutation,
+        variables: {
+          extraFee: parseInt(extraFee),
+          description,
+        },
+      });
+
+      dispatch({
+        type: SOCIETY_EXTRA_FEE_ADDED,
+        payload: res.data?.addExtraFeeToEveryone,
+      });
+    } catch (e) {
+      // console.log(e);
+      // dispatch({type: DEVELOPER_API_CALL_FAILED});
+      dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+    }
+  };
+
+export const resetExtraFeeState = () => async dispatch => {
+  dispatch({
+    type: RESET_EXTRA_FEE_STATE,
   });
 };

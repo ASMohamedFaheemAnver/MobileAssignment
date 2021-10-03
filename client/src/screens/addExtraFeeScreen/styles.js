@@ -29,4 +29,12 @@ export default StyleSheet.create({
   text: {
     color: 'white',
   },
+  disabledButton: {
+    padding: 15,
+    backgroundColor: '#546E7A',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 25,
+    opacity: 0.5,
+  },
 });

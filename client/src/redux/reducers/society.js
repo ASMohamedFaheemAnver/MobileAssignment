@@ -1,10 +1,12 @@
 import {
   RESET_DONATION_STATE,
+  RESET_EXTRA_FEE_STATE,
   RESET_MONTHLY_FEE_STATE,
   RESET_OTHER_EXPENSE_STATE,
   RESET_REFINEMENT_STATE,
   SOCIETY_API_CALL_TRIGGERED,
   SOCIETY_DONATION_ADDED,
+  SOCIETY_EXTRA_FEE_ADDED,
   SOCIETY_LOADED,
   SOCIETY_LOG_LOADED,
   SOCIETY_MEMBERS_LOADED,
@@ -25,6 +27,7 @@ const initialState = {
   isRefinementDone: false,
   isDonationDone: false,
   isOtherExpenseDone: false,
+  isExtraFeeDone: false,
   isMonthlyFeeDone: false,
 };
 export default function (state = initialState, action) {
@@ -81,6 +84,16 @@ export default function (state = initialState, action) {
           logs_count: state.societyLogs.logs_count + 1,
         },
       };
+    case SOCIETY_EXTRA_FEE_ADDED:
+      return {
+        ...state,
+        isLoading: false,
+        isExtraFeeDone: true,
+        societyLogs: {
+          logs: [payload, ...state.societyLogs.logs],
+          logs_count: state.societyLogs.logs_count + 1,
+        },
+      };
     case SOCIETY_MONTHLY_FEE_ADDED:
       return {
         ...state,
@@ -93,6 +106,8 @@ export default function (state = initialState, action) {
       };
     case RESET_MONTHLY_FEE_STATE:
       return {...state, isMonthlyFeeDone: false};
+    case RESET_EXTRA_FEE_STATE:
+      return {...state, isExtraFeeDone: false};
     case RESET_OTHER_EXPENSE_STATE:
       return {...state, isOtherExpenseDone: false};
     case RESET_REFINEMENT_STATE:
