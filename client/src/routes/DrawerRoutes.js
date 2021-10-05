@@ -5,11 +5,14 @@ import {connect} from 'react-redux';
 import {
   DEVELOPER_DASHBOARD,
   LOGIN_SCREEN_ROUTE_NAME,
+  MEMBER_CATEGORY,
+  MEMBER_DASHBOARD,
   SOCIETY_CATEGORY,
   SOCIETY_DASHBOARD,
   SOCIETY_MEMBERS,
 } from '../constants/strings';
 import DeveloperHomeScreen from '../screens/developerHomeScreen/DeveloperHomeScreen';
+import MemberHomeScreen from '../screens/memberHomeScreen/MemberHomeScreen';
 import SocietyHomeScreen from '../screens/societyHomeScreen/SocietyHomeScreen';
 import SocietyMemberListScreen from '../screens/societyMemberListScreen/SocietyMemberListScreen';
 import DrawerContent from './DrawerContent';
@@ -30,6 +33,8 @@ function DrawerRoutes({isAuthenticated, isLoading, userCategory, navigation}) {
     switch (userCategory) {
       case SOCIETY_CATEGORY:
         return SOCIETY_DASHBOARD;
+      case MEMBER_CATEGORY:
+        return MEMBER_DASHBOARD;
       default:
         return DEVELOPER_DASHBOARD;
     }
@@ -48,6 +53,7 @@ function DrawerRoutes({isAuthenticated, isLoading, userCategory, navigation}) {
         component={SocietyMemberListScreen}
       />
       <Drawer.Screen name={SOCIETY_DASHBOARD} component={SocietyHomeScreen} />
+      <Drawer.Screen name={MEMBER_DASHBOARD} component={MemberHomeScreen} />
     </Drawer.Navigator>
   );
 }

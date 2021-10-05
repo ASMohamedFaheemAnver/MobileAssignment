@@ -11,6 +11,7 @@ import {
   DEVELOPER_CATEGORY,
   DEVELOPER_DASHBOARD,
   LOG_OUT_LABEL,
+  MEMBER_CATEGORY,
   SOCIETY_CATEGORY,
   SOCIETY_DASHBOARD,
   SOCIETY_MEMBERS,
@@ -26,43 +27,70 @@ function DrawerContent(props) {
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
-          {props.society != null &&
-            (props.userCategory == SOCIETY_CATEGORY ? (
-              <View style={styles.userInfoSection}>
-                <View style={styles.infoContainer}>
-                  <Avatar.Image
-                    source={
-                      props.society?.imageUrl
-                        ? {
-                            uri: props.society.imageUrl,
-                          }
-                        : defaultAvatar
-                    }
-                    size={50}
-                  />
-                  <View style={styles.contectInfoContainer}>
-                    <Title style={styles.title}>{props.society.name}</Title>
-                    <Caption style={styles.caption} numberOfLines={1}>
-                      {props.society.email}
-                    </Caption>
-                  </View>
-                </View>
-                <View style={styles.assetInfo}>
-                  <Text>Current income :</Text>
-                  <Text
-                    style={
-                      globalStyles.green
-                    }>{`${props.society.current_income} LKR`}</Text>
-                </View>
-                <View style={styles.assetInfo}>
-                  <Text>Expected income :</Text>
-                  <Text
-                    style={
-                      globalStyles.green
-                    }>{`${props.society.expected_income} LKR`}</Text>
+          {props.userCategory == SOCIETY_CATEGORY ? (
+            <View style={styles.userInfoSection}>
+              <View style={styles.infoContainer}>
+                <Avatar.Image
+                  source={
+                    props.society?.imageUrl
+                      ? {
+                          uri: props.society.imageUrl,
+                        }
+                      : defaultAvatar
+                  }
+                  size={50}
+                />
+                <View style={styles.contectInfoContainer}>
+                  <Title style={styles.title}>{props.society.name}</Title>
+                  <Caption style={styles.caption} numberOfLines={1}>
+                    {props.society.email}
+                  </Caption>
                 </View>
               </View>
-            ) : null)}
+              <View style={styles.assetInfo}>
+                <Text>Current income :</Text>
+                <Text
+                  style={
+                    globalStyles.green
+                  }>{`${props.society.current_income} LKR`}</Text>
+              </View>
+              <View style={styles.assetInfo}>
+                <Text>Expected income :</Text>
+                <Text
+                  style={
+                    globalStyles.green
+                  }>{`${props.society.expected_income} LKR`}</Text>
+              </View>
+            </View>
+          ) : props.userCategory == MEMBER_CATEGORY ? (
+            <View style={styles.userInfoSection}>
+              <View style={styles.infoContainer}>
+                <Avatar.Image
+                  source={
+                    props.member?.imageUrl
+                      ? {
+                          uri: props.member.imageUrl,
+                        }
+                      : defaultAvatar
+                  }
+                  size={50}
+                />
+                <View style={styles.contectInfoContainer}>
+                  <Title style={styles.title}>{props.member.name}</Title>
+                  <Caption style={styles.caption} numberOfLines={1}>
+                    {props.member.email}
+                  </Caption>
+                </View>
+              </View>
+              <View style={styles.assetInfo}>
+                <Text>Arrears :</Text>
+                <Text
+                  style={
+                    globalStyles.green
+                  }>{`${props.member.arrears} LKR`}</Text>
+              </View>
+            </View>
+          ) : null}
           <Drawer.Section style={styles.drawerSection}>
             {props.userCategory == DEVELOPER_CATEGORY && (
               <DrawerItem
@@ -125,6 +153,7 @@ DrawerContent.propTypes = {
 const mapStateToProps = state => ({
   userCategory: state.auth.userCategory,
   society: state.society.society,
+  member: state.member.member,
 });
 
 export default connect(mapStateToProps, {logOut})(DrawerContent);

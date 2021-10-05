@@ -218,6 +218,7 @@ export const loadUserMetaData = () => async dispatch => {
     const userCategory = await AsyncStorage.getItem('userCategory');
 
     // console.log(expiresIn);
+    // console.log({userCategory});
     // console.log(new Date());
     // console.log(expiresIn - new Date());
     if (token && expiresIn && userCategory) {
