@@ -13,6 +13,7 @@ import {
   ADD_OTHER_EXPENSE_ROUTE_NAME,
   ADD_REFINMENT_ROUTE_NAME,
   DASHBOARD,
+  EDIT_TRACK_ROUTE_NAME,
   EMPTY_TEXT,
   LOGIN_SCREEN_ROUTE_NAME,
   REGISTRATION_SCREEN_ROUTE_NAME,
@@ -27,6 +28,7 @@ import AddMonthlyFeeScreen from './src/screens/addMonthlyFeeScreen/AddMonthlyFee
 import AddOtherExpenseScreen from './src/screens/addOtherExpenseScreen/AddOtherExpenseScreen';
 import AddRefinmentScreen from './src/screens/addRefinmentScreen/AddRefinmentScreen';
 import LoginScreen from './src/screens/loginScreen/LoginScreen';
+import MemberTrackListScreen from './src/screens/memberTrackListScreen/MemberTrackListScreen';
 import RegistrationScreen from './src/screens/registrationScreen/RegistrationScreen';
 import SocietySelectionScreen from './src/screens/societySelectionScreen/SocietySelectionScreen';
 import SplashScreen from './src/screens/splashScreen/SplashScreen';
@@ -75,6 +77,11 @@ function App() {
                 name={ADD_DONATION_ROUTE_NAME}
                 options={{title: EMPTY_TEXT}}
                 component={AddDonationScreen}
+              />
+              <Stack.Screen
+                name={EDIT_TRACK_ROUTE_NAME}
+                options={{title: EMPTY_TEXT}}
+                component={MemberTrackListScreen}
               />
               <Stack.Screen
                 name={ADD_OTHER_EXPENSE_ROUTE_NAME}

@@ -14,6 +14,7 @@ import {
   SOCIETY_MONTHLY_FEE_ADDED,
   SOCIETY_OTHER_EXPENSE_ADDED,
   SOCIETY_REFINMENT_FEE_ADDED,
+  SOCIETY_TRACK_UPDATED,
 } from '../actions/types';
 
 const initialState = {
@@ -104,6 +105,35 @@ export default function (state = initialState, action) {
           logs_count: state.societyLogs.logs_count + 1,
         },
       };
+    case SOCIETY_TRACK_UPDATED: {
+      return {
+        ...state,
+        isLoading: false,
+        societyLogs: {
+          ...state.societyLogs,
+          logs: state.societyLogs.logs.map(log => {
+            if (log._id == payload.log_id) {
+              return {
+                ...log,
+                fee: {
+                  ...log.fee,
+                  tracks: log.fee.tracks.map(track => {
+                    if (track._id == payload.track_id) {
+                      return {
+                        ...track,
+                        is_paid: payload.is_paid,
+                      };
+                    }
+                    return track;
+                  }),
+                },
+              };
+            }
+            return log;
+          }),
+        },
+      };
+    }
     case RESET_MONTHLY_FEE_STATE:
       return {...state, isMonthlyFeeDone: false};
     case RESET_EXTRA_FEE_STATE:

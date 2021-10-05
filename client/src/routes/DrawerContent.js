@@ -56,13 +56,13 @@ function DrawerContent(props) {
                     globalStyles.green
                   }>{`${props.society?.current_income} LKR`}</Text>
               </View>
-              <View style={styles.assetInfo}>
+              {/* <View style={styles.assetInfo}>
                 <Text>Expected income :</Text>
                 <Text
                   style={
                     globalStyles.green
                   }>{`${props.society?.expected_income} LKR`}</Text>
-              </View>
+              </View> */}
             </View>
           ) : props.userCategory == MEMBER_CATEGORY ? (
             <View style={styles.userInfoSection}>

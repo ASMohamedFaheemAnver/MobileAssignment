@@ -18,6 +18,7 @@ import {
   SOCIETY_MONTHLY_FEE_ADDED,
   SOCIETY_OTHER_EXPENSE_ADDED,
   SOCIETY_REFINMENT_FEE_ADDED,
+  SOCIETY_TRACK_UPDATED,
 } from './types';
 export const getSocietyLogs = _ => async dispatch => {
   dispatch({
@@ -34,6 +35,15 @@ export const getSocietyLogs = _ => async dispatch => {
             amount
             date
             description
+            tracks {
+              _id
+              member {
+                _id
+                imageUrl
+                name
+              }
+              is_paid
+            }
           }
         }
         logs_count
@@ -164,6 +174,63 @@ export const approveMember = memberId => async dispatch => {
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
   }
 };
+
+export const makeFeePaidForOneMember = (track_id, log_id) => async dispatch => {
+  const mutation = gql`
+    mutation makeFeePaidForOneMember($track_id: ID!, $log_id: ID!) {
+      makeFeePaidForOneMember(track_id: $track_id, log_id: $log_id) {
+        message
+      }
+    }
+  `;
+  try {
+    const res = await apolloClient.mutate({
+      mutation: mutation,
+      variables: {
+        track_id,
+        log_id,
+      },
+    });
+
+    dispatch({
+      type: SOCIETY_TRACK_UPDATED,
+      payload: {log_id, track_id, is_paid: true},
+    });
+  } catch (e) {
+    // console.log(e);
+    // dispatch({type: DEVELOPER_API_CALL_FAILED});
+    dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+  }
+};
+
+export const makeFeeUnPaidForOneMember =
+  (track_id, log_id) => async dispatch => {
+    const mutation = gql`
+      mutation makeFeeUnPaidForOneMember($track_id: ID!, $log_id: ID!) {
+        makeFeeUnPaidForOneMember(track_id: $track_id, log_id: $log_id) {
+          message
+        }
+      }
+    `;
+    try {
+      const res = await apolloClient.mutate({
+        mutation: mutation,
+        variables: {
+          track_id,
+          log_id,
+        },
+      });
+
+      dispatch({
+        type: SOCIETY_TRACK_UPDATED,
+        payload: {log_id, track_id, is_paid: false},
+      });
+    } catch (e) {
+      // console.log(e);
+      // dispatch({type: DEVELOPER_API_CALL_FAILED});
+      dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+    }
+  };
 
 export const disApproveMember = memberId => async dispatch => {
   // dispatch({

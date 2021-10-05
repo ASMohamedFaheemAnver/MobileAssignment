@@ -10,6 +10,7 @@ import {
   ADD_MONTHLY_FEE_ROUTE_NAME,
   ADD_OTHER_EXPENSE_ROUTE_NAME,
   ADD_REFINMENT_ROUTE_NAME,
+  EDIT_TRACK_ROUTE_NAME,
 } from '../../constants/strings';
 import {getSociety, getSocietyLogs} from '../../redux/actions/society';
 import {globalStyles} from '../styles';
@@ -89,7 +90,16 @@ function SocietyHomeScreen({
           ) : (
             logs.map(log => {
               return (
-                <TouchableOpacity style={styles.activity} key={log._id}>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (log.fee.tracks.length) {
+                      navigation.navigate(EDIT_TRACK_ROUTE_NAME, {
+                        log: log,
+                      });
+                    }
+                  }}
+                  style={styles.activity}
+                  key={log._id}>
                   <Text style={styles.flexOne}>
                     {new Date(log.fee.date).toLocaleDateString()}
                   </Text>
