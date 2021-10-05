@@ -1,6 +1,7 @@
 import {gql} from '@apollo/client';
 import apolloClient from '../../utils/apollo-client';
 import {
+  MEMBERS_LOADED,
   MEMBER_API_CALL_FAILED,
   MEMBER_API_CALL_TRIGGERED,
   MEMBER_LOADED,
@@ -68,15 +69,14 @@ export const getAllMembers = _ => async dispatch => {
     type: SOCIETY_API_CALL_TRIGGERED,
   });
   const query = gql`
-    query getAllMembers {
-      getAllMembers {
+    query getAllSocietyMembers {
+      getAllSocietyMembers {
         _id
         name
         email
         imageUrl
         address
         arrears
-        approved
         donations
         phoneNumber
       }
@@ -88,8 +88,8 @@ export const getAllMembers = _ => async dispatch => {
     });
 
     dispatch({
-      type: SOCIETY_MEMBERS_LOADED,
-      payload: res.data?.getAllMembers,
+      type: MEMBERS_LOADED,
+      payload: res.data?.getAllSocietyMembers,
     });
   } catch (e) {
     console.log(e);

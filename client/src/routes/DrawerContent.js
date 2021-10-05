@@ -11,7 +11,9 @@ import {
   DEVELOPER_CATEGORY,
   DEVELOPER_DASHBOARD,
   LOG_OUT_LABEL,
+  MEMBERS,
   MEMBER_CATEGORY,
+  MEMBER_DASHBOARD,
   SOCIETY_CATEGORY,
   SOCIETY_DASHBOARD,
   SOCIETY_MEMBERS,
@@ -76,9 +78,9 @@ function DrawerContent(props) {
                   size={50}
                 />
                 <View style={styles.contectInfoContainer}>
-                  <Title style={styles.title}>{props.member.name}</Title>
+                  <Title style={styles.title}>{props.member?.name}</Title>
                   <Caption style={styles.caption} numberOfLines={1}>
-                    {props.member.email}
+                    {props.member?.email}
                   </Caption>
                 </View>
               </View>
@@ -87,7 +89,7 @@ function DrawerContent(props) {
                 <Text
                   style={
                     globalStyles.green
-                  }>{`${props.member.arrears} LKR`}</Text>
+                  }>{`${props.member?.arrears} LKR`}</Text>
               </View>
             </View>
           ) : null}
@@ -124,6 +126,30 @@ function DrawerContent(props) {
                   label={SOCIETY_MEMBERS}
                   onPress={() => {
                     props.navigation.navigate(SOCIETY_MEMBERS);
+                  }}
+                />
+              </>
+            )}
+            {props.userCategory == MEMBER_CATEGORY && (
+              <>
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <Icon name="home-outline" color={color} size={size} />
+                  )}
+                  focused={routes[index].name === MEMBER_DASHBOARD}
+                  label={MEMBER_DASHBOARD}
+                  onPress={() => {
+                    props.navigation.navigate(MEMBER_DASHBOARD);
+                  }}
+                />
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <FontistoIcon name="persons" color={color} size={size} />
+                  )}
+                  focused={routes[index].name === MEMBERS}
+                  label={MEMBERS}
+                  onPress={() => {
+                    props.navigation.navigate(MEMBERS);
                   }}
                 />
               </>

@@ -1,4 +1,8 @@
-import {MEMBER_LOADED, MEMBER_LOG_LOADED} from '../actions/types';
+import {
+  MEMBERS_LOADED,
+  MEMBER_LOADED,
+  MEMBER_LOG_LOADED,
+} from '../actions/types';
 
 const initialState = {
   isLoading: false,
@@ -14,6 +18,8 @@ export default function (state = initialState, action) {
   switch (type) {
     case MEMBER_LOG_LOADED:
       return {...state, isLoading: false, memberLogs: payload};
+    case MEMBERS_LOADED:
+      return {...state, isLoading: false, societyMembers: payload};
     case MEMBER_LOADED:
       return {...state, isLoading: false, member: payload};
     default:

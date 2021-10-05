@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {
   DEVELOPER_DASHBOARD,
   LOGIN_SCREEN_ROUTE_NAME,
+  MEMBERS,
   MEMBER_CATEGORY,
   MEMBER_DASHBOARD,
   SOCIETY_CATEGORY,
@@ -13,6 +14,7 @@ import {
 } from '../constants/strings';
 import DeveloperHomeScreen from '../screens/developerHomeScreen/DeveloperHomeScreen';
 import MemberHomeScreen from '../screens/memberHomeScreen/MemberHomeScreen';
+import MemberListScreen from '../screens/memberListScreen/MemberListScreen';
 import SocietyHomeScreen from '../screens/societyHomeScreen/SocietyHomeScreen';
 import SocietyMemberListScreen from '../screens/societyMemberListScreen/SocietyMemberListScreen';
 import DrawerContent from './DrawerContent';
@@ -52,6 +54,7 @@ function DrawerRoutes({isAuthenticated, isLoading, userCategory, navigation}) {
         name={SOCIETY_MEMBERS}
         component={SocietyMemberListScreen}
       />
+      <Drawer.Screen name={MEMBERS} component={MemberListScreen} />
       <Drawer.Screen name={SOCIETY_DASHBOARD} component={SocietyHomeScreen} />
       <Drawer.Screen name={MEMBER_DASHBOARD} component={MemberHomeScreen} />
     </Drawer.Navigator>
