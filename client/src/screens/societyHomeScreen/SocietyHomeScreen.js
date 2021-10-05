@@ -98,7 +98,11 @@ function SocietyHomeScreen({
                       });
                     }
                   }}
-                  style={styles.activity}
+                  style={
+                    log.fee.tracks.length
+                      ? styles.activity
+                      : styles.activityDisabled
+                  }
                   key={log._id}>
                   <Text style={styles.flexOne}>
                     {new Date(log.fee.date).toLocaleDateString()}
