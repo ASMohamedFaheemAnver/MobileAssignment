@@ -43,9 +43,9 @@ function DrawerContent(props) {
                   size={50}
                 />
                 <View style={styles.contectInfoContainer}>
-                  <Title style={styles.title}>{props.society.name}</Title>
+                  <Title style={styles.title}>{props.society?.name}</Title>
                   <Caption style={styles.caption} numberOfLines={1}>
-                    {props.society.email}
+                    {props.society?.email}
                   </Caption>
                 </View>
               </View>
@@ -54,14 +54,14 @@ function DrawerContent(props) {
                 <Text
                   style={
                     globalStyles.green
-                  }>{`${props.society.current_income} LKR`}</Text>
+                  }>{`${props.society?.current_income} LKR`}</Text>
               </View>
               <View style={styles.assetInfo}>
                 <Text>Expected income :</Text>
                 <Text
                   style={
                     globalStyles.green
-                  }>{`${props.society.expected_income} LKR`}</Text>
+                  }>{`${props.society?.expected_income} LKR`}</Text>
               </View>
             </View>
           ) : props.userCategory == MEMBER_CATEGORY ? (
