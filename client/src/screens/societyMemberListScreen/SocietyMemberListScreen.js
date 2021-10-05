@@ -1,6 +1,13 @@
 import PropTypes from 'prop-types';
 import React, {useEffect} from 'react';
-import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
 import defaultAvatar from '../../../assets/default-avatar.jpg';
@@ -24,14 +31,11 @@ function SocietyMemberListScreen({
   }, [getAllMembers]);
   return (
     <SafeAreaView style={globalStyles.container}>
-      {/* <ScrollView showsVerticalScrollIndicator={false}> */}
-      <Text style={styles.userCategoryTitle}>Society Members!</Text>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={societyMembers}
-        renderItem={({item: member}) => {
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={styles.userCategoryTitle}>Society Members!</Text>
+        {societyMembers.map(member => {
           return (
-            <View style={styles.cardContainer}>
+            <View style={styles.cardContainer} key={member._id}>
               <Image style={styles.profileImage} source={defaultAvatar} />
               <View style={styles.section}>
                 <Text style={styles.title}>Name</Text>
@@ -70,9 +74,8 @@ function SocietyMemberListScreen({
               </View>
             </View>
           );
-        }}
-      />
-      {/* </ScrollView> */}
+        })}
+      </ScrollView>
     </SafeAreaView>
   );
 }

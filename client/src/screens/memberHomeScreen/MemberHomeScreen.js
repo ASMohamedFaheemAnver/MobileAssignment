@@ -4,7 +4,11 @@ import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
-import {getMember, getMemberLogs} from '../../redux/actions/member';
+import {
+  getMember,
+  getMemberLogs,
+  listenCommonMemberLog,
+} from '../../redux/actions/member';
 import {globalStyles} from '../styles';
 import styles from './styles';
 
@@ -13,10 +17,12 @@ function MemberHomeScreen({
   getMemberLogs,
   memberLogs: {logs, logs_count},
   getMember,
+  listenCommonMemberLog,
 }) {
   useEffect(() => {
     getMemberLogs();
     getMember();
+    listenCommonMemberLog();
   }, [getMemberLogs, getMember]);
 
   return (
@@ -56,6 +62,7 @@ function MemberHomeScreen({
 MemberHomeScreen.propTypes = {
   getMemberLogs: PropTypes.func.isRequired,
   getMember: PropTypes.func.isRequired,
+  listenCommonMemberLog: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -67,4 +74,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getMemberLogs,
   getMember,
+  listenCommonMemberLog,
 })(MemberHomeScreen);

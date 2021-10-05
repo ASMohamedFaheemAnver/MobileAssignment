@@ -5,6 +5,7 @@ import {
   MEMBER_API_CALL_FAILED,
   MEMBER_API_CALL_TRIGGERED,
   MEMBER_LOADED,
+  MEMBER_LOG_ADDED,
   MEMBER_LOG_LOADED,
   RESET_DONATION_STATE,
   RESET_EXTRA_FEE_STATE,
@@ -125,6 +126,40 @@ export const getMember = _ => async dispatch => {
     });
   } catch (e) {
     // console.log(e);
+    dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+  }
+};
+
+export const listenCommonMemberLog = () => async dispatch => {
+  const subscription = gql`
+    subscription listenCommonMemberLog {
+      listenCommonMemberLog {
+        log {
+          _id
+          kind
+          fee {
+            _id
+            amount
+            date
+            description
+          }
+        }
+        type
+      }
+    }
+  `;
+  try {
+    apolloClient
+      .subscribe({
+        query: subscription,
+      })
+      .subscribe(res => {
+        dispatch({
+          type: MEMBER_LOG_ADDED,
+          payload: res.data?.listenCommonMemberLog?.log,
+        });
+      });
+  } catch (e) {
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
   }
 };
