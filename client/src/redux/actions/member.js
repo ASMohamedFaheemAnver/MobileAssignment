@@ -163,3 +163,35 @@ export const listenCommonMemberLog = () => async dispatch => {
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
   }
 };
+
+export const listenMe = () => async dispatch => {
+  const subscription = gql`
+    subscription listenMe {
+      listenMe {
+        member {
+          _id
+          name
+          email
+          imageUrl
+          address
+          phoneNumber
+          arrears
+        }
+      }
+    }
+  `;
+  try {
+    apolloClient
+      .subscribe({
+        query: subscription,
+      })
+      .subscribe(res => {
+        dispatch({
+          type: MEMBER_LOADED,
+          payload: res.data?.listenMe?.member,
+        });
+      });
+  } catch (e) {
+    dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+  }
+};

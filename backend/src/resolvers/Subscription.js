@@ -277,6 +277,37 @@ const Subscription = {
       return payload.listenMemberById;
     },
   },
+  listenMe: {
+    subscribe: async (parent, {}, { request, pubSub }, info) => {
+      const userData = getUserData(request);
+      console.log({
+        emitted: "listenMe.subscribe",
+        id: userData.encryptedId,
+        category: userData.category,
+      });
+      const member = await Member.findById(userData.encryptedId);
+
+      if (!member) {
+        const error = new Error("member doesn't exist!");
+        error.code = 403;
+        throw error;
+      }
+
+      return withCancel(
+        pubSub.asyncIterator(`society:member(${member._id})`),
+        () => {
+          console.log({
+            emitted: "listenMe.unSubscribe",
+            id: userData.encryptedId,
+            category: userData.category,
+          });
+        }
+      );
+    },
+    resolve: (payload, args, context, info) => {
+      return payload.listenMe;
+    },
+  },
 };
 
 const withCancel = (asyncIterator, onCancel) => {

@@ -543,6 +543,10 @@ const Mutation = {
       pubSub.publish(`member:members|society(${society._id})`, {
         listenSocietyMembers: { member: society.members[i], type: "PUT" },
       });
+
+      pubSub.publish(`society:member(${society.members[i]._id})`, {
+        listenMe: { member: society.members[i] },
+      });
     }
 
     await monthFee.save();
@@ -626,6 +630,9 @@ const Mutation = {
       await member.save();
       pubSub.publish(`member:members|society(${society._id})`, {
         listenSocietyMembers: { member: member, type: "PUT" },
+      });
+      pubSub.publish(`society:member(${member._id})`, {
+        listenMe: { member: member },
       });
     }
 

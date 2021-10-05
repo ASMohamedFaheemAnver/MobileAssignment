@@ -228,6 +228,7 @@ type Subscription {
   listenMemberFineOrRefinementLog: fineOrRefinementLogSubscriptionPayload!
   listenMemberDonationLog: donationLogSubscriptionPayload!
   listenSociety: societiesSubscriptionPayload!
+  listenMe: memberSubscriptionPayload!
 }
 
 enum MutationType {
@@ -240,6 +241,10 @@ type logSubscriptionPayload {
   log: MemberLog!
   type: MutationType!
   is_fee_mutated: Boolean
+}
+
+type memberSubscriptionPayload {
+  member: Member!
 }
 
 type fineOrRefinementLogSubscriptionPayload {

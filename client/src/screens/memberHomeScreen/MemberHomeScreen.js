@@ -8,6 +8,7 @@ import {
   getMember,
   getMemberLogs,
   listenCommonMemberLog,
+  listenMe,
 } from '../../redux/actions/member';
 import {globalStyles} from '../styles';
 import styles from './styles';
@@ -17,11 +18,13 @@ function MemberHomeScreen({
   getMemberLogs,
   memberLogs: {logs, logs_count},
   getMember,
+  listenMe,
   listenCommonMemberLog,
 }) {
   useEffect(() => {
     getMemberLogs();
     getMember();
+    listenMe();
     listenCommonMemberLog();
   }, [getMemberLogs, getMember]);
 
@@ -63,6 +66,7 @@ MemberHomeScreen.propTypes = {
   getMemberLogs: PropTypes.func.isRequired,
   getMember: PropTypes.func.isRequired,
   listenCommonMemberLog: PropTypes.func.isRequired,
+  listenMe: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -74,5 +78,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getMemberLogs,
   getMember,
+  listenMe,
   listenCommonMemberLog,
 })(MemberHomeScreen);
