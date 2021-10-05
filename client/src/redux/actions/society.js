@@ -513,3 +513,5 @@ export const resetExtraFeeState = () => async dispatch => {
     type: RESET_EXTRA_FEE_STATE,
   });
 };
+
+export const listenSociety = () => async dispatch => {};
