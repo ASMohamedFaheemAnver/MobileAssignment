@@ -21,13 +21,16 @@ const Subscription = {
         error.code = 403;
         throw error;
       }
-      return withCancel(pubSub.asyncIterator(`member:log|society(${member.society})`), () => {
-        console.log({
-          emitted: "listenCommonMemberLog.unSubscribe",
-          id: userData.encryptedId,
-          category: userData.category,
-        });
-      });
+      return withCancel(
+        pubSub.asyncIterator(`member:log|society(${member.society})`),
+        () => {
+          console.log({
+            emitted: "listenCommonMemberLog.unSubscribe",
+            id: userData.encryptedId,
+            category: userData.category,
+          });
+        }
+      );
     },
     resolve: (payload, args, context, info) => {
       return payload.listenCommonMemberLog;
@@ -49,7 +52,9 @@ const Subscription = {
         throw error;
       }
       return withCancel(
-        pubSub.asyncIterator(`member:log:(fine|refinement)|member(${member._id})`),
+        pubSub.asyncIterator(
+          `member:log:(fine|refinement)|member(${member._id})`
+        ),
         () => {
           console.log({
             emitted: "listenMemberFineOrRefinementLog.unSubscribe",
@@ -79,13 +84,16 @@ const Subscription = {
         error.code = 403;
         throw error;
       }
-      return withCancel(pubSub.asyncIterator(`member:log:donation|member(${member._id})`), () => {
-        console.log({
-          emitted: "listenMemberDonationLog.unSubscribe",
-          id: userData.encryptedId,
-          category: userData.category,
-        });
-      });
+      return withCancel(
+        pubSub.asyncIterator(`member:log:donation|member(${member._id})`),
+        () => {
+          console.log({
+            emitted: "listenMemberDonationLog.unSubscribe",
+            id: userData.encryptedId,
+            category: userData.category,
+          });
+        }
+      );
     },
     resolve: (payload, args, context, info) => {
       return payload.listenMemberDonationLog;
@@ -109,7 +117,9 @@ const Subscription = {
       }
 
       return withCancel(
-        pubSub.asyncIterator(`member:log:track|society(${member.society})&member(${member._id})`),
+        pubSub.asyncIterator(
+          `member:log:track|society(${member.society})&member(${member._id})`
+        ),
         () => {
           console.log({
             emitted: "listenMemberLogTrack.unSubscribe",
@@ -144,7 +154,9 @@ const Subscription = {
       return withFilter(
         () => {
           return withCancel(
-            context.pubSub.asyncIterator(`member:members|society(${member.society})`),
+            context.pubSub.asyncIterator(
+              `member:members|society(${member.society})`
+            ),
             () => {
               console.log({
                 emitted: "listenSocietyMembers.unSubscribe",
@@ -156,7 +168,8 @@ const Subscription = {
         },
         (payload, args) => {
           if (
-            payload.listenSocietyMembers.member._id.toString() === userData.encryptedId.toString()
+            payload.listenSocietyMembers.member._id.toString() ===
+            userData.encryptedId.toString()
           ) {
             return false;
           }
@@ -186,13 +199,16 @@ const Subscription = {
         throw error;
       }
 
-      return withCancel(pubSub.asyncIterator(`society:members|society(${society._id})`), () => {
-        console.log({
-          emitted: "listenSocietyMembersBySociety.unSubscribe",
-          id: userData.encryptedId,
-          category: userData.category,
-        });
-      });
+      return withCancel(
+        pubSub.asyncIterator(`society:members|society(${society._id})`),
+        () => {
+          console.log({
+            emitted: "listenSocietyMembersBySociety.unSubscribe",
+            id: userData.encryptedId,
+            category: userData.category,
+          });
+        }
+      );
     },
     resolve: (payload, args, context, info) => {
       return payload.listenSocietyMembersBySociety;
@@ -209,11 +225,11 @@ const Subscription = {
       });
       const developer = await Developer.findById(userData.encryptedId);
 
-      if (!developer) {
-        const error = new Error("developer doesn't exist!");
-        error.code = 403;
-        throw error;
-      }
+      // if (!developer) {
+      //   const error = new Error("developer doesn't exist!");
+      //   error.code = 403;
+      //   throw error;
+      // }
 
       return withCancel(pubSub.asyncIterator(`developer:societies`), () => {
         console.log({
@@ -245,7 +261,9 @@ const Subscription = {
       }
 
       return withCancel(
-        pubSub.asyncIterator(`society:member|society(${society._id}):member(${member_id})`),
+        pubSub.asyncIterator(
+          `society:member|society(${society._id}):member(${member_id})`
+        ),
         () => {
           console.log({
             emitted: "listenMemberById.unSubscribe",

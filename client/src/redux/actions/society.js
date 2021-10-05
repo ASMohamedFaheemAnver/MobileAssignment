@@ -291,6 +291,15 @@ export const addRefinementFeeForSociety =
             amount
             date
             description
+            tracks {
+              _id
+              member {
+                _id
+                imageUrl
+                name
+              }
+              is_paid
+            }
           }
         }
       }
@@ -341,6 +350,15 @@ export const addReceivedDonationBySociety =
             amount
             date
             description
+            tracks {
+              _id
+              member {
+                _id
+                imageUrl
+                name
+              }
+              is_paid
+            }
           }
         }
       }
@@ -388,6 +406,15 @@ export const addOtherSocietyExpense =
             amount
             date
             description
+            tracks {
+              _id
+              member {
+                _id
+                imageUrl
+                name
+              }
+              is_paid
+            }
           }
         }
       }
@@ -439,6 +466,15 @@ export const addMonthlyFeeToEveryone =
             amount
             date
             description
+            tracks {
+              _id
+              member {
+                _id
+                imageUrl
+                name
+              }
+              is_paid
+            }
           }
         }
       }
@@ -484,6 +520,15 @@ export const addExtraFeeToEveryone =
             amount
             date
             description
+            tracks {
+              _id
+              member {
+                _id
+                imageUrl
+                name
+              }
+              is_paid
+            }
           }
         }
       }
@@ -514,4 +559,30 @@ export const resetExtraFeeState = () => async dispatch => {
   });
 };
 
-export const listenSociety = () => async dispatch => {};
+export const listenSociety = () => async dispatch => {
+  const subscription = gql`
+    subscription listenSociety {
+      listenSociety {
+        society {
+          _id
+        }
+      }
+    }
+  `;
+  try {
+    apolloClient
+      .subscribe({
+        query: subscription,
+      })
+      .subscribe(res => {
+        console.log(res);
+      });
+
+    // dispatch({
+    //   type: SOCIETY_EXTRA_FEE_ADDED,
+    //   payload: res.data?.addExtraFeeToEveryone,
+    // });
+  } catch (e) {
+    dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+  }
+};

@@ -1519,6 +1519,10 @@ const Mutation = {
       throw error;
     }
 
+    pubSub.publish(`developer:societies`, {
+      listenSociety: { society: society, type: "PUT" },
+    });
+
     const refinementFeeObj = new RefinementFee({
       amount: refinementFee,
       description: description,

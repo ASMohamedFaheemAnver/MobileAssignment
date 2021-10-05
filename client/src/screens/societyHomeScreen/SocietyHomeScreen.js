@@ -12,7 +12,11 @@ import {
   ADD_REFINMENT_ROUTE_NAME,
   EDIT_TRACK_ROUTE_NAME,
 } from '../../constants/strings';
-import {getSociety, getSocietyLogs} from '../../redux/actions/society';
+import {
+  getSociety,
+  getSocietyLogs,
+  listenSociety,
+} from '../../redux/actions/society';
 import {globalStyles} from '../styles';
 import styles from './styles';
 
@@ -22,11 +26,13 @@ function SocietyHomeScreen({
   societyLogs: {logs, logs_count},
   navigation,
   getSociety,
+  listenSociety,
   society,
 }) {
   useEffect(() => {
     getSocietyLogs();
     getSociety();
+    listenSociety();
   }, [getSocietyLogs, getSociety]);
 
   return (
@@ -124,6 +130,7 @@ function SocietyHomeScreen({
 SocietyHomeScreen.propTypes = {
   getSocietyLogs: PropTypes.func.isRequired,
   getSociety: PropTypes.func.isRequired,
+  listenSociety: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -135,4 +142,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getSocietyLogs,
   getSociety,
+  listenSociety,
 })(SocietyHomeScreen);
