@@ -565,6 +565,14 @@ export const listenSociety = () => async dispatch => {
       listenSociety {
         society {
           _id
+          name
+          email
+          imageUrl
+          address
+          phoneNumber
+          expected_income
+          current_income
+          number_of_members
         }
       }
     }
@@ -575,7 +583,11 @@ export const listenSociety = () => async dispatch => {
         query: subscription,
       })
       .subscribe(res => {
-        console.log(res);
+        // console.log({res: res.data?.listenSociety});
+        dispatch({
+          type: SOCIETY_LOADED,
+          payload: res.data?.listenSociety?.society,
+        });
       });
 
     // dispatch({

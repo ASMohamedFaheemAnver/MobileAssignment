@@ -907,6 +907,10 @@ const Mutation = {
       listenSocietyMembers: { member: member, type: "PUT" },
     });
 
+    pubSub.publish(`developer:societies`, {
+      listenSociety: { society: society, type: "PUT" },
+    });
+
     return { message: "member paid the ammount!" };
   },
 
@@ -990,6 +994,10 @@ const Mutation = {
     );
     pubSub.publish(`member:members|society(${society._id})`, {
       listenSocietyMembers: { member: member, type: "PUT" },
+    });
+
+    pubSub.publish(`developer:societies`, {
+      listenSociety: { society: society, type: "PUT" },
     });
 
     return { message: "member paid the ammount!" };

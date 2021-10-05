@@ -42,6 +42,11 @@ function SocietyMemberListScreen({
                 <Text style={styles.societyName}>{member?.email}</Text>
               </View>
               <View style={styles.section}>
+                <Text style={styles.title}>Arears</Text>
+                <Text
+                  style={styles.societyName}>{`${member?.arrears} LKR`}</Text>
+              </View>
+              <View style={styles.section}>
                 <Text style={styles.title}>Phone Number</Text>
                 <Text style={styles.societyName}>{member?.phoneNumber}</Text>
               </View>
