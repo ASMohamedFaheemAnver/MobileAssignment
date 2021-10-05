@@ -13,10 +13,12 @@ import {
   ADD_OTHER_EXPENSE_ROUTE_NAME,
   ADD_REFINMENT_ROUTE_NAME,
   DASHBOARD,
+  DEEP_LINK_PREFIX,
   EDIT_TRACK_ROUTE_NAME,
   EMPTY_TEXT,
   LOGIN_SCREEN_ROUTE_NAME,
   REGISTRATION_SCREEN_ROUTE_NAME,
+  RESET_PASSWORD_ROUTE_NAME,
   SELECT_SOCIETY_SCREEN_ROUTE_NAME,
   SPLASH_SCREEN_ROUTE_NAME,
 } from './src/constants/strings';
@@ -32,21 +34,43 @@ import MemberTrackListScreen from './src/screens/memberTrackListScreen/MemberTra
 import RegistrationScreen from './src/screens/registrationScreen/RegistrationScreen';
 import SocietySelectionScreen from './src/screens/societySelectionScreen/SocietySelectionScreen';
 import SplashScreen from './src/screens/splashScreen/SplashScreen';
+import ResetPasswordScreen from './src/screens/resetPasswordScreen/ResetPasswordScreen';
 import apolloClient from './src/utils/apollo-client';
 
 const Stack = createNativeStackNavigator();
+
+const linkingConfig = {
+  screens: {
+    RESET_PASSWORD_ROUTE_NAME: {
+      path: `${RESET_PASSWORD_ROUTE_NAME}?reset_token`,
+      // parse: {
+      //   reset_token: reset_token => `${reset_token}`,
+      // },
+    },
+  },
+};
+
+const deepLinking = {
+  prefixes: [DEEP_LINK_PREFIX],
+  linkingConfig,
+};
 
 function App() {
   return (
     <ApolloProvider client={apolloClient}>
       <SafeAreaProvider>
         <Provider store={store}>
-          <NavigationContainer>
+          <NavigationContainer linking={deepLinking}>
             <Stack.Navigator initialRouteName={SPLASH_SCREEN_ROUTE_NAME}>
               <Stack.Screen
                 name={SPLASH_SCREEN_ROUTE_NAME}
                 options={{headerShown: false}}
                 component={SplashScreen}
+              />
+              <Stack.Screen
+                name={RESET_PASSWORD_ROUTE_NAME}
+                options={{headerShown: false}}
+                component={ResetPasswordScreen}
               />
               <Stack.Screen
                 name={LOGIN_SCREEN_ROUTE_NAME}

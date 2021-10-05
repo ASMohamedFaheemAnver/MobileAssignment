@@ -1,5 +1,8 @@
 # file upload in react.js using apollo client
 # https://stackoverflow.com/questions/65465010/file-upload-in-react-js-using-apollo-client
 
- # How to use componentWillMount() in React Hooks?
+# How to use componentWillMount() in React Hooks?
 # https://stackoverflow.com/questions/53464595/how-to-use-componentwillmount-in-react-hooks
+
+# Parsing deep link to the app
+# npx uri-scheme open client://sms/RESET_PASSWORD?reset_token=thisTokenWillbeUsedToResetThePassword --android
