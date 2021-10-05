@@ -890,6 +890,11 @@ const Mutation = {
 
     society.current_income += log.item.amount;
     member.arrears -= log.item.amount;
+
+    pubSub.publish(`society:member(${member._id})`, {
+      listenMe: { member: member },
+    });
+
     await society.save();
     await member.save();
 
@@ -970,6 +975,10 @@ const Mutation = {
     const track = await Track.findById(track_id).populate("member");
 
     const member = await Member.findById(track.member);
+
+    pubSub.publish(`society:member(${member._id})`, {
+      listenMe: { member: member },
+    });
 
     if (!track.is_paid) {
       const error = new Error("this member already not paid the ammount!");
