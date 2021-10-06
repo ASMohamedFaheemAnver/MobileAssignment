@@ -11,8 +11,12 @@ import {
   API_CALL_TRIGGERED,
   BASIC_SOCIETY_INFO_LOADED,
   LOGIN_FAIL,
+  PASSWORD_RESET_COMPLETED,
+  PASSWORD_RESET_REQUESTED,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
+  RESET_PASSWORD_RESET_REQUESTED_STATE,
+  RESET_PASSWORD__STATE,
   SET_ALERT,
   SOCIETY_SELECTED,
   USER_LOGGED_OUT,
@@ -178,6 +182,88 @@ export const register =
     }
   };
 
+export const requestPasswordReset =
+  ({email, userCategory}) =>
+  async dispatch => {
+    dispatch({
+      type: API_CALL_TRIGGERED,
+    });
+    let mutation;
+    if (userCategory === MEMBER_CATEGORY) {
+      mutation = gql`
+        mutation requestMemberPasswordReset($email: String!) {
+          requestMemberPasswordReset(email: $email) {
+            message
+          }
+        }
+      `;
+    } else {
+      mutation = gql`
+        mutation requestSocietyPasswordReset($email: String!) {
+          requestSocietyPasswordReset(email: $email) {
+            message
+          }
+        }
+      `;
+    }
+    try {
+      const res = await apolloClient.mutate({
+        mutation: mutation,
+        variables: {
+          email,
+        },
+      });
+      dispatch({
+        type: PASSWORD_RESET_REQUESTED,
+      });
+    } catch (e) {
+      dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+    }
+  };
+
+export const onPasswordReset =
+  (password, token, userCategory) => async dispatch => {
+    // dispatch({
+    //   type: API_CALL_TRIGGERED,
+    // });
+
+    console.log({password, token, userCategory});
+
+    let mutation;
+    if (userCategory === MEMBER_CATEGORY) {
+      mutation = gql`
+        mutation memberPasswordReset($password: String!, $token: String!) {
+          memberPasswordReset(password: $password, token: $token) {
+            message
+          }
+        }
+      `;
+    } else {
+      mutation = gql`
+        mutation societyPasswordReset($password: String!, $token: String!) {
+          societyPasswordReset(password: $password, token: $token) {
+            message
+          }
+        }
+      `;
+    }
+    try {
+      const res = await apolloClient.mutate({
+        mutation: mutation,
+        variables: {
+          password,
+          token,
+        },
+      });
+      console.log({res});
+      dispatch({
+        type: PASSWORD_RESET_COMPLETED,
+      });
+    } catch (e) {
+      dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+    }
+  };
+
 export const setSelectedSociety = society => dispatch => {
   dispatch({type: SOCIETY_SELECTED, payload: society});
 };
@@ -246,4 +332,12 @@ export const logOut = () => async dispatch => {
   clearTimeout(logOutTrigger);
   dispatch({type: USER_LOGGED_OUT});
   await AsyncStorage.clear();
+};
+
+export const resetPasswordRequestState = () => async dispatch => {
+  dispatch({type: RESET_PASSWORD_RESET_REQUESTED_STATE});
+};
+
+export const resetPasswordResetRequestState = () => async dispatch => {
+  dispatch({type: RESET_PASSWORD__STATE});
 };

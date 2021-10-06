@@ -2,8 +2,11 @@ import {
   API_CALL_TRIGGERED,
   BASIC_SOCIETY_INFO_LOADED,
   LOGIN_FAIL,
+  PASSWORD_RESET_COMPLETED,
+  PASSWORD_RESET_REQUESTED,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
+  RESET_PASSWORD_RESET_REQUESTED_STATE,
   SOCIETY_SELECTED,
   USER_LOGGED_OUT,
   USER_META_LOADED,
@@ -17,6 +20,8 @@ const initalState = {
   basicSocieties: [],
   selectedSociety: null,
   isRegistered: false,
+  isPasswordResetRequested: false,
+  isPasswordResetCompleted: false,
 };
 
 export default function (state = initalState, action) {
@@ -34,6 +39,12 @@ export default function (state = initalState, action) {
     case LOGIN_FAIL:
     case REGISTER_SUCCESS:
       return {...state, isLoading: false, isRegistered: true};
+    case PASSWORD_RESET_REQUESTED:
+      return {...state, isLoading: false, isPasswordResetRequested: true};
+    case PASSWORD_RESET_COMPLETED:
+      return {...state, isLoading: false, isPasswordResetCompleted: true};
+    case RESET_PASSWORD_RESET_REQUESTED_STATE:
+      return {...state, isLoading: false, isPasswordResetRequested: false};
     case REGISTER_FAIL:
       return {...state, isLoading: false};
     case BASIC_SOCIETY_INFO_LOADED:

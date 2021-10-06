@@ -10,58 +10,47 @@ import {
 import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import Ionicon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
+import {MEMBER_CATEGORY, SOCIETY_CATEGORY} from '../../constants/strings';
 import {
-  DASHBOARD,
-  DEVELOPER_CATEGORY,
-  MEMBER_CATEGORY,
-  REGISTRATION_SCREEN_ROUTE_NAME,
-  REQUEST_RESET_PASSWORD,
-  SOCIETY_CATEGORY,
-} from '../../constants/strings';
-import {login} from '../../redux/actions/auth';
+  requestPasswordReset,
+  resetPasswordRequestState,
+} from '../../redux/actions/auth';
 import ErrorDialog from '../errorDialog/errorDialog';
 import {globalStyles} from '../styles';
 import styles from './styles';
 
-function LoginScreen({login, isAuthenticated, isLoading, navigation}) {
-  useEffect(() => {
-    // console.log({ isAuthenticated, isLoading });
-    if (!isLoading && isAuthenticated) {
-      navigation.reset({
-        index: 0,
-        routes: [{name: DASHBOARD}],
-      });
-    }
-  }, [navigation, isAuthenticated, isLoading]);
-
+function RequestPasswordResetScreen({
+  requestPasswordReset,
+  isLoading,
+  navigation,
+  isPasswordResetRequested,
+  resetPasswordRequestState,
+}) {
   const [formData, setFormData] = useState({
     email: '',
-    password: '',
     userCategory: MEMBER_CATEGORY,
     isEmailValid: false,
-    isPasswordValid: false,
     isFormValid: false,
   });
+
+  useEffect(() => {}, []);
 
   const onEmailChange = e => {
     setFormData({
       ...formData,
       email: e,
       isEmailValid: true,
-      isFormValid: formData.isPasswordValid,
+      isFormValid: true,
     });
   };
 
-  const onPasswordChange = e => {
-    setFormData({
-      ...formData,
-      password: e,
-      isPasswordValid: true,
-      isFormValid: formData.isEmailValid,
-    });
-  };
+  useEffect(() => {
+    if (isPasswordResetRequested) {
+      resetPasswordRequestState();
+      navigation.pop();
+    }
+  }, [isPasswordResetRequested]);
 
   const changeUserCategory = userCategory => {
     setFormData({
@@ -70,14 +59,16 @@ function LoginScreen({login, isAuthenticated, isLoading, navigation}) {
     });
   };
 
-  const onLoginClick = () => {
-    login({...formData});
+  const onRequestPasswordResetClick = async () => {
+    requestPasswordReset({
+      ...formData,
+    });
   };
 
   return (
     <SafeAreaView style={globalStyles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.welcome}>Welcome Back!</Text>
+        <Text style={styles.welcome}>Reset Your Password!</Text>
         <Text style={styles.userCategoryTitle}>Who your are?</Text>
         <View style={styles.iconsContainer}>
           <TouchableOpacity
@@ -102,17 +93,6 @@ function LoginScreen({login, isAuthenticated, isLoading, navigation}) {
             }}>
             <FontAwesomeIcon size={40} name="group" />
           </TouchableOpacity>
-          <TouchableOpacity
-            style={
-              formData.userCategory == DEVELOPER_CATEGORY
-                ? styles.selectedIconContainer
-                : styles.unSelectedIconContainer
-            }
-            onPress={() => {
-              changeUserCategory(DEVELOPER_CATEGORY);
-            }}>
-            <Ionicon size={40} name="settings" />
-          </TouchableOpacity>
         </View>
         <TextInput
           style={[globalStyles.textInput, styles.input]}
@@ -120,19 +100,12 @@ function LoginScreen({login, isAuthenticated, isLoading, navigation}) {
           placeholder="Enter your email"
           value={formData.email}
         />
-        <TextInput
-          style={[globalStyles.textInput, styles.input]}
-          onChangeText={onPasswordChange}
-          placeholder="Enter your password"
-          secureTextEntry
-          value={formData.password}
-        />
         <TouchableOpacity
           disabled={!formData.isFormValid || isLoading}
           style={formData.isFormValid ? styles.button : styles.disabledButton}
-          onPress={onLoginClick}>
+          onPress={onRequestPasswordResetClick}>
           {!isLoading ? (
-            <Text style={styles.singInText}>Sign In</Text>
+            <Text style={styles.singInText}>Request Reset</Text>
           ) : (
             <Progress.Circle
               style={styles.progress}
@@ -141,34 +114,24 @@ function LoginScreen({login, isAuthenticated, isLoading, navigation}) {
             />
           )}
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.forgotPasswordContainer}
-          onPress={() => {
-            navigation.navigate(REQUEST_RESET_PASSWORD);
-          }}>
-          <Text style={styles.forgotPassword}>Forgot your password?</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate(REGISTRATION_SCREEN_ROUTE_NAME);
-          }}>
-          <Text style={styles.createAccount}>New here? Create account :)</Text>
-        </TouchableOpacity>
         <ErrorDialog />
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-LoginScreen.propTypes = {
-  login: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
+RequestPasswordResetScreen.propTypes = {
   isLoading: PropTypes.bool.isRequired,
+  isPasswordResetRequested: PropTypes.bool.isRequired,
+  resetPasswordRequestState: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
   isLoading: state.auth.isLoading,
+  isPasswordResetRequested: state.auth.isPasswordResetRequested,
 });
 
-export default connect(mapStateToProps, {login})(LoginScreen);
+export default connect(mapStateToProps, {
+  requestPasswordReset,
+  resetPasswordRequestState,
+})(RequestPasswordResetScreen);

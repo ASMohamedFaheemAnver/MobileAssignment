@@ -21,7 +21,7 @@
         <category android:name="android.intent.category.BROWSABLE" />
         <data
           android:host="sms"
-          android:scheme="client" />
+          android:scheme="https" />
       </intent-filter>
 
     </activity>

@@ -18,6 +18,7 @@ import {
   EMPTY_TEXT,
   LOGIN_SCREEN_ROUTE_NAME,
   REGISTRATION_SCREEN_ROUTE_NAME,
+  REQUEST_RESET_PASSWORD,
   RESET_PASSWORD_ROUTE_NAME,
   SELECT_SOCIETY_SCREEN_ROUTE_NAME,
   SPLASH_SCREEN_ROUTE_NAME,
@@ -36,16 +37,14 @@ import SocietySelectionScreen from './src/screens/societySelectionScreen/Society
 import SplashScreen from './src/screens/splashScreen/SplashScreen';
 import ResetPasswordScreen from './src/screens/resetPasswordScreen/ResetPasswordScreen';
 import apolloClient from './src/utils/apollo-client';
+import RequestPasswordResetScreen from './src/screens/requestPasswordResetScreen/RequestPasswordResetScreen';
 
 const Stack = createNativeStackNavigator();
 
 const linkingConfig = {
   screens: {
     RESET_PASSWORD_ROUTE_NAME: {
-      path: `${RESET_PASSWORD_ROUTE_NAME}?reset_token`,
-      // parse: {
-      //   reset_token: reset_token => `${reset_token}`,
-      // },
+      path: `${RESET_PASSWORD_ROUTE_NAME}`,
     },
   },
 };
@@ -71,6 +70,11 @@ function App() {
                 name={RESET_PASSWORD_ROUTE_NAME}
                 options={{headerShown: false}}
                 component={ResetPasswordScreen}
+              />
+              <Stack.Screen
+                name={REQUEST_RESET_PASSWORD}
+                options={{title: EMPTY_TEXT}}
+                component={RequestPasswordResetScreen}
               />
               <Stack.Screen
                 name={LOGIN_SCREEN_ROUTE_NAME}

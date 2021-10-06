@@ -2188,7 +2188,7 @@ const Mutation = {
       subject: "Society management system password reset.",
       templateId: "d-f69dc81d9d6e4fffac27a8c2d560b20e",
       dynamicTemplateData: {
-        password_reset_url: `${process.env.client_auth_link}?user_category=member&reset_token=${token}`,
+        password_reset_url: `${process.env.client_auth_link}?user_category=MEMBER&reset_token=${token}`,
       },
     };
 
@@ -2272,7 +2272,7 @@ const Mutation = {
       subject: "Society management system password reset.",
       templateId: "d-f69dc81d9d6e4fffac27a8c2d560b20e",
       dynamicTemplateData: {
-        password_reset_url: `${process.env.client_auth_link}?user_category=society&reset_token=${token}`,
+        password_reset_url: `${process.env.client_auth_link}?user_category=SOCIETY&reset_token=${token}`,
       },
     };
 
