@@ -42,6 +42,7 @@ export const getMemberLogs = _ => async dispatch => {
             date
             description
             tracks {
+              _id
               is_paid
             }
           }
@@ -147,6 +148,7 @@ export const listenCommonMemberLog = () => async dispatch => {
             date
             description
             tracks {
+              _id
               is_paid
             }
           }
@@ -184,6 +186,7 @@ export const listenMemberLogTrack = () => async dispatch => {
             date
             description
             tracks {
+              _id
               is_paid
             }
           }

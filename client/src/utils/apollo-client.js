@@ -57,7 +57,19 @@ const apolloClient = new ApolloClient({
     wsLink,
     ApolloLink.from([errorLink, authLink, httpLink]),
   ),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Fee: {
+        fields: {
+          tracks: {
+            merge(exsiting = [], incomming) {
+              return [...incomming];
+            },
+          },
+        },
+      },
+    },
+  }),
   defaultOptions: {
     watchQuery: {fetchPolicy: 'no-cache'},
     query: {fetchPolicy: 'no-cache'},

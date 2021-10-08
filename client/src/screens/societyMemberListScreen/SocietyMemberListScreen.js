@@ -36,6 +36,9 @@ function SocietyMemberListScreen({
     <SafeAreaView style={globalStyles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.userCategoryTitle}>Society Members!</Text>
+        {societyMembers.length == 0 && (
+          <Text style={globalStyles.red}>Currently no members registered!</Text>
+        )}
         {societyMembers.map(member => {
           return (
             <View style={styles.cardContainer} key={member._id}>
