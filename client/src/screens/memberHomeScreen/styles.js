@@ -56,6 +56,15 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginBottom: 5,
   },
+  activityDisabled: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    backgroundColor: '#b4b4b4',
+    padding: 10,
+    alignItems: 'center',
+    marginBottom: 5,
+  },
   flexOne: {
     flex: 1,
   },

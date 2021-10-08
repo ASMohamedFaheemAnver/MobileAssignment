@@ -3,6 +3,7 @@ import {
   MEMBER_LOADED,
   MEMBER_LOG_ADDED,
   MEMBER_LOG_LOADED,
+  MEMBER_LOG_UPDATED,
 } from '../actions/types';
 
 const initialState = {
@@ -27,6 +28,19 @@ export default function (state = initialState, action) {
         memberLogs: {
           logs_count: state.memberLogs.logs_count + 1,
           logs: [payload, ...state.memberLogs.logs],
+        },
+      };
+    case MEMBER_LOG_UPDATED:
+      return {
+        ...state,
+        isLoading: false,
+        memberLogs: {
+          logs: state.memberLogs.logs.map(log => {
+            if (log._id == payload._id) {
+              return payload;
+            }
+            return log;
+          }),
         },
       };
     case MEMBERS_LOADED:

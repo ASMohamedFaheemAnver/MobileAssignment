@@ -9,6 +9,7 @@ import {
   getMemberLogs,
   listenCommonMemberLog,
   listenMe,
+  listenMemberLogTrack,
 } from '../../redux/actions/member';
 import {globalStyles} from '../styles';
 import styles from './styles';
@@ -20,12 +21,14 @@ function MemberHomeScreen({
   getMember,
   listenMe,
   listenCommonMemberLog,
+  listenMemberLogTrack,
 }) {
   useEffect(() => {
     getMemberLogs();
     getMember();
     listenMe();
     listenCommonMemberLog();
+    listenMemberLogTrack();
   }, [getMemberLogs, getMember]);
 
   return (
@@ -44,7 +47,13 @@ function MemberHomeScreen({
           ) : (
             logs.map(log => {
               return (
-                <TouchableOpacity style={styles.activity} key={log._id}>
+                <TouchableOpacity
+                  style={
+                    !log.fee.tracks[0].is_paid
+                      ? styles.activity
+                      : styles.activityDisabled
+                  }
+                  key={log._id}>
                   <Text style={styles.flexOne}>
                     {new Date(log.fee.date).toLocaleDateString()}
                   </Text>
@@ -66,6 +75,7 @@ MemberHomeScreen.propTypes = {
   getMemberLogs: PropTypes.func.isRequired,
   getMember: PropTypes.func.isRequired,
   listenCommonMemberLog: PropTypes.func.isRequired,
+  listenMemberLogTrack: PropTypes.func.isRequired,
   listenMe: PropTypes.func.isRequired,
 };
 
@@ -80,4 +90,5 @@ export default connect(mapStateToProps, {
   getMember,
   listenMe,
   listenCommonMemberLog,
+  listenMemberLogTrack,
 })(MemberHomeScreen);

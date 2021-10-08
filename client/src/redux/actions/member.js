@@ -7,6 +7,7 @@ import {
   MEMBER_LOADED,
   MEMBER_LOG_ADDED,
   MEMBER_LOG_LOADED,
+  MEMBER_LOG_UPDATED,
   RESET_DONATION_STATE,
   RESET_EXTRA_FEE_STATE,
   RESET_MONTHLY_FEE_STATE,
@@ -40,6 +41,9 @@ export const getMemberLogs = _ => async dispatch => {
             amount
             date
             description
+            tracks {
+              is_paid
+            }
           }
         }
         logs_count
@@ -142,6 +146,9 @@ export const listenCommonMemberLog = () => async dispatch => {
             amount
             date
             description
+            tracks {
+              is_paid
+            }
           }
         }
         type
@@ -157,6 +164,43 @@ export const listenCommonMemberLog = () => async dispatch => {
         dispatch({
           type: MEMBER_LOG_ADDED,
           payload: res.data?.listenCommonMemberLog?.log,
+        });
+      });
+  } catch (e) {
+    dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+  }
+};
+
+export const listenMemberLogTrack = () => async dispatch => {
+  const subscription = gql`
+    subscription listenMemberLogTrack {
+      listenMemberLogTrack {
+        log {
+          _id
+          kind
+          fee {
+            _id
+            amount
+            date
+            description
+            tracks {
+              is_paid
+            }
+          }
+        }
+        type
+      }
+    }
+  `;
+  try {
+    apolloClient
+      .subscribe({
+        query: subscription,
+      })
+      .subscribe(res => {
+        dispatch({
+          type: MEMBER_LOG_UPDATED,
+          payload: res.data?.listenMemberLogTrack?.log,
         });
       });
   } catch (e) {
