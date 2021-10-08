@@ -1,6 +1,13 @@
 import PropTypes from 'prop-types';
 import React, {useEffect} from 'react';
-import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
@@ -9,6 +16,7 @@ import {
   approveSociety,
   disApproveSociety,
   getAllSocieties,
+  listenSociety,
 } from '../../redux/actions/developer';
 import {globalStyles} from '../styles';
 import styles from './styles';
@@ -19,28 +27,33 @@ function DeveloperHomeScreen({
   isLoading,
   societies,
   disApproveSociety,
+  listenSociety,
 }) {
   useEffect(() => {
     getAllSocieties();
+    listenSociety();
   }, [getAllSocieties]);
 
   return (
     <SafeAreaView style={globalStyles.container}>
-      <Text style={styles.societyListTitle}>Registered Society List</Text>
-      {isLoading ? (
-        <View style={globalStyles.center}>
-          <Progress.Circle size={50} indeterminate={true} />
-        </View>
-      ) : societies.length == 0 ? (
-        <Text style={globalStyles.red}>Currently no society to show!</Text>
-      ) : (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={societies}
-          renderItem={({item: society}) => {
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={styles.societyListTitle}>Registered Society List</Text>
+        {isLoading ? (
+          <View style={globalStyles.center}>
+            <Progress.Circle size={50} indeterminate={true} />
+          </View>
+        ) : societies.length == 0 ? (
+          <Text style={globalStyles.red}>Currently no society to show!</Text>
+        ) : (
+          societies.map(society => {
             return (
-              <View style={styles.cardContainer}>
-                <Image style={styles.profileImage} source={defaultAvatar} />
+              <View style={styles.cardContainer} key={society._id}>
+                <Image
+                  style={styles.profileImage}
+                  source={
+                    society.imageUrl ? {uri: society.imageUrl} : defaultAvatar
+                  }
+                />
                 <View style={styles.section}>
                   <Text style={styles.societyNameTitle}>Name</Text>
                   <Text style={styles.societyName}>{society?.name}</Text>
@@ -73,9 +86,9 @@ function DeveloperHomeScreen({
                 </View>
               </View>
             );
-          }}
-        />
-      )}
+          })
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -83,6 +96,7 @@ function DeveloperHomeScreen({
 DeveloperHomeScreen.propTypes = {
   getAllSocieties: PropTypes.func.isRequired,
   approveSociety: PropTypes.func.isRequired,
+  listenSociety: PropTypes.func.isRequired,
   disApproveSociety: PropTypes.func.isRequired,
 };
 
@@ -95,4 +109,5 @@ export default connect(mapStateToProps, {
   getAllSocieties,
   approveSociety,
   disApproveSociety,
+  listenSociety,
 })(DeveloperHomeScreen);

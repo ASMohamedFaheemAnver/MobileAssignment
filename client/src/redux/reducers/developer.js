@@ -2,13 +2,14 @@ import {
   ALL_SOCIETY_LOADED,
   DEVELOPER_API_CALL_FAILED,
   DEVELOPER_API_CALL_TRIGGERED,
+  SOCIETY_ADDED,
   SOCIETY_UPDATED,
   USER_LOGGED_OUT,
 } from '../actions/types';
 const initialState = {isLoading: false, societies: []};
 export default function (state = initialState, action) {
   const {type, payload} = action;
-  // console.log({type});
+  // console.log({type, payload});
   switch (type) {
     case ALL_SOCIETY_LOADED:
       return {isLoading: false, societies: payload};
@@ -20,6 +21,12 @@ export default function (state = initialState, action) {
           return society;
         }),
       };
+    case SOCIETY_ADDED: {
+      return {
+        isLoading: false,
+        societies: [...state.societies, payload],
+      };
+    }
     case USER_LOGGED_OUT:
       return {
         ...initialState,

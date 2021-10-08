@@ -4,7 +4,9 @@ import {
   ALL_SOCIETY_LOADED,
   DEVELOPER_API_CALL_FAILED,
   DEVELOPER_API_CALL_TRIGGERED,
+  MEMBER_LOG_ADDED,
   SET_ALERT,
+  SOCIETY_ADDED,
   SOCIETY_UPDATED,
 } from './types';
 
@@ -20,6 +22,7 @@ export const getAllSocieties = _ => async dispatch => {
         email
         phoneNumber
         approved
+        imageUrl
       }
     }
   `;
@@ -51,6 +54,7 @@ export const approveSociety = societyId => async dispatch => {
         email
         phoneNumber
         approved
+        imageUrl
       }
     }
   `;
@@ -85,6 +89,7 @@ export const disApproveSociety = societyId => async dispatch => {
         email
         phoneNumber
         approved
+        imageUrl
       }
     }
   `;
@@ -133,6 +138,39 @@ export const removeSocietyMember = societyId => async dispatch => {
   } catch (e) {
     // console.log(e);
     // dispatch({type: DEVELOPER_API_CALL_FAILED});
+    dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+  }
+};
+
+export const listenSociety = () => async dispatch => {
+  const subscription = gql`
+    subscription listenSociety {
+      listenSociety {
+        society {
+          _id
+          name
+          email
+          phoneNumber
+          approved
+          imageUrl
+        }
+        type
+      }
+    }
+  `;
+  try {
+    const listenSocietySubscription = apolloClient
+      .subscribe({
+        query: subscription,
+      })
+      .subscribe(res => {
+        dispatch({
+          type: SOCIETY_ADDED,
+          payload: res.data?.listenSociety?.society,
+        });
+      });
+    // listenSocietySubscription.unsubscribe();
+  } catch (e) {
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
   }
 };
