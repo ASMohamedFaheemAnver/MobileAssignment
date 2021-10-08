@@ -15,6 +15,7 @@ import {
   approveMember,
   disApproveMember,
   getAllMembers,
+  listenSocietyMembersBySociety,
 } from '../../redux/actions/society';
 import {globalStyles} from '../styles';
 import styles from './styles';
@@ -25,9 +26,11 @@ function SocietyMemberListScreen({
   disApproveMember,
   societyMembers,
   navigation,
+  listenSocietyMembersBySociety,
 }) {
   useEffect(() => {
     getAllMembers();
+    listenSocietyMembersBySociety();
   }, [getAllMembers]);
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -83,6 +86,7 @@ function SocietyMemberListScreen({
 SocietyMemberListScreen.propTypes = {
   getAllMembers: PropTypes.func.isRequired,
   approveMember: PropTypes.func.isRequired,
+  listenSocietyMembersBySociety: PropTypes.func.isRequired,
   disApproveMember: PropTypes.func.isRequired,
 };
 
@@ -94,4 +98,5 @@ export default connect(mapStateToProps, {
   getAllMembers,
   approveMember,
   disApproveMember,
+  listenSocietyMembersBySociety,
 })(SocietyMemberListScreen);

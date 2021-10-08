@@ -1,4 +1,5 @@
 import {
+  MEMBER_ADDED,
   RESET_DONATION_STATE,
   RESET_EXTRA_FEE_STATE,
   RESET_MONTHLY_FEE_STATE,
@@ -54,6 +55,12 @@ export default function (state = initialState, action) {
         ...state,
         isLoading: false,
         society: payload,
+      };
+    case MEMBER_ADDED:
+      return {
+        ...state,
+        isLoading: false,
+        societyMembers: [...state.societyMembers, payload],
       };
     case SOCIETY_REFINMENT_FEE_ADDED:
       return {

@@ -1,6 +1,7 @@
 import {gql} from '@apollo/client';
 import apolloClient from '../../utils/apollo-client';
 import {
+  MEMBER_ADDED,
   RESET_DONATION_STATE,
   RESET_EXTRA_FEE_STATE,
   RESET_MONTHLY_FEE_STATE,
@@ -594,6 +595,41 @@ export const listenSociety = () => async dispatch => {
     //   type: SOCIETY_EXTRA_FEE_ADDED,
     //   payload: res.data?.addExtraFeeToEveryone,
     // });
+  } catch (e) {
+    dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+  }
+};
+
+export const listenSocietyMembersBySociety = () => async dispatch => {
+  const subscription = gql`
+    subscription listenSocietyMembersBySociety {
+      listenSocietyMembersBySociety {
+        member {
+          _id
+          name
+          email
+          imageUrl
+          address
+          arrears
+          approved
+          donations
+          phoneNumber
+        }
+      }
+    }
+  `;
+  try {
+    apolloClient
+      .subscribe({
+        query: subscription,
+      })
+      .subscribe(res => {
+        // console.log({res: res.data?.listenSocietyMembersBySociety});
+        dispatch({
+          type: MEMBER_ADDED,
+          payload: res.data?.listenSocietyMembersBySociety?.member,
+        });
+      });
   } catch (e) {
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
   }
