@@ -29,8 +29,6 @@ function AddRefinmentScreen({
     isFormValid: false,
   });
 
-  console.log({isMonthlyFeeDone});
-
   useEffect(() => {
     if (isMonthlyFeeDone) {
       resetMonthlyFeeState();

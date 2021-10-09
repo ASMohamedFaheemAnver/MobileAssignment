@@ -165,10 +165,17 @@ export const listenCommonMemberLog = () => async dispatch => {
         query: subscription,
       })
       .subscribe(res => {
-        dispatch({
-          type: MEMBER_LOG_ADDED,
-          payload: res.data?.listenCommonMemberLog?.log,
-        });
+        if (res.data?.listenCommonMemberLog?.type == 'POST') {
+          dispatch({
+            type: MEMBER_LOG_ADDED,
+            payload: res.data?.listenCommonMemberLog?.log,
+          });
+        } else {
+          dispatch({
+            type: MEMBER_LOG_UPDATED,
+            payload: res.data?.listenCommonMemberLog?.log,
+          });
+        }
       });
   } catch (e) {
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
