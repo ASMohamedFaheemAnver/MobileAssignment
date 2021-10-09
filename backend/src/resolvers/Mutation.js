@@ -1139,6 +1139,9 @@ const Mutation = {
           pubSub.publish(`member:members|society(${society._id})`, {
             listenSocietyMembers: { member: member, type: "PUT" },
           });
+          pubSub.publish(`society:member(${member._id})`, {
+            listenMe: { member: member },
+          });
         } else {
           let member = track.member;
           member.arrears -= log.item.amount;
@@ -1150,6 +1153,10 @@ const Mutation = {
           await society.save();
           pubSub.publish(`member:members|society(${society._id})`, {
             listenSocietyMembers: { member: member, type: "PUT" },
+          });
+
+          pubSub.publish(`society:member(${member._id})`, {
+            listenMe: { member: member },
           });
         }
       }

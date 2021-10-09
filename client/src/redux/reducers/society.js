@@ -108,6 +108,7 @@ export default function (state = initialState, action) {
         ...state,
         isLoading: false,
         isMonthlyFeeDone: true,
+        isExtraFeeDone: true,
         societyLogs: {
           logs: state.societyLogs.logs.map(log => {
             if (log._id == payload._id) {

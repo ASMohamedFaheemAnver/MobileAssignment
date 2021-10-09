@@ -43,9 +43,9 @@ function MemberTrackListScreen({
       // console.log({kind: log?.kind});
       switch (log?.kind) {
         case EXTRA_FEE:
-          return navigation.push(ADD_EXTRA_FEE_ROUTE_NAME, {log});
+          navigation.push(ADD_EXTRA_FEE_ROUTE_NAME, {log});
         case MONTH_FEE:
-          return navigation.push(ADD_MONTHLY_FEE_ROUTE_NAME, {log});
+          navigation.push(ADD_MONTHLY_FEE_ROUTE_NAME, {log});
       }
       navigation.setParams({
         editRouteCode: DEFAULT_CODE,

@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import {
   addExtraFeeToEveryone,
   resetExtraFeeState,
+  editFeeForEveryone,
 } from '../../redux/actions/society';
 import {globalStyles} from '../styles';
 import styles from './styles';
@@ -18,6 +19,7 @@ function AddRefinmentScreen({
   navigation,
   route: {params},
   resetExtraFeeState,
+  editFeeForEveryone,
 }) {
   const [formData, setFormData] = useState({
     amount: '',
@@ -87,6 +89,11 @@ function AddRefinmentScreen({
           style={formData.isFormValid ? styles.button : styles.disabledButton}
           onPress={() => {
             if (params?.log) {
+              editFeeForEveryone(
+                params.log._id,
+                formData.amount,
+                formData.description,
+              );
             } else {
               addExtraFeeToEveryone(formData.amount, formData.description);
             }
@@ -109,6 +116,7 @@ function AddRefinmentScreen({
 AddRefinmentScreen.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   addExtraFeeToEveryone: PropTypes.func.isRequired,
+  editFeeForEveryone: PropTypes.func.isRequired,
   resetExtraFeeState: PropTypes.func.isRequired,
 };
 
@@ -120,4 +128,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   addExtraFeeToEveryone,
   resetExtraFeeState,
+  editFeeForEveryone,
 })(AddRefinmentScreen);
