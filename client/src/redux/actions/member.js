@@ -135,6 +135,8 @@ export const getMember = _ => async dispatch => {
   }
 };
 
+let listenCommonMemberLogSubscription;
+
 export const listenCommonMemberLog = () => async dispatch => {
   const subscription = gql`
     subscription listenCommonMemberLog {
@@ -158,7 +160,7 @@ export const listenCommonMemberLog = () => async dispatch => {
     }
   `;
   try {
-    apolloClient
+    listenCommonMemberLogSubscription = apolloClient
       .subscribe({
         query: subscription,
       })
@@ -172,6 +174,12 @@ export const listenCommonMemberLog = () => async dispatch => {
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
   }
 };
+
+export const unSubscribeListenCommonMemberLog = () => async dispatch => {
+  listenCommonMemberLogSubscription.unsubscribe();
+};
+
+let listenMemberLogTrackSubscription;
 
 export const listenMemberLogTrack = () => async dispatch => {
   const subscription = gql`
@@ -196,7 +204,7 @@ export const listenMemberLogTrack = () => async dispatch => {
     }
   `;
   try {
-    apolloClient
+    listenMemberLogTrackSubscription = apolloClient
       .subscribe({
         query: subscription,
       })
@@ -210,6 +218,12 @@ export const listenMemberLogTrack = () => async dispatch => {
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
   }
 };
+
+export const unSubscribeListenMemberLogTrack = () => async dispatch => {
+  listenMemberLogTrackSubscription.unsubscribe();
+};
+
+let listenMeSubscription;
 
 export const listenMe = () => async dispatch => {
   const subscription = gql`
@@ -228,7 +242,7 @@ export const listenMe = () => async dispatch => {
     }
   `;
   try {
-    apolloClient
+    listenMeSubscription = apolloClient
       .subscribe({
         query: subscription,
       })
@@ -241,4 +255,8 @@ export const listenMe = () => async dispatch => {
   } catch (e) {
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
   }
+};
+
+export const unSubscribeListenMe = () => async dispatch => {
+  listenMeSubscription.unsubscribe();
 };

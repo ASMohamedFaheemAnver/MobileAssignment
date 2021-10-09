@@ -16,6 +16,7 @@ import {
   getSociety,
   getSocietyLogs,
   listenSociety,
+  unSubscribelistenSociety,
 } from '../../redux/actions/society';
 import {globalStyles} from '../styles';
 import styles from './styles';
@@ -27,6 +28,7 @@ function SocietyHomeScreen({
   navigation,
   getSociety,
   listenSociety,
+  unSubscribelistenSociety,
   society,
 }) {
   useEffect(() => {
@@ -34,6 +36,10 @@ function SocietyHomeScreen({
     getSociety();
     listenSociety();
   }, [getSocietyLogs, getSociety]);
+
+  useEffect(() => {
+    unSubscribelistenSociety();
+  }, []);
 
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -131,6 +137,7 @@ SocietyHomeScreen.propTypes = {
   getSocietyLogs: PropTypes.func.isRequired,
   getSociety: PropTypes.func.isRequired,
   listenSociety: PropTypes.func.isRequired,
+  unSubscribelistenSociety: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -143,4 +150,5 @@ export default connect(mapStateToProps, {
   getSocietyLogs,
   getSociety,
   listenSociety,
+  unSubscribelistenSociety,
 })(SocietyHomeScreen);

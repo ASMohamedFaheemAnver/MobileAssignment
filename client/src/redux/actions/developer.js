@@ -142,6 +142,8 @@ export const removeSocietyMember = societyId => async dispatch => {
   }
 };
 
+let listenSocietySubscription;
+
 export const listenSociety = () => async dispatch => {
   const subscription = gql`
     subscription listenSociety {
@@ -159,7 +161,7 @@ export const listenSociety = () => async dispatch => {
     }
   `;
   try {
-    const listenSocietySubscription = apolloClient
+    listenSocietySubscription = apolloClient
       .subscribe({
         query: subscription,
       })
@@ -169,8 +171,11 @@ export const listenSociety = () => async dispatch => {
           payload: res.data?.listenSociety?.society,
         });
       });
-    // listenSocietySubscription.unsubscribe();
   } catch (e) {
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
   }
+};
+
+export const unSubscribelistenSociety = () => async dispatch => {
+  listenSocietySubscription.unsubscribe();
 };

@@ -16,6 +16,7 @@ import {
   disApproveMember,
   getAllMembers,
   listenSocietyMembersBySociety,
+  unsubscribeListenSocietyMembersBySociety,
 } from '../../redux/actions/society';
 import {globalStyles} from '../styles';
 import styles from './styles';
@@ -32,6 +33,13 @@ function SocietyMemberListScreen({
     getAllMembers();
     listenSocietyMembersBySociety();
   }, [getAllMembers]);
+
+  useEffect(() => {
+    return () => {
+      unsubscribeListenSocietyMembersBySociety();
+    };
+  }, []);
+
   return (
     <SafeAreaView style={globalStyles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -90,6 +98,7 @@ SocietyMemberListScreen.propTypes = {
   getAllMembers: PropTypes.func.isRequired,
   approveMember: PropTypes.func.isRequired,
   listenSocietyMembersBySociety: PropTypes.func.isRequired,
+  unsubscribeListenSocietyMembersBySociety: PropTypes.func.isRequired,
   disApproveMember: PropTypes.func.isRequired,
 };
 
@@ -102,4 +111,5 @@ export default connect(mapStateToProps, {
   approveMember,
   disApproveMember,
   listenSocietyMembersBySociety,
+  unsubscribeListenSocietyMembersBySociety,
 })(SocietyMemberListScreen);

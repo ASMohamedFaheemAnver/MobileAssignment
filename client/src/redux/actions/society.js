@@ -560,6 +560,8 @@ export const resetExtraFeeState = () => async dispatch => {
   });
 };
 
+let listenSocietySubscription;
+
 export const listenSociety = () => async dispatch => {
   const subscription = gql`
     subscription listenSociety {
@@ -579,7 +581,7 @@ export const listenSociety = () => async dispatch => {
     }
   `;
   try {
-    apolloClient
+    listenSocietySubscription = apolloClient
       .subscribe({
         query: subscription,
       })
@@ -600,6 +602,12 @@ export const listenSociety = () => async dispatch => {
   }
 };
 
+export const unSubscribelistenSociety = () => async dispatch => {
+  listenSocietySubscription.unsubscribe();
+};
+
+let listenSocietyMembersBySocietySubscription;
+
 export const listenSocietyMembersBySociety = () => async dispatch => {
   const subscription = gql`
     subscription listenSocietyMembersBySociety {
@@ -619,7 +627,7 @@ export const listenSocietyMembersBySociety = () => async dispatch => {
     }
   `;
   try {
-    apolloClient
+    listenSocietyMembersBySocietySubscription = apolloClient
       .subscribe({
         query: subscription,
       })
@@ -634,3 +642,8 @@ export const listenSocietyMembersBySociety = () => async dispatch => {
     dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
   }
 };
+
+export const unsubscribeListenSocietyMembersBySociety =
+  () => async dispatch => {
+    listenSocietyMembersBySocietySubscription.unsubscribe();
+  };

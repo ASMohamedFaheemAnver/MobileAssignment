@@ -9,6 +9,9 @@ import {
   getMemberLogs,
   listenCommonMemberLog,
   listenMe,
+  unSubscribeListenMe,
+  unSubscribeListenCommonMemberLog,
+  unSubscribeListenMemberLogTrack,
   listenMemberLogTrack,
 } from '../../redux/actions/member';
 import {globalStyles} from '../styles';
@@ -20,6 +23,9 @@ function MemberHomeScreen({
   memberLogs: {logs, logs_count},
   getMember,
   listenMe,
+  unSubscribeListenMe,
+  unSubscribeListenCommonMemberLog,
+  unSubscribeListenMemberLogTrack,
   listenCommonMemberLog,
   listenMemberLogTrack,
 }) {
@@ -30,6 +36,14 @@ function MemberHomeScreen({
     listenCommonMemberLog();
     listenMemberLogTrack();
   }, [getMemberLogs, getMember]);
+
+  useEffect(() => {
+    return () => {
+      unSubscribeListenMe();
+      unSubscribeListenCommonMemberLog();
+      unSubscribeListenMemberLogTrack();
+    };
+  }, []);
 
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -76,6 +90,9 @@ MemberHomeScreen.propTypes = {
   getMember: PropTypes.func.isRequired,
   listenCommonMemberLog: PropTypes.func.isRequired,
   listenMemberLogTrack: PropTypes.func.isRequired,
+  unSubscribeListenMe: PropTypes.func.isRequired,
+  unSubscribeListenMemberLogTrack: PropTypes.func.isRequired,
+  unSubscribeListenCommonMemberLog: PropTypes.func.isRequired,
   listenMe: PropTypes.func.isRequired,
 };
 
@@ -89,6 +106,9 @@ export default connect(mapStateToProps, {
   getMemberLogs,
   getMember,
   listenMe,
+  unSubscribeListenMe,
+  unSubscribeListenMemberLogTrack,
+  unSubscribeListenCommonMemberLog,
   listenCommonMemberLog,
   listenMemberLogTrack,
 })(MemberHomeScreen);

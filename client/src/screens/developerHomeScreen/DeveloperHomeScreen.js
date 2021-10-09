@@ -17,6 +17,7 @@ import {
   disApproveSociety,
   getAllSocieties,
   listenSociety,
+  unSubscribelistenSociety,
 } from '../../redux/actions/developer';
 import {globalStyles} from '../styles';
 import styles from './styles';
@@ -28,11 +29,18 @@ function DeveloperHomeScreen({
   societies,
   disApproveSociety,
   listenSociety,
+  unSubscribelistenSociety,
 }) {
   useEffect(() => {
     getAllSocieties();
     listenSociety();
   }, [getAllSocieties]);
+
+  useEffect(() => {
+    return () => {
+      unSubscribelistenSociety();
+    };
+  }, []);
 
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -97,6 +105,7 @@ DeveloperHomeScreen.propTypes = {
   getAllSocieties: PropTypes.func.isRequired,
   approveSociety: PropTypes.func.isRequired,
   listenSociety: PropTypes.func.isRequired,
+  unSubscribelistenSociety: PropTypes.func.isRequired,
   disApproveSociety: PropTypes.func.isRequired,
 };
 
@@ -110,4 +119,5 @@ export default connect(mapStateToProps, {
   approveSociety,
   disApproveSociety,
   listenSociety,
+  unSubscribelistenSociety,
 })(DeveloperHomeScreen);
