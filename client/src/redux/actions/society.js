@@ -12,6 +12,7 @@ import {
   SOCIETY_API_CALL_TRIGGERED,
   SOCIETY_DONATION_ADDED,
   SOCIETY_EXTRA_FEE_ADDED,
+  SOCIETY_FEE_UPDATED,
   SOCIETY_LOADED,
   SOCIETY_LOG_LOADED,
   SOCIETY_MEMBERS_LOADED,
@@ -546,6 +547,63 @@ export const addExtraFeeToEveryone =
       dispatch({
         type: SOCIETY_EXTRA_FEE_ADDED,
         payload: res.data?.addExtraFeeToEveryone,
+      });
+    } catch (e) {
+      // console.log(e);
+      // dispatch({type: DEVELOPER_API_CALL_FAILED});
+      dispatch({type: SET_ALERT, payload: e?.graphQLErrors});
+    }
+  };
+
+export const editFeeForEveryone =
+  (log_id, fee, description) => async dispatch => {
+    dispatch({
+      type: SOCIETY_API_CALL_TRIGGERED,
+    });
+    const mutation = gql`
+      mutation editFeeForEveryone(
+        $log_id: ID!
+        $fee: Int!
+        $description: String!
+      ) {
+        editFeeForEveryone(
+          log_id: $log_id
+          fee: $fee
+          description: $description
+        ) {
+          _id
+          kind
+          fee {
+            _id
+            amount
+            date
+            description
+            tracks {
+              _id
+              member {
+                _id
+                imageUrl
+                name
+              }
+              is_paid
+            }
+          }
+        }
+      }
+    `;
+    try {
+      const res = await apolloClient.mutate({
+        mutation: mutation,
+        variables: {
+          log_id: log_id,
+          fee: parseInt(fee),
+          description,
+        },
+      });
+
+      dispatch({
+        type: SOCIETY_FEE_UPDATED,
+        payload: res.data?.editFeeForEveryone,
       });
     } catch (e) {
       // console.log(e);

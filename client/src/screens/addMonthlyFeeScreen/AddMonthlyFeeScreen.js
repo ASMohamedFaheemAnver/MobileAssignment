@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import {
   addMonthlyFeeToEveryone,
   resetMonthlyFeeState,
+  editFeeForEveryone,
 } from '../../redux/actions/society';
 import {globalStyles} from '../styles';
 import styles from './styles';
@@ -18,6 +19,7 @@ function AddRefinmentScreen({
   navigation,
   route: {params},
   resetMonthlyFeeState,
+  editFeeForEveryone,
 }) {
   const [formData, setFormData] = useState({
     amount: '',
@@ -26,6 +28,9 @@ function AddRefinmentScreen({
     isDescriptionValid: false,
     isFormValid: false,
   });
+
+  console.log({isMonthlyFeeDone});
+
   useEffect(() => {
     if (isMonthlyFeeDone) {
       resetMonthlyFeeState();
@@ -87,6 +92,11 @@ function AddRefinmentScreen({
           style={formData.isFormValid ? styles.button : styles.disabledButton}
           onPress={() => {
             if (params?.log) {
+              editFeeForEveryone(
+                params.log._id,
+                formData.amount,
+                formData.description,
+              );
             } else {
               addMonthlyFeeToEveryone(formData.amount, formData.description);
             }
@@ -109,6 +119,7 @@ function AddRefinmentScreen({
 AddRefinmentScreen.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   addMonthlyFeeToEveryone: PropTypes.func.isRequired,
+  editFeeForEveryone: PropTypes.func.isRequired,
   resetMonthlyFeeState: PropTypes.func.isRequired,
 };
 
@@ -120,4 +131,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   addMonthlyFeeToEveryone,
   resetMonthlyFeeState,
+  editFeeForEveryone,
 })(AddRefinmentScreen);

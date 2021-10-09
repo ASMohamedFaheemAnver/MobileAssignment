@@ -51,19 +51,19 @@ function MemberTrackListScreen({
         editRouteCode: DEFAULT_CODE,
       });
     }
-  });
+  }, [editRouteCode]);
 
   return (
     <SafeAreaView style={globalStyles.container}>
       {/* <ScrollView showsVerticalScrollIndicator={false}> */}
       <Text style={styles.userCategoryTitle}>Let's edit tracks!</Text>
 
-      {mutatableLog.fee.tracks.length == 0 ? (
+      {mutatableLog?.fee?.tracks?.length == 0 ? (
         <Text style={globalStyles.red}>No tracks found!</Text>
       ) : (
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={mutatableLog.fee.tracks}
+          data={mutatableLog?.fee?.tracks}
           renderItem={({item: track}) => {
             return (
               <View style={styles.cardContainer}>

@@ -8,6 +8,7 @@ import {
   SOCIETY_API_CALL_TRIGGERED,
   SOCIETY_DONATION_ADDED,
   SOCIETY_EXTRA_FEE_ADDED,
+  SOCIETY_FEE_UPDATED,
   SOCIETY_LOADED,
   SOCIETY_LOG_LOADED,
   SOCIETY_MEMBERS_LOADED,
@@ -99,6 +100,21 @@ export default function (state = initialState, action) {
         isExtraFeeDone: true,
         societyLogs: {
           logs: [payload, ...state.societyLogs.logs],
+          logs_count: state.societyLogs.logs_count + 1,
+        },
+      };
+    case SOCIETY_FEE_UPDATED:
+      return {
+        ...state,
+        isLoading: false,
+        isMonthlyFeeDone: true,
+        societyLogs: {
+          logs: state.societyLogs.logs.map(log => {
+            if (log._id == payload._id) {
+              return payload;
+            }
+            return log;
+          }),
           logs_count: state.societyLogs.logs_count + 1,
         },
       };
