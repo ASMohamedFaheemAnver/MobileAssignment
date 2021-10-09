@@ -7,6 +7,7 @@ import {
   REGISTER_FAIL,
   REGISTER_SUCCESS,
   RESET_PASSWORD_RESET_REQUESTED_STATE,
+  RESET_REGISTER_STATE,
   SOCIETY_SELECTED,
   USER_LOGGED_OUT,
   USER_META_LOADED,
@@ -39,6 +40,8 @@ export default function (state = initalState, action) {
     case LOGIN_FAIL:
     case REGISTER_SUCCESS:
       return {...state, isLoading: false, isRegistered: true};
+    case RESET_REGISTER_STATE:
+      return {...state, isLoading: false, isRegistered: false};
     case PASSWORD_RESET_REQUESTED:
       return {...state, isLoading: false, isPasswordResetRequested: true};
     case PASSWORD_RESET_COMPLETED:

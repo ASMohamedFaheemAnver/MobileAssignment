@@ -20,13 +20,14 @@ import {
   SELECT_SOCIETY_SCREEN_ROUTE_NAME,
   SOCIETY_CATEGORY,
 } from '../../constants/strings';
-import {register} from '../../redux/actions/auth';
+import {register, resetRegisterState} from '../../redux/actions/auth';
 import ErrorDialog from '../errorDialog/errorDialog';
 import {globalStyles} from '../styles';
 import styles from './styles';
 
 function RegistrationScreen({
   register,
+  resetRegisterState,
   isAuthenticated,
   isLoading,
   navigation,
@@ -44,6 +45,7 @@ function RegistrationScreen({
 
   useEffect(() => {
     if (isRegistered) {
+      resetRegisterState();
       navigation.pop();
     }
   }, [isRegistered]);
@@ -313,6 +315,7 @@ function RegistrationScreen({
 
 RegistrationScreen.propTypes = {
   register: PropTypes.func.isRequired,
+  resetRegisterState: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
 };
@@ -324,4 +327,6 @@ const mapStateToProps = state => ({
   isRegistered: state.auth.isRegistered,
 });
 
-export default connect(mapStateToProps, {register})(RegistrationScreen);
+export default connect(mapStateToProps, {register, resetRegisterState})(
+  RegistrationScreen,
+);

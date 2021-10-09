@@ -17,6 +17,7 @@ import {
   REGISTER_SUCCESS,
   RESET_PASSWORD_RESET_REQUESTED_STATE,
   RESET_PASSWORD__STATE,
+  RESET_REGISTER_STATE,
   SET_ALERT,
   SOCIETY_SELECTED,
   USER_LOGGED_OUT,
@@ -92,6 +93,9 @@ export const login =
     }
   };
 
+export const resetRegisterState = () => async dispatch => {
+  dispatch(RESET_REGISTER_STATE);
+};
 export const register =
   ({
     email,
