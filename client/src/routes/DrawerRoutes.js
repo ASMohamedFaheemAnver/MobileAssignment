@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {
+  DEVELOPER_CATEGORY,
   DEVELOPER_DASHBOARD,
   LOGIN_SCREEN_ROUTE_NAME,
   MEMBERS,
@@ -11,12 +12,14 @@ import {
   SOCIETY_CATEGORY,
   SOCIETY_DASHBOARD,
   SOCIETY_MEMBERS,
+  SPLASH_SCREEN_ROUTE_NAME,
 } from '../constants/strings';
 import DeveloperHomeScreen from '../screens/developerHomeScreen/DeveloperHomeScreen';
 import MemberHomeScreen from '../screens/memberHomeScreen/MemberHomeScreen';
 import MemberListScreen from '../screens/memberListScreen/MemberListScreen';
 import SocietyHomeScreen from '../screens/societyHomeScreen/SocietyHomeScreen';
 import SocietyMemberListScreen from '../screens/societyMemberListScreen/SocietyMemberListScreen';
+import SplashScreen from '../screens/splashScreen/SplashScreen';
 import DrawerContent from './DrawerContent';
 const Drawer = createDrawerNavigator();
 
@@ -46,17 +49,28 @@ function DrawerRoutes({isAuthenticated, isLoading, userCategory, navigation}) {
     <Drawer.Navigator
       drawerContent={props => <DrawerContent {...props}></DrawerContent>}
       initialRouteName={getInitialRoute(userCategory)}>
-      <Drawer.Screen
-        name={DEVELOPER_DASHBOARD}
-        component={DeveloperHomeScreen}
-      />
-      <Drawer.Screen
-        name={SOCIETY_MEMBERS}
-        component={SocietyMemberListScreen}
-      />
-      <Drawer.Screen name={MEMBERS} component={MemberListScreen} />
-      <Drawer.Screen name={SOCIETY_DASHBOARD} component={SocietyHomeScreen} />
-      <Drawer.Screen name={MEMBER_DASHBOARD} component={MemberHomeScreen} />
+      {userCategory == DEVELOPER_CATEGORY && (
+        <Drawer.Screen
+          name={DEVELOPER_DASHBOARD}
+          component={DeveloperHomeScreen}
+        />
+      )}
+      {userCategory == SOCIETY_CATEGORY && (
+        <Drawer.Screen name={SOCIETY_DASHBOARD} component={SocietyHomeScreen} />
+      )}
+      {userCategory == MEMBER_CATEGORY && (
+        <Drawer.Screen name={MEMBER_DASHBOARD} component={MemberHomeScreen} />
+      )}
+      {isAuthenticated && (
+        <Drawer.Screen
+          name={SOCIETY_MEMBERS}
+          component={SocietyMemberListScreen}
+        />
+      )}
+      {isAuthenticated && (
+        <Drawer.Screen name={MEMBERS} component={MemberListScreen} />
+      )}
+      <Drawer.Screen name={SPLASH_SCREEN_ROUTE_NAME} component={SplashScreen} />
     </Drawer.Navigator>
   );
 }
