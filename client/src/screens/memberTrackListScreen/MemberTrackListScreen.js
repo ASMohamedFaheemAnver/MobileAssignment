@@ -5,6 +5,14 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
 import defaultAvatar from '../../../assets/default-avatar.jpg';
 import {
+  ADD_EXTRA_FEE_ROUTE_NAME,
+  ADD_MONTHLY_FEE_ROUTE_NAME,
+  DEFAULT_CODE,
+  EDIT_ROUTE_CODE,
+  EXTRA_FEE,
+  MONTH_FEE,
+} from '../../constants/strings';
+import {
   makeFeePaidForOneMember,
   makeFeeUnPaidForOneMember,
 } from '../../redux/actions/society';
@@ -18,7 +26,7 @@ function MemberTrackListScreen({
   societyLogs,
   makeFeeUnPaidForOneMember,
   route: {
-    params: {log},
+    params: {log, editRouteCode},
   },
 }) {
   const [mutatableLog, mutateLog] = useState(log);
@@ -29,6 +37,21 @@ function MemberTrackListScreen({
       }),
     );
   }, [societyLogs]);
+
+  useEffect(() => {
+    if (editRouteCode != null && editRouteCode == EDIT_ROUTE_CODE) {
+      // console.log({kind: log?.kind});
+      switch (log?.kind) {
+        case EXTRA_FEE:
+          return navigation.push(ADD_EXTRA_FEE_ROUTE_NAME, {log});
+        case MONTH_FEE:
+          return navigation.push(ADD_MONTHLY_FEE_ROUTE_NAME, {log});
+      }
+      navigation.setParams({
+        editRouteCode: DEFAULT_CODE,
+      });
+    }
+  });
 
   return (
     <SafeAreaView style={globalStyles.container}>

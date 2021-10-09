@@ -1,7 +1,7 @@
 import {ApolloProvider} from '@apollo/client';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React from 'react';
+import React, {useState} from 'react';
 import 'react-native-gesture-handler';
 import {ModalPortal} from 'react-native-modals';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -14,6 +14,8 @@ import {
   ADD_REFINMENT_ROUTE_NAME,
   DASHBOARD,
   DEEP_LINK_PREFIX,
+  DEFAULT_CODE,
+  EDIT_ROUTE_CODE,
   EDIT_TRACK_ROUTE_NAME,
   EMPTY_TEXT,
   LOGIN_SCREEN_ROUTE_NAME,
@@ -38,6 +40,7 @@ import SplashScreen from './src/screens/splashScreen/SplashScreen';
 import ResetPasswordScreen from './src/screens/resetPasswordScreen/ResetPasswordScreen';
 import apolloClient from './src/utils/apollo-client';
 import RequestPasswordResetScreen from './src/screens/requestPasswordResetScreen/RequestPasswordResetScreen';
+import {IconButton} from 'react-native-paper';
 
 const Stack = createNativeStackNavigator();
 
@@ -108,7 +111,23 @@ function App() {
               />
               <Stack.Screen
                 name={EDIT_TRACK_ROUTE_NAME}
-                options={{title: EMPTY_TEXT}}
+                initialParams={{editRouteCode: DEFAULT_CODE}}
+                options={({navigation}) => ({
+                  title: EMPTY_TEXT,
+                  headerRight: () => {
+                    return (
+                      <IconButton
+                        color="green"
+                        onPress={() => {
+                          navigation.setParams({
+                            editRouteCode: EDIT_ROUTE_CODE,
+                          });
+                        }}
+                        icon="file-edit"
+                      />
+                    );
+                  },
+                })}
                 component={MemberTrackListScreen}
               />
               <Stack.Screen

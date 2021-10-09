@@ -16,6 +16,7 @@ function AddRefinmentScreen({
   addMonthlyFeeToEveryone,
   isMonthlyFeeDone,
   navigation,
+  route: {params},
   resetMonthlyFeeState,
 }) {
   const [formData, setFormData] = useState({
@@ -31,10 +32,27 @@ function AddRefinmentScreen({
       navigation.pop();
     }
   }, [isMonthlyFeeDone, resetMonthlyFeeState]);
+
+  // console.log({params});
+
+  useEffect(() => {
+    if (params?.log) {
+      setFormData({
+        amount: params?.log?.fee?.amount.toString(),
+        description: params?.log?.fee?.description,
+        isAmountValid: true,
+        isDescriptionValid: true,
+        isFormValid: true,
+      });
+    }
+  }, [params]);
+
   return (
     <SafeAreaView style={globalStyles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>Let's add monthly fee</Text>
+        <Text style={styles.title}>
+          {params?.log ? "Let's update monthly fee" : "Let's add monthly fee"}
+        </Text>
         <Text style={styles.subTitle}>Please fill below input fields</Text>
         <TextInput
           style={[globalStyles.textInput, styles.input]}
@@ -68,10 +86,13 @@ function AddRefinmentScreen({
           disabled={!formData.isFormValid || isLoading}
           style={formData.isFormValid ? styles.button : styles.disabledButton}
           onPress={() => {
-            addMonthlyFeeToEveryone(formData.amount, formData.description);
+            if (params?.log) {
+            } else {
+              addMonthlyFeeToEveryone(formData.amount, formData.description);
+            }
           }}>
           {!isLoading ? (
-            <Text style={styles.text}>Add</Text>
+            <Text style={styles.text}>{params?.log ? 'Update' : 'Add'}</Text>
           ) : (
             <Progress.Circle
               style={styles.progress}
