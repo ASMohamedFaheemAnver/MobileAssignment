@@ -1,9 +1,10 @@
 import {ApolloProvider} from '@apollo/client';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React, {useState} from 'react';
+import React from 'react';
 import 'react-native-gesture-handler';
 import {ModalPortal} from 'react-native-modals';
+import {IconButton} from 'react-native-paper';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import {
@@ -35,12 +36,11 @@ import AddRefinmentScreen from './src/screens/addRefinmentScreen/AddRefinmentScr
 import LoginScreen from './src/screens/loginScreen/LoginScreen';
 import MemberTrackListScreen from './src/screens/memberTrackListScreen/MemberTrackListScreen';
 import RegistrationScreen from './src/screens/registrationScreen/RegistrationScreen';
+import RequestPasswordResetScreen from './src/screens/requestPasswordResetScreen/RequestPasswordResetScreen';
+import ResetPasswordScreen from './src/screens/resetPasswordScreen/ResetPasswordScreen';
 import SocietySelectionScreen from './src/screens/societySelectionScreen/SocietySelectionScreen';
 import SplashScreen from './src/screens/splashScreen/SplashScreen';
-import ResetPasswordScreen from './src/screens/resetPasswordScreen/ResetPasswordScreen';
 import apolloClient from './src/utils/apollo-client';
-import RequestPasswordResetScreen from './src/screens/requestPasswordResetScreen/RequestPasswordResetScreen';
-import {IconButton} from 'react-native-paper';
 
 const Stack = createNativeStackNavigator();
 
@@ -54,7 +54,7 @@ const linkingConfig = {
 
 const deepLinking = {
   prefixes: [DEEP_LINK_PREFIX],
-  linkingConfig,
+  config: linkingConfig,
 };
 
 function App() {
